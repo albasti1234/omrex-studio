@@ -86,7 +86,7 @@ export const DEMO_WEBSITES: DemoWebsite[] = [
     description: "Ultra high-end Manhattan real estate with cinematic design",
     category: "Real Estate",
     route: "/demos/velvet-estates",
-    thumbnail: "/images/demos/velvet-estates.png",
+    thumbnail: "/images/demos/velvet-estates.jpg",
     color: {
       primary: "#C4A052",
       secondary: "#0d0c0a",
