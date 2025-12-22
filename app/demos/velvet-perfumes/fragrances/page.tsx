@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, createContext, useContext, ReactNode } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { FRAGRANCES } from "../_data/fragrances";
 import { getAllBrands } from "../_data/brands";
 import { useCart } from "../_lib/cart-context";
+import { WishlistProvider, useWishlist, CompareProvider, useCompare } from "../_lib/contexts";
 import type { Season, Gender, Fragrance } from "../_data/fragrances";
 
 // =============================================================================
@@ -34,82 +35,6 @@ const CATEGORY_COLORS = {
     top: { main: "#a855f7", light: "rgba(168, 85, 247, 0.2)" },      // Purple
     heart: { main: "#ec4899", light: "rgba(236, 72, 153, 0.2)" },    // Pink
     base: { main: "#d4a853", light: "rgba(212, 168, 83, 0.2)" },     // Gold
-};
-
-// =============================================================================
-// WISHLIST CONTEXT
-// =============================================================================
-
-interface WishlistContextType {
-    wishlist: string[];
-    toggleWishlist: (id: string) => void;
-    isInWishlist: (id: string) => boolean;
-}
-
-const WishlistContext = createContext<WishlistContextType | null>(null);
-
-export function WishlistProvider({ children }: { children: ReactNode }) {
-    const [wishlist, setWishlist] = useState<string[]>([]);
-
-    const toggleWishlist = (id: string) => {
-        setWishlist(prev =>
-            prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-        );
-    };
-
-    const isInWishlist = (id: string) => wishlist.includes(id);
-
-    return (
-        <WishlistContext.Provider value={{ wishlist, toggleWishlist, isInWishlist }}>
-            {children}
-        </WishlistContext.Provider>
-    );
-}
-
-const useWishlist = () => {
-    const ctx = useContext(WishlistContext);
-    if (!ctx) return { wishlist: [], toggleWishlist: () => { }, isInWishlist: () => false };
-    return ctx;
-};
-
-// =============================================================================
-// COMPARE CONTEXT
-// =============================================================================
-
-interface CompareContextType {
-    compareList: string[];
-    toggleCompare: (id: string) => void;
-    isInCompare: (id: string) => boolean;
-    clearCompare: () => void;
-}
-
-const CompareContext = createContext<CompareContextType | null>(null);
-
-export function CompareProvider({ children }: { children: ReactNode }) {
-    const [compareList, setCompareList] = useState<string[]>([]);
-
-    const toggleCompare = (id: string) => {
-        setCompareList(prev => {
-            if (prev.includes(id)) return prev.filter(x => x !== id);
-            if (prev.length >= 3) return prev; // Max 3 items
-            return [...prev, id];
-        });
-    };
-
-    const isInCompare = (id: string) => compareList.includes(id);
-    const clearCompare = () => setCompareList([]);
-
-    return (
-        <CompareContext.Provider value={{ compareList, toggleCompare, isInCompare, clearCompare }}>
-            {children}
-        </CompareContext.Provider>
-    );
-}
-
-const useCompare = () => {
-    const ctx = useContext(CompareContext);
-    if (!ctx) return { compareList: [], toggleCompare: () => { }, isInCompare: () => false, clearCompare: () => { } };
-    return ctx;
 };
 
 // =============================================================================

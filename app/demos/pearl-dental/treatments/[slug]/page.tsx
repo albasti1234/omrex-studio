@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PearlSectionHeader from "../../_components/PearlSectionHeader";
@@ -177,12 +178,14 @@ const TREATMENTS: Treatment[] = [
   },
 ];
 
+// Next.js 16: params is now a Promise, use use() hook to unwrap
 export default function TreatmentSlugPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const t = TREATMENTS.find((x) => x.slug === params.slug);
+  const { slug } = use(params);
+  const t = TREATMENTS.find((x) => x.slug === slug);
 
   if (!t) {
     return (

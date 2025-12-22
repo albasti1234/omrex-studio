@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -273,8 +274,10 @@ function Chip({ label }: { label: string }) {
   );
 }
 
-export default function DoctorSlugPage({ params }: { params: { slug: string } }) {
-  const doc = DOCTORS.find((d) => d.slug === params.slug);
+// Next.js 16: params is now a Promise, use use() hook to unwrap
+export default function DoctorSlugPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
+  const doc = DOCTORS.find((d) => d.slug === slug);
 
   if (!doc) {
     return (
