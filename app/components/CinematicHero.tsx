@@ -149,6 +149,18 @@ function useSequencedEntrance() {
   return phase;
 }
 
+// mobile: Check if device is mobile/touch for performance optimization
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+}
+
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
@@ -578,8 +590,8 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
         >
           <motion.button
             className={`group relative overflow-hidden rounded-full px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] transition-all duration-500 sm:px-10 sm:py-5 sm:text-[0.75rem] ${isPrimary
-                ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_50px_rgba(245,158,11,0.4)]"
-                : "border border-[#f59e0b]/40 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/80 hover:bg-[#f59e0b]/10"
+              ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_50px_rgba(245,158,11,0.4)]"
+              : "border border-[#f59e0b]/40 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/80 hover:bg-[#f59e0b]/10"
               }`}
             whileHover={{
               boxShadow: isPrimary
@@ -904,19 +916,21 @@ export default function CinematicHeroPro(): React.ReactElement {
   const phase = useSequencedEntrance();
   const { x: mouseX, y: mouseY } = useMouseParallax(15);
   const [mounted, setMounted] = useState(false);
+  // mobile: Detect mobile for reducing particles and disabling parallax
+  const isMobile = useIsMobile();
   useEffect(() => {
     setMounted(true);
   }, []);
-  // Pre-generated particles for consistency
   // Pre-generated particles for consistency (client-only)
+  // mobile: Reduce particle count by 70% on mobile for performance
   const dustParticles = useMemo(
-    () => (mounted ? generateDustParticles(DUST_PARTICLES) : []),
-    [mounted]
+    () => (mounted ? generateDustParticles(isMobile ? Math.floor(DUST_PARTICLES * 0.3) : DUST_PARTICLES) : []),
+    [mounted, isMobile]
   );
 
   const sparkParticles = useMemo(
-    () => (mounted ? generateSparkParticles(SPARK_PARTICLES) : []),
-    [mounted]
+    () => (mounted ? generateSparkParticles(isMobile ? Math.floor(SPARK_PARTICLES * 0.3) : SPARK_PARTICLES) : []),
+    [mounted, isMobile]
   );
 
   const curtainFolds = useMemo(() => generateCurtainFolds(12), []);
@@ -941,7 +955,8 @@ export default function CinematicHeroPro(): React.ReactElement {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-[#030303]"
+      // mobile: Use 70svh on mobile for CTA visibility, full screen on desktop
+      className="relative min-h-[70svh] md:min-h-screen w-full overflow-hidden bg-[#030303]"
     >
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}
@@ -1002,17 +1017,19 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* MAIN CONTENT */}
       {/* ============================================= */}
 
+      {/* mobile: Disable parallax on touch devices for performance */}
       <div className="relative z-30 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center"
-          style={{
+          style={isMobile ? {} : {
             x: useTransform(mouseX, (v) => v * -0.5),
             y: useTransform(mouseY, (v) => v * -0.5),
           }}
         >
           {/* Studio Badge */}
           <motion.div
-            className="mb-8 inline-flex items-center gap-3"
+            // mobile: Reduce margin on mobile
+            className="mb-4 sm:mb-8 inline-flex items-center gap-2 sm:gap-3"
             initial={{ opacity: 0, y: 20 }}
             animate={contentVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: TIMING.contentDelay / 1000, ease: EASING }}
@@ -1037,19 +1054,21 @@ export default function CinematicHeroPro(): React.ReactElement {
 
           {/* Tagline */}
           <motion.div
-            className="mb-12"
+            // mobile: Reduce bottom margin on mobile
+            className="mb-6 sm:mb-12"
             initial={{ opacity: 0 }}
             animate={contentVisible ? { opacity: 1 } : {}}
             transition={{ duration: 1, delay: TIMING.contentDelay / 1000 + 1, ease: EASING }}
           >
-            <p className="mx-auto max-w-xl text-[1.1rem] leading-relaxed text-[#a1a1aa] sm:text-[1.3rem]">
+            {/* mobile: text-balance and smaller text on mobile */}
+            <p className="mx-auto max-w-xl text-balance text-base leading-relaxed text-[#a1a1aa] sm:text-[1.1rem] md:text-[1.3rem]">
               We don't build websites.
             </p>
-            <p className="mx-auto max-w-xl text-[1.1rem] font-medium leading-relaxed text-[#f8fafc] sm:text-[1.3rem]">
+            <p className="mx-auto max-w-xl text-balance text-base font-medium leading-relaxed text-[#f8fafc] sm:text-[1.1rem] md:text-[1.3rem]">
               We craft <span className="text-gradient-gold">cinematic scenes</span>.
             </p>
             <motion.p
-              className="mx-auto mt-4 max-w-md text-[0.85rem] text-[#71717a]"
+              className="mx-auto mt-3 sm:mt-4 max-w-md text-[0.8rem] sm:text-[0.85rem] text-[#71717a]"
               initial={{ opacity: 0 }}
               animate={contentVisible ? { opacity: 1 } : {}}
               transition={{ duration: 1, delay: TIMING.contentDelay / 1000 + 1.3 }}

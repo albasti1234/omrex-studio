@@ -922,3 +922,64 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* =============================================================================
+   ✦ MOBILE-FIRST UTILITIES
+   ============================================================================= */
+
+/* mobile: Safe area padding for notched devices */
+.safe-top {
+  padding-top: max(env(safe-area-inset-top), 1rem);
+}
+
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+}
+
+/* mobile: Text balance for better line breaks */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* mobile: Minimum touch target size (44px) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* mobile: Focus visible styles for accessibility */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-accent, #f59e0b);
+  outline-offset: 2px;
+}
+
+/* mobile: Container with mobile-first max-width */
+.container-mobile {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 560px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-mobile {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-mobile {
+    max-width: 100%;
+  }
+}
+
+/* Reduced motion: disable animations */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe {
+    animation: none !important;
+    transition: none !important;
+  }
+}

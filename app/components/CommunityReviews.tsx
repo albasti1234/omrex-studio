@@ -133,9 +133,8 @@ function StarRating({
             onClick={() => onRatingChange?.(star)}
             onMouseEnter={() => interactive && setHoverRating(star)}
             onMouseLeave={() => interactive && setHoverRating(0)}
-            className={`relative transition-all duration-200 ${
-              interactive ? "cursor-pointer" : "cursor-default"
-            }`}
+            className={`relative transition-all duration-200 ${interactive ? "cursor-pointer" : "cursor-default"
+              }`}
             whileHover={interactive ? { scale: 1.2, y: -2 } : {}}
             whileTap={interactive ? { scale: 0.9 } : {}}
           >
@@ -232,11 +231,10 @@ type ReviewCardProps = {
 function ReviewCard({ review, isActive = true }: ReviewCardProps): React.ReactElement {
   return (
     <SpotlightCard
-      className={`h-full rounded-2xl border transition-all duration-500 ${
-        isActive
+      className={`h-full rounded-2xl border transition-all duration-500 ${isActive
           ? `border-[${THEME.border.hover}] bg-[${THEME.bg.cardHover}]`
           : `border-[${THEME.border.default}] bg-[${THEME.bg.card}]`
-      }`}
+        }`}
       style={{
         borderColor: isActive ? THEME.border.hover : THEME.border.default,
         background: isActive ? THEME.bg.cardHover : THEME.bg.card,
@@ -464,12 +462,12 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
                     {rating === 5
                       ? "Outstanding!"
                       : rating === 4
-                      ? "Great!"
-                      : rating === 3
-                      ? "Good"
-                      : rating === 2
-                      ? "Fair"
-                      : "Poor"}
+                        ? "Great!"
+                        : rating === 3
+                          ? "Good"
+                          : rating === 2
+                            ? "Fair"
+                            : "Poor"}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -675,7 +673,8 @@ export default function CommunityReviews(): React.ReactElement {
   const totalReviews = reviews.length;
 
   return (
-    <section ref={ref} className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+    // mobile: Tighter padding on mobile, more on desktop
+    <section ref={ref} className="relative overflow-hidden px-4 py-12 sm:py-16 md:py-24 sm:px-6 lg:px-8">
       {/* Background effects */}
       <motion.div
         className="pointer-events-none absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2"
@@ -690,7 +689,8 @@ export default function CommunityReviews(): React.ReactElement {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
-          className="mb-16 text-center"
+          // mobile: Reduced margin on mobile
+          className="mb-8 sm:mb-12 md:mb-16 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
@@ -716,7 +716,8 @@ export default function CommunityReviews(): React.ReactElement {
             />
           </div>
 
-          <h2 style={{ color: THEME.text.primary }} className="text-[1.8rem] font-semibold sm:text-[2.2rem]">
+          // mobile: Smaller text on mobile
+          <h2 style={{ color: THEME.text.primary }} className="text-[1.5rem] font-semibold sm:text-[1.8rem] md:text-[2.2rem]">
             What people <span className="text-gradient-gold">think</span>
           </h2>
 
@@ -730,12 +731,13 @@ export default function CommunityReviews(): React.ReactElement {
           <ReviewStats totalReviews={totalReviews} averageRating={averageRating} />
         )}
 
-        {/* Grid Layout */}
-        <div className="grid gap-8 lg:grid-cols-3">
+        {/* Grid Layout - mobile: single column, desktop: 3 columns */}
+        <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-3">
           {/* Reviews Carousel */}
           <div className="lg:col-span-2">
             {reviews.length > 0 ? (
-              <div className="relative h-[280px]">
+              // mobile: Smaller card height on mobile
+              <div className="relative h-[240px] sm:h-[280px]">
                 <AnimatePresence mode="popLayout">
                   {reviews.slice(0, 5).map((review, index) => {
                     const isActive = index === activeIndex;

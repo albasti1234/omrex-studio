@@ -1138,11 +1138,12 @@ function ReservationModal({
                         exit={{ opacity: 0, y: "-40%", scale: 0.95 }}
                         transition={{ duration: 0.3 }}
                     >
-                        {/* Close Button */}
+                        {/* Close Button - mobile: Larger touch target (44px min) */}
                         <button
                             onClick={handleClose}
-                            className="absolute right-4 top-4 p-2"
+                            className="absolute right-3 top-3 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
                             style={{ color: THEME.colors.text.muted }}
+                            aria-label="Close reservation modal"
                         >
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
@@ -1174,13 +1175,14 @@ function ReservationModal({
                                         >
                                             Name
                                         </label>
+                                        {/* mobile: Full width, larger text, rounded corners */}
                                         <input
                                             type="text"
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             placeholder="Your name"
-                                            className="w-full px-4 py-3 text-[0.85rem] outline-none transition-all duration-300"
+                                            className="w-full px-4 py-3 text-base rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-offset-1"
                                             style={{
                                                 background: THEME.colors.bg.primary,
                                                 border: `1px solid ${THEME.colors.border.default}`,
@@ -1197,13 +1199,14 @@ function ReservationModal({
                                         >
                                             Phone
                                         </label>
+                                        {/* mobile: Full width, larger text, rounded corners */}
                                         <input
                                             type="tel"
                                             required
                                             value={formData.phone}
                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                             placeholder="+971 XX XXX XXXX"
-                                            className="w-full px-4 py-3 text-[0.85rem] outline-none transition-all duration-300"
+                                            className="w-full px-4 py-3 text-base rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-offset-1"
                                             style={{
                                                 background: THEME.colors.bg.primary,
                                                 border: `1px solid ${THEME.colors.border.default}`,
@@ -1222,13 +1225,14 @@ function ReservationModal({
                                             >
                                                 Date
                                             </label>
+                                            {/* mobile: Full width, larger text, rounded corners */}
                                             <input
                                                 type="date"
                                                 required
                                                 min={today}
                                                 value={formData.date}
                                                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                                className="w-full px-4 py-3 text-[0.85rem] outline-none transition-all duration-300"
+                                                className="w-full px-4 py-3 text-base rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-offset-1"
                                                 style={{
                                                     background: THEME.colors.bg.primary,
                                                     border: `1px solid ${THEME.colors.border.default}`,
@@ -1246,11 +1250,12 @@ function ReservationModal({
                                             >
                                                 Time
                                             </label>
+                                            {/* mobile: Full width, larger text, rounded corners */}
                                             <select
                                                 required
                                                 value={formData.time}
                                                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                                                className="w-full appearance-none px-4 py-3 text-[0.85rem] outline-none transition-all duration-300"
+                                                className="w-full appearance-none px-4 py-3 text-base rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-offset-1"
                                                 style={{
                                                     background: THEME.colors.bg.primary,
                                                     border: `1px solid ${THEME.colors.border.default}`,
@@ -1279,7 +1284,8 @@ function ReservationModal({
                                                     key={num}
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, guests: num })}
-                                                    className="px-4 py-2 text-[0.8rem] transition-all duration-300"
+                                                    // mobile: Minimum touch target 44px
+                                                    className="px-4 py-3 min-w-[44px] min-h-[44px] text-base rounded-xl transition-all duration-300 focus:ring-2 focus:ring-offset-1"
                                                     style={{
                                                         background: formData.guests === num
                                                             ? `rgba(${THEME.colors.accent.goldRgb}, 0.2)`
@@ -1298,7 +1304,8 @@ function ReservationModal({
                                     <motion.button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="mt-6 w-full py-4 text-[0.75rem] font-medium uppercase tracking-[0.2em] transition-all duration-300"
+                                        // mobile: Minimum touch target, proper focus ring
+                                        className="mt-6 w-full py-4 min-h-[52px] text-base font-medium uppercase tracking-[0.15em] rounded-xl transition-all duration-300 focus:ring-2 focus:ring-offset-2"
                                         style={{
                                             background: isSubmitting
                                                 ? THEME.colors.accent.goldMuted
@@ -1390,9 +1397,10 @@ function ReservationModal({
                                     </p>
                                 </div>
 
+                                {/* mobile: Larger touch target for done button */}
                                 <button
                                     onClick={handleClose}
-                                    className="mt-8 px-8 py-3 text-[0.7rem] uppercase tracking-[0.15em] transition-all duration-300"
+                                    className="mt-8 px-8 py-4 min-h-[48px] text-base uppercase tracking-[0.15em] rounded-xl transition-all duration-300 focus:ring-2 focus:ring-offset-2"
                                     style={{
                                         border: `1px solid ${THEME.colors.border.default}`,
                                         color: THEME.colors.text.secondary,

@@ -105,7 +105,8 @@ export default function Navbar(): React.ReactElement | null {
           transition={{ duration: 0.5 }}
         />
 
-        <nav className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-8">
+        {/* mobile: Safe area + container constraint */}
+        <nav className="mx-auto max-w-[560px] sm:max-w-[640px] md:max-w-6xl px-4 sm:px-6 lg:px-8 safe-top">
           <div className="flex h-16 items-center justify-between sm:h-20">
 
             {/* ✅ IMPROVED: Logo */}
@@ -249,16 +250,18 @@ export default function Navbar(): React.ReactElement | null {
               </Link>
             </div>
 
-            {/* ✅ IMPROVED: Mobile Menu Button - Proper X animation */}
+            {/* ✅ IMPROVED: Mobile Menu Button - Proper X animation, 44px touch target */}
             <button
               onClick={toggleMenu}
-              className="relative z-50 flex h-11 w-11 items-center justify-center rounded-lg md:hidden"
+              // mobile: Ensure 44px minimum touch target
+              className="relative z-50 flex h-11 w-11 min-w-[44px] min-h-[44px] items-center justify-center rounded-lg md:hidden focus-ring"
               style={{
                 background: isMobileMenuOpen ? `rgba(${THEME.primaryRgb}, 0.1)` : "transparent",
                 border: `1px solid ${isMobileMenuOpen ? `rgba(${THEME.primaryRgb}, 0.3)` : "transparent"}`,
               }}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               <div className="relative flex h-4 w-5 flex-col items-center justify-center">
                 <motion.span
@@ -294,10 +297,14 @@ export default function Navbar(): React.ReactElement | null {
         </nav>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - mobile: Add role=dialog for accessibility */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             className="fixed inset-0 z-40 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -361,7 +368,8 @@ export default function Navbar(): React.ReactElement | null {
                     >
                       <Link
                         href={link.href}
-                        className="group flex items-center justify-between py-5"
+                        // mobile: Ensure 44px min touch target for nav links
+                        className="group flex items-center justify-between py-5 min-h-[52px]"
                         style={{
                           borderBottom: `1px solid rgba(255,255,255,0.05)`,
                         }}
@@ -424,7 +432,8 @@ export default function Navbar(): React.ReactElement | null {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <motion.div
-                    className="flex w-full items-center justify-center gap-3 rounded-full py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em]"
+                    // mobile: Full width button with proper touch target
+                    className="flex w-full items-center justify-center gap-3 rounded-full py-4 min-h-[52px] text-[0.8rem] font-semibold uppercase tracking-[0.15em]"
                     style={{
                       background: `linear-gradient(135deg, ${THEME.primary}, ${THEME.primaryDark})`,
                       color: THEME.bg,
