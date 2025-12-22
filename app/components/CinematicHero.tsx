@@ -1023,8 +1023,8 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* MAIN CONTENT */}
       {/* ============================================= */}
 
-      {/* mobile: Disable parallax on touch devices for performance */}
-      <div className="relative z-30 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
+      {/* mobile: Add pt-20 to clear navbar, disable parallax on touch devices */}
+      <div className="relative z-30 flex h-full items-center justify-center px-4 pt-16 pb-8 sm:pt-0 sm:pb-0 sm:px-6 lg:px-8">
         <motion.div
           className="text-center"
           style={isMobile ? undefined : {
