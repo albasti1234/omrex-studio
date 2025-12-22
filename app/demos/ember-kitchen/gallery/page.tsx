@@ -6,6 +6,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import EmberNavbar from "@/EmberComponents/EmberKitchen/EmberNavbar";
 import EmberFooter from "@/EmberComponents/EmberKitchen/EmberFooter"
@@ -18,18 +19,18 @@ const CATEGORIES = [
 ];
 
 const GALLERY_ITEMS = [
-  { id: 1, title: "Main Dining Room", category: "ambiance", size: "large" },
-  { id: 2, title: "Open Kitchen", category: "ambiance", size: "tall" },
-  { id: 3, title: "Ember-Kissed Wagyu", category: "cuisine", size: "medium" },
-  { id: 4, title: "Fire Bar", category: "ambiance", size: "medium" },
-  { id: 5, title: "Signature Cocktail", category: "drinks", size: "tall" },
-  { id: 6, title: "Lobster Dish", category: "cuisine", size: "large" },
-  { id: 7, title: "Wine Selection", category: "drinks", size: "medium" },
-  { id: 8, title: "Private Dining", category: "ambiance", size: "wide" },
-  { id: 9, title: "Duck Breast", category: "cuisine", size: "medium" },
-  { id: 10, title: "Old Fashioned", category: "drinks", size: "medium" },
-  { id: 11, title: "Dessert Plating", category: "cuisine", size: "tall" },
-  { id: 12, title: "Terrace View", category: "ambiance", size: "large" },
+  { id: 1, title: "Main Dining Room", category: "ambiance", size: "large", image: "/images/ember/spaces/main-dining.jpg" },
+  { id: 2, title: "Open Kitchen", category: "ambiance", size: "tall", image: "/images/ember/spaces/open-kitchen.jpg" },
+  { id: 3, title: "Ember-Kissed Wagyu", category: "cuisine", size: "medium", image: "/images/ember/menu/wagyu.jpg" },
+  { id: 4, title: "Fire Bar", category: "ambiance", size: "medium", image: "/images/ember/spaces/fire-bar.jpg" },
+  { id: 5, title: "Signature Cocktail", category: "drinks", size: "tall", image: "/images/ember/gallery/signature-cocktail.jpg" },
+  { id: 6, title: "Lobster Dish", category: "cuisine", size: "large", image: "/images/ember/menu/lobster.jpg" },
+  { id: 7, title: "Wine Selection", category: "drinks", size: "medium", image: "/images/ember/gallery/wine-selection.jpg" },
+  { id: 8, title: "Private Dining", category: "ambiance", size: "wide", image: "/images/ember/spaces/private-room.jpg" },
+  { id: 9, title: "Duck Breast", category: "cuisine", size: "medium", image: "/images/ember/menu/duck.jpg" },
+  { id: 10, title: "Old Fashioned", category: "drinks", size: "medium", image: "/images/ember/gallery/old-fashioned.jpg" },
+  { id: 11, title: "Dessert Plating", category: "cuisine", size: "tall", image: "/images/ember/menu/chocolate-cake.jpg" },
+  { id: 12, title: "Terrace View", category: "ambiance", size: "large", image: "/images/ember/spaces/terrace.jpg" },
 ];
 
 export default function GalleryPage(): React.ReactElement {
@@ -46,7 +47,7 @@ export default function GalleryPage(): React.ReactElement {
       <GalleryGrid items={filteredItems} onSelect={setSelectedImage} />
       <InstagramCTA />
       <EmberFooter />
-      
+
       <AnimatePresence>
         {selectedImage !== null && (
           <Lightbox item={GALLERY_ITEMS.find((i) => i.id === selectedImage)!} onClose={() => setSelectedImage(null)} />
@@ -109,10 +110,14 @@ function GalleryGrid({ items, onSelect }: { items: typeof GALLERY_ITEMS; onSelec
             {items.map((item, index) => (
               <motion.article key={item.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={isInView ? { opacity: 1, scale: 1 } : {}} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.5, delay: index * 0.05 }}
                 className={`relative overflow-hidden cursor-pointer group ${getSizeClasses(item.size)}`} onClick={() => onSelect(item.id)}>
-                <div className="absolute inset-0 bg-[#1a1714]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/20 to-transparent" />
-                  <div className="absolute inset-0 flex items-center justify-center"><span className="text-[#d4a574]/10 text-6xl">✦</span></div>
-                </div>
+                {/* Actual Image */}
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute bottom-4 left-4">
                   <span className="font-body text-[9px] tracking-[0.2em] uppercase text-[#d4a574]">{item.category}</span>
@@ -137,11 +142,16 @@ function Lightbox({ item, onClose }: { item: typeof GALLERY_ITEMS[0]; onClose: (
       <motion.button className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center text-[#f5f0e8]/60 hover:text-[#d4a574] transition-colors" whileHover={{ scale: 1.1 }}>
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" /></svg>
       </motion.button>
-      
-      <motion.div className="relative max-w-4xl w-full mx-6 aspect-[4/3] bg-[#1a1714]" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} onClick={(e) => e.stopPropagation()}>
-        <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/20 to-transparent" />
-        <div className="absolute inset-0 flex items-center justify-center"><span className="text-[#d4a574]/20 text-[150px]">✦</span></div>
-        <div className="absolute inset-6 border border-[#d4a574]/30" />
+
+      <motion.div className="relative max-w-4xl w-full mx-6 aspect-[4/3] bg-[#1a1714] overflow-hidden" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} onClick={(e) => e.stopPropagation()}>
+        <Image
+          src={item.image}
+          alt={item.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 1024px) 90vw, 900px"
+        />
+        <div className="absolute inset-6 border border-[#d4a574]/30 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#0d0d0d] to-transparent">
           <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[#d4a574]">{item.category}</span>
           <h3 className="font-display text-2xl text-[#f5f0e8] mt-1">{item.title}</h3>
