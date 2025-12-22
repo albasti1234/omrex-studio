@@ -123,7 +123,7 @@ const MENU_DATA = [
         name: "Grilled Broccolini",
         price: "$14",
         desc: "Charred broccolini, Calabrian chili, garlic",
-        image: "/images/ember/menu/Broccolini.jpg",
+        image: "/images/ember/menu/broccolini.jpg",
         tag: "Vegan"
       },
       {
@@ -275,8 +275,8 @@ function CategoryNav({
               key={cat}
               onClick={() => scrollToCategory(index)}
               className={`relative px-4 py-2 font-body text-[11px] tracking-[0.15em] uppercase whitespace-nowrap transition-all ${active === index
-                  ? "text-[#d4a574]"
-                  : "text-[#f5f0e8]/50 hover:text-[#f5f0e8]/80"
+                ? "text-[#d4a574]"
+                : "text-[#f5f0e8]/50 hover:text-[#f5f0e8]/80"
                 }`}
             >
               {cat}
@@ -423,10 +423,10 @@ function MenuItem({
           {/* Name & Price Row */}
           <div className="flex items-baseline justify-between gap-3 mb-1.5">
             <h3 className={`font-display text-lg leading-tight transition-colors duration-300 ${item.signature
+              ? "text-[#d4a574]"
+              : isHovered
                 ? "text-[#d4a574]"
-                : isHovered
-                  ? "text-[#d4a574]"
-                  : "text-[#f5f0e8]"
+                : "text-[#f5f0e8]"
               }`}>
               {item.name}
             </h3>
