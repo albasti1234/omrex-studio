@@ -1,0 +1,962 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ATLAS LEGAL — PREMIUM LAW FIRM DESIGN SYSTEM
+   "Modern Litigation House meets Luxury Editorial Magazine"
+   
+   Design Philosophy:
+   - Sharp, confident, minimal with cinematic depth
+   - Strong contrast between display serif (headlines) and clean sans (body)
+   - Micro-details: hairline borders, subtle grain/noise, light caustic highlights
+   - Asymmetric compositions, editorial spacing, premium cards
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME TOKENS — CSS CUSTOM PROPERTIES
+   Two distinct palettes: Day Mode & Dark Mode
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ─────────────────────────────────────────────────────────────────────────
+       DAY MODE — Premium Ivory & Navy with Gold Accents
+       Clean, warm, and authoritative
+       ───────────────────────────────────────────────────────────────────────── */
+
+    /* Core Backgrounds */
+    --atlas-bg: oklch(0.985 0.003 90);
+    /* Warm ivory white */
+    --atlas-surface: oklch(0.995 0.001 90);
+    /* Pure surface white */
+    --atlas-surface-elevated: oklch(1.0 0 0);
+    /* Elevated cards */
+
+    /* Text Colors */
+    --atlas-text: oklch(0.15 0.025 260);
+    /* Deep navy ink */
+    --atlas-muted: oklch(0.45 0.02 260);
+    /* Muted slate */
+    --atlas-subtle: oklch(0.65 0.015 260);
+    /* Subtle gray */
+
+    /* Accent Colors */
+    --atlas-accent: oklch(0.72 0.14 75);
+    /* Rich warm gold */
+    --atlas-accent2: oklch(0.80 0.10 75);
+    /* Light gold */
+    --atlas-accent-muted: oklch(0.72 0.14 75 / 0.15);
+    /* Gold tint */
+
+    /* Primary Brand */
+    --atlas-primary: oklch(0.18 0.04 260);
+    /* Deep navy authority */
+    --atlas-primary-light: oklch(0.25 0.04 260);
+    /* Lighter navy */
+
+    /* Borders */
+    --atlas-border: oklch(0.92 0.005 80);
+    /* Subtle warm gray */
+    --atlas-border-strong: oklch(0.85 0.01 80);
+    /* Visible border */
+
+    /* Effects */
+    --atlas-shadow: oklch(0.18 0.04 260 / 0.08);
+    /* Soft navy shadow */
+    --atlas-glow: oklch(0.72 0.14 75 / 0.25);
+    /* Gold glow */
+    --atlas-noise: 0.03;
+    /* Noise intensity */
+
+    /* Gradients */
+    --atlas-gradient-primary: linear-gradient(135deg, oklch(0.18 0.04 260) 0%, oklch(0.22 0.045 260) 100%);
+    --atlas-gradient-gold: linear-gradient(135deg, oklch(0.72 0.14 75) 0%, oklch(0.80 0.10 75) 100%);
+    --atlas-gradient-surface: linear-gradient(180deg, oklch(0.985 0.003 90) 0%, oklch(0.975 0.005 85) 100%);
+
+    /* Shadows - Layered and cinematic */
+    --atlas-shadow-sm: 0 2px 8px -2px oklch(0.18 0.04 260 / 0.06), 0 0 0 1px oklch(0.18 0.04 260 / 0.02);
+    --atlas-shadow-md: 0 8px 24px -6px oklch(0.18 0.04 260 / 0.10), 0 4px 8px -2px oklch(0.18 0.04 260 / 0.04);
+    --atlas-shadow-lg: 0 20px 50px -12px oklch(0.18 0.04 260 / 0.15), 0 0 0 1px oklch(0.92 0.005 80);
+    --atlas-shadow-xl: 0 32px 80px -20px oklch(0.18 0.04 260 / 0.20);
+    --atlas-shadow-gold: 0 12px 40px -8px oklch(0.72 0.14 75 / 0.30);
+
+    /* Animation Curves */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* Typography */
+    --font-serif: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+    /* Spacing Scale */
+    --section-spacing: clamp(5rem, 10vw, 8rem);
+    --container-px: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   DARK MODE — Deep Obsidian & Luminous Gold
+   Cinematic, sophisticated, with glass effects
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dark {
+    /* Core Backgrounds */
+    --atlas-bg: oklch(0.10 0.015 260);
+    /* Deep ink obsidian */
+    --atlas-surface: oklch(0.14 0.015 260);
+    /* Elevated surface */
+    --atlas-surface-elevated: oklch(0.18 0.018 260);
+    /* Cards and modals */
+
+    /* Text Colors */
+    --atlas-text: oklch(0.95 0.005 90);
+    /* Warm off-white */
+    --atlas-muted: oklch(0.70 0.01 90);
+    /* Muted cream */
+    --atlas-subtle: oklch(0.55 0.01 260);
+    /* Subtle gray */
+
+    /* Accent Colors - More luminous in dark mode */
+    --atlas-accent: oklch(0.75 0.15 75);
+    /* Bright luminous gold */
+    --atlas-accent2: oklch(0.82 0.12 75);
+    /* Light gold highlight */
+    --atlas-accent-muted: oklch(0.75 0.15 75 / 0.12);
+    /* Gold tint */
+
+    /* Primary Brand */
+    --atlas-primary: oklch(0.25 0.04 260);
+    --atlas-primary-light: oklch(0.30 0.045 260);
+
+    /* Borders */
+    --atlas-border: oklch(0.22 0.015 260);
+    /* Subtle dark border */
+    --atlas-border-strong: oklch(0.30 0.02 260);
+    /* Visible border */
+
+    /* Effects */
+    --atlas-shadow: oklch(0 0 0 / 0.40);
+    /* Deep shadow */
+    --atlas-glow: oklch(0.75 0.15 75 / 0.20);
+    /* Gold glow */
+    --atlas-noise: 0.05;
+    /* More visible noise */
+
+    /* Gradients */
+    --atlas-gradient-primary: linear-gradient(135deg, oklch(0.25 0.04 260) 0%, oklch(0.30 0.045 260) 100%);
+    --atlas-gradient-gold: linear-gradient(135deg, oklch(0.75 0.15 75) 0%, oklch(0.82 0.12 75) 100%);
+    --atlas-gradient-surface: linear-gradient(180deg, oklch(0.10 0.015 260) 0%, oklch(0.08 0.012 260) 100%);
+
+    /* Shadows - Deep and dramatic */
+    --atlas-shadow-sm: 0 2px 8px -2px oklch(0 0 0 / 0.30), 0 0 0 1px oklch(1 0 0 / 0.04);
+    --atlas-shadow-md: 0 8px 24px -6px oklch(0 0 0 / 0.40), 0 0 0 1px oklch(1 0 0 / 0.05);
+    --atlas-shadow-lg: 0 20px 50px -12px oklch(0 0 0 / 0.50), 0 0 0 1px oklch(1 0 0 / 0.06);
+    --atlas-shadow-xl: 0 32px 80px -20px oklch(0 0 0 / 0.60);
+    --atlas-shadow-gold: 0 12px 40px -8px oklch(0.75 0.15 75 / 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAILWIND THEME EXTENSION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+    /* Colors mapped to CSS variables */
+    --color-atlas-bg: var(--atlas-bg);
+    --color-atlas-surface: var(--atlas-surface);
+    --color-atlas-surface-elevated: var(--atlas-surface-elevated);
+    --color-atlas-text: var(--atlas-text);
+    --color-atlas-muted: var(--atlas-muted);
+    --color-atlas-subtle: var(--atlas-subtle);
+    --color-atlas-accent: var(--atlas-accent);
+    --color-atlas-accent2: var(--atlas-accent2);
+    --color-atlas-accent-muted: var(--atlas-accent-muted);
+    --color-atlas-primary: var(--atlas-primary);
+    --color-atlas-primary-light: var(--atlas-primary-light);
+    --color-atlas-border: var(--atlas-border);
+    --color-atlas-border-strong: var(--atlas-border-strong);
+
+    /* Legacy compatibility */
+    --color-al-primary: var(--atlas-primary);
+    --color-al-gold: var(--atlas-accent);
+    --color-al-gold-light: var(--atlas-accent2);
+    --color-al-bg: var(--atlas-bg);
+    --color-al-bg-warm: var(--atlas-surface);
+    --color-al-bg-dark: oklch(0.10 0.015 260);
+    --color-al-surface: var(--atlas-surface-elevated);
+    --color-al-text-main: var(--atlas-text);
+    --color-al-text-muted: var(--atlas-muted);
+    --color-al-text-light: oklch(0.95 0.005 90);
+    --color-al-text-gold: var(--atlas-accent);
+    --color-al-border: var(--atlas-border);
+    --color-al-border-dark: var(--atlas-border-strong);
+
+    /* Shadows */
+    --shadow-atlas-sm: var(--atlas-shadow-sm);
+    --shadow-atlas-md: var(--atlas-shadow-md);
+    --shadow-atlas-lg: var(--atlas-shadow-lg);
+    --shadow-atlas-xl: var(--atlas-shadow-xl);
+    --shadow-atlas-gold: var(--atlas-shadow-gold);
+
+    /* Animation */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Typography */
+    --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: var(--atlas-bg);
+        color: var(--atlas-text);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "cv11", "ss01", "calt";
+    }
+
+    /* Selection */
+    ::selection {
+        background: var(--atlas-accent-muted);
+        color: var(--atlas-primary);
+    }
+
+    .dark ::selection {
+        background: oklch(0.75 0.15 75 / 0.30);
+        color: oklch(0.95 0.005 90);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--atlas-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--atlas-border-strong);
+        border-radius: 5px;
+        border: 2px solid var(--atlas-bg);
+        transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--atlas-accent);
+    }
+
+    /* Focus styles */
+    :focus-visible {
+        outline: 2px solid var(--atlas-accent);
+        outline-offset: 2px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RTL SUPPORT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .atlas-legal {
+    direction: rtl;
+}
+
+/* RTL-specific flex direction handling */
+[dir="rtl"] .al-flex-row {
+    flex-direction: row-reverse;
+}
+
+/* Margin/padding RTL adjustments */
+[dir="rtl"] .ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/* Text alignment RTL */
+[dir="rtl"] .text-left {
+    text-align: right;
+}
+
+[dir="rtl"] .text-right {
+    text-align: left;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       CONTAINER
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-container {
+        @apply mx-auto w-full;
+        max-width: 1400px;
+        padding-inline: var(--container-px);
+    }
+
+    .al-container-narrow {
+        @apply mx-auto w-full;
+        max-width: 900px;
+        padding-inline: var(--container-px);
+    }
+
+    .al-container-wide {
+        @apply mx-auto w-full;
+        max-width: 1600px;
+        padding-inline: var(--container-px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       TYPOGRAPHY — Editorial Legal Style
+       ───────────────────────────────────────────────────────────────────────── */
+
+    /* Display Headlines - Cinematic */
+    .al-heading-display {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        text-wrap: balance;
+        font-size: clamp(3rem, 8vw, 6rem);
+    }
+
+    /* H1 */
+    .al-heading-1 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.015em;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    /* H2 */
+    .al-heading-2 {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    /* H3 */
+    .al-heading-3 {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.005em;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    /* Kicker - Section label */
+    .al-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--atlas-accent);
+        margin-bottom: 1.5rem;
+    }
+
+    .al-kicker::before {
+        content: '';
+        display: block;
+        width: 2rem;
+        height: 2px;
+        background: var(--atlas-gradient-gold);
+    }
+
+    /* Lead paragraph */
+    .al-lead {
+        font-size: clamp(1.125rem, 2vw, 1.375rem);
+        line-height: 1.7;
+        color: var(--atlas-muted);
+    }
+
+    /* Body text */
+    .al-body {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: var(--atlas-muted);
+    }
+
+    /* Gold decorative line */
+    .al-gold-line {
+        display: block;
+        width: 4rem;
+        height: 3px;
+        background: var(--atlas-gradient-gold);
+    }
+
+    .al-gold-line-center {
+        display: block;
+        width: 4rem;
+        height: 3px;
+        margin-inline: auto;
+        background: var(--atlas-gradient-gold);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       BUTTONS — Premium Tactile Design
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-btn {
+        @apply inline-flex items-center justify-center gap-2;
+        position: relative;
+        padding: 1rem 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.5s var(--ease-out-expo);
+    }
+
+    .al-btn:active {
+        transform: scale(0.98);
+    }
+
+    .al-btn:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    /* Primary Button - Navy */
+    .al-btn-primary {
+        color: white;
+        background: var(--atlas-gradient-primary);
+        box-shadow: var(--atlas-shadow-md), inset 0 1px 0 oklch(1 0 0 / 0.08);
+    }
+
+    .al-btn-primary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, oklch(1 0 0 / 0.1) 0%, transparent 50%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .al-btn-primary:hover::before {
+        opacity: 1;
+    }
+
+    .al-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--atlas-shadow-lg);
+    }
+
+    /* Gold Button */
+    .al-btn-gold {
+        color: var(--atlas-primary);
+        background: var(--atlas-gradient-gold);
+        font-weight: 700;
+        box-shadow: var(--atlas-shadow-gold);
+    }
+
+    .al-btn-gold:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 48px -8px oklch(0.72 0.14 75 / 0.4);
+    }
+
+    /* Outline Button */
+    .al-btn-outline {
+        color: var(--atlas-text);
+        background: transparent;
+        border: 2px solid var(--atlas-border-strong);
+    }
+
+    .al-btn-outline:hover {
+        border-color: var(--atlas-accent);
+        color: var(--atlas-accent);
+    }
+
+    /* Outline Light (for dark backgrounds) */
+    .al-btn-outline-light {
+        color: white;
+        background: transparent;
+        border: 2px solid oklch(1 0 0 / 0.25);
+    }
+
+    .al-btn-outline-light:hover {
+        background: oklch(1 0 0 / 0.1);
+        border-color: var(--atlas-accent);
+    }
+
+    /* Ghost Button */
+    .al-btn-ghost {
+        color: var(--atlas-muted);
+        background: transparent;
+        padding: 0.75rem 1rem;
+    }
+
+    .al-btn-ghost:hover {
+        color: var(--atlas-accent);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       CARDS — Premium Editorial Style
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-card {
+        position: relative;
+        background: var(--atlas-surface-elevated);
+        border: 1px solid var(--atlas-border);
+        box-shadow: var(--atlas-shadow-sm);
+        transition: all 0.5s var(--ease-out-expo);
+        overflow: hidden;
+    }
+
+    /* Gold accent line on hover */
+    .al-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--atlas-gradient-gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s var(--ease-out-expo);
+    }
+
+    [dir="rtl"] .al-card::before {
+        transform-origin: right;
+    }
+
+    .al-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .al-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--atlas-shadow-lg);
+        border-color: var(--atlas-accent);
+    }
+
+    /* Dark Card */
+    .al-card-dark {
+        background: oklch(0.12 0.02 260);
+        border: 1px solid oklch(1 0 0 / 0.08);
+        color: white;
+    }
+
+    .al-card-dark:hover {
+        border-color: var(--atlas-accent);
+        box-shadow: var(--atlas-shadow-gold);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       GLASS EFFECTS
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-glass {
+        background: oklch(1 0 0 / 0.85);
+        backdrop-filter: blur(20px) saturate(1.5);
+        -webkit-backdrop-filter: blur(20px) saturate(1.5);
+        border: 1px solid oklch(1 0 0 / 0.2);
+        box-shadow: var(--atlas-shadow-lg);
+    }
+
+    .dark .al-glass {
+        background: oklch(0.12 0.015 260 / 0.90);
+        border: 1px solid oklch(1 0 0 / 0.08);
+    }
+
+    .al-glass-dark {
+        background: oklch(0.10 0.015 260 / 0.95);
+        backdrop-filter: blur(20px) saturate(1.5);
+        -webkit-backdrop-filter: blur(20px) saturate(1.5);
+        border: 1px solid oklch(1 0 0 / 0.06);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       NAVIGATION
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-nav {
+        @apply fixed top-0 left-0 right-0 z-50;
+        transition: all 0.5s var(--ease-out-expo);
+    }
+
+    .al-nav-scrolled {
+        background: oklch(0.10 0.015 260 / 0.95);
+        backdrop-filter: blur(20px) saturate(1.5);
+        -webkit-backdrop-filter: blur(20px) saturate(1.5);
+        box-shadow: 0 4px 30px oklch(0 0 0 / 0.25);
+    }
+
+    .al-nav-link {
+        position: relative;
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        transition: color 0.3s ease;
+    }
+
+    .al-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--atlas-accent);
+        transition: width 0.4s var(--ease-out-expo);
+    }
+
+    .al-nav-link:hover::after {
+        width: 100%;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       SECTION LAYOUTS
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-section {
+        padding-block: var(--section-spacing);
+    }
+
+    .al-section-light {
+        background: var(--atlas-bg);
+        padding-block: var(--section-spacing);
+    }
+
+    .al-section-warm {
+        background: var(--atlas-surface);
+        padding-block: var(--section-spacing);
+    }
+
+    .al-section-dark {
+        background: oklch(0.10 0.015 260);
+        color: white;
+        padding-block: var(--section-spacing);
+    }
+
+    .al-section-hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       DECORATIVE PATTERNS
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-pattern-grid {
+        background-size: 60px 60px;
+        background-image:
+            linear-gradient(to right, var(--atlas-border) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--atlas-border) 1px, transparent 1px);
+    }
+
+    .al-pattern-lines {
+        background-image: repeating-linear-gradient(-45deg,
+                transparent,
+                transparent 1px,
+                var(--atlas-border) 1px,
+                var(--atlas-border) 2px);
+    }
+
+    .al-pattern-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: var(--atlas-noise);
+        mix-blend-mode: overlay;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       FORM INPUTS
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-input {
+        @apply w-full;
+        padding: 1rem 1.25rem;
+        background: var(--atlas-surface-elevated);
+        border: 1px solid var(--atlas-border);
+        color: var(--atlas-text);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .al-input::placeholder {
+        color: var(--atlas-subtle);
+    }
+
+    .al-input:focus {
+        outline: none;
+        border-color: var(--atlas-accent);
+        box-shadow: 0 0 0 3px var(--atlas-accent-muted);
+    }
+
+    .al-select {
+        @apply w-full;
+        padding: 1rem 3rem 1rem 1.25rem;
+        background: var(--atlas-surface-elevated);
+        border: 1px solid var(--atlas-border);
+        color: var(--atlas-text);
+        font-size: 1rem;
+        appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+    }
+
+    [dir="rtl"] .al-select {
+        padding: 1rem 1.25rem 1rem 3rem;
+        background-position: left 1rem center;
+    }
+
+    .al-select:focus {
+        outline: none;
+        border-color: var(--atlas-accent);
+        box-shadow: 0 0 0 3px var(--atlas-accent-muted);
+    }
+
+    .al-textarea {
+        @apply w-full;
+        padding: 1rem 1.25rem;
+        background: var(--atlas-surface-elevated);
+        border: 1px solid var(--atlas-border);
+        color: var(--atlas-text);
+        font-size: 1rem;
+        resize: vertical;
+        min-height: 120px;
+        transition: all 0.3s ease;
+    }
+
+    .al-textarea::placeholder {
+        color: var(--atlas-subtle);
+    }
+
+    .al-textarea:focus {
+        outline: none;
+        border-color: var(--atlas-accent);
+        box-shadow: 0 0 0 3px var(--atlas-accent-muted);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       ANIMATIONS
+       ───────────────────────────────────────────────────────────────────────── */
+
+    @keyframes al-fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes al-fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes al-scale-in {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes al-slide-in-right {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes al-gold-shimmer {
+        0% {
+            background-position: -200% center;
+        }
+
+        100% {
+            background-position: 200% center;
+        }
+    }
+
+    @keyframes al-pulse-glow {
+
+        0%,
+        100% {
+            box-shadow: 0 0 20px var(--atlas-glow);
+        }
+
+        50% {
+            box-shadow: 0 0 40px var(--atlas-glow);
+        }
+    }
+
+    .al-animate-fade-up {
+        animation: al-fade-up 0.8s var(--ease-out-expo) forwards;
+    }
+
+    .al-shimmer {
+        background: linear-gradient(90deg,
+                var(--atlas-accent) 0%,
+                var(--atlas-accent2) 50%,
+                var(--atlas-accent) 100%);
+        background-size: 200% auto;
+        animation: al-gold-shimmer 3s ease-in-out infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       LIVE CHAT WIDGET
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-chat-widget {
+        @apply fixed z-50;
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+
+    [dir="rtl"] .al-chat-widget {
+        right: auto;
+        left: 1.5rem;
+    }
+
+    .al-chat-bubble {
+        @apply flex items-center justify-center cursor-pointer;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background: var(--atlas-gradient-gold);
+        box-shadow: var(--atlas-shadow-gold);
+        transition: all 0.3s var(--ease-out-expo);
+    }
+
+    .al-chat-bubble:hover {
+        transform: scale(1.1);
+        box-shadow: 0 16px 48px -8px oklch(0.72 0.14 75 / 0.5);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       UTILITY CLASSES
+       ───────────────────────────────────────────────────────────────────────── */
+
+    .al-divider {
+        height: 1px;
+        background: var(--atlas-border);
+    }
+
+    .al-divider-gold {
+        height: 2px;
+        background: var(--atlas-gradient-gold);
+    }
+
+    /* Text gradient */
+    .al-text-gradient {
+        background: var(--atlas-gradient-gold);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Hover glow effect */
+    .al-glow-hover {
+        transition: box-shadow 0.4s ease;
+    }
+
+    .al-glow-hover:hover {
+        box-shadow: var(--atlas-shadow-gold);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE SPECIFIC OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Ensure proper dark mode application */
+.dark,
+.dark body,
+.dark .atlas-legal {
+    background-color: var(--atlas-bg);
+    color: var(--atlas-text);
+}
+
+.dark .bg-white {
+    background-color: var(--atlas-surface-elevated);
+}
+
+/* Dark mode prose */
+.dark .al-lead {
+    color: var(--atlas-muted);
+}
+
+.dark .al-body {
+    color: var(--atlas-muted);
+}
+
+/* Dark input overrides */
+.dark .al-input,
+.dark .al-select,
+.dark .al-textarea {
+    background: oklch(1 0 0 / 0.05);
+    border-color: var(--atlas-border);
+    color: var(--atlas-text);
+}
+
+.dark .al-input::placeholder,
+.dark .al-textarea::placeholder {
+    color: var(--atlas-subtle);
+}

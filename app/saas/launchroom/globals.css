@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Cinematic Dark Theme Tokens */
+        --lr-bg-main: 15 23 42;
+        /* Slate 900 */
+        --lr-bg-subtle: 30 41 59;
+        /* Slate 800 */
+        --lr-bg-surface: 15 23 42;
+
+        --lr-text-primary: 248 250 252;
+        /* Slate 50 */
+        --lr-text-secondary: 148 163 184;
+        /* Slate 400 */
+
+        --lr-accent: 45 212 191;
+        /* Teal 400 */
+        --lr-accent-glow: 45 212 191;
+
+        --lr-border: 51 65 85;
+        /* Slate 700 */
+    }
+}
+
+.lr-glass {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lr-glass-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.lr-text-glow {
+    text-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+}
+
+.lr-gradient-text {
+    background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

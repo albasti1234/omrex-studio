@@ -1,0 +1,206 @@
+/* =============================================================================
+   VELVET PERFUMES - Design System
+   ============================================================================= */
+
+/* Theme Variables */
+.velvet-perfumes {
+    --vp-bg-primary: #070709;
+    --vp-bg-secondary: #0c0c10;
+    --vp-bg-tertiary: #111118;
+    --vp-bg-card: rgba(12, 12, 18, 0.7);
+    --vp-bg-glass: rgba(8, 8, 12, 0.6);
+
+    --vp-gold: #d4a853;
+    --vp-gold-light: #e8c47a;
+    --vp-gold-muted: #a88a3d;
+    --vp-gold-rgb: 212, 168, 83;
+
+    --vp-purple: #8b5cf6;
+    --vp-purple-deep: #6d28d9;
+    --vp-purple-rgb: 139, 92, 246;
+
+    --vp-rose: #be185d;
+
+    --vp-text-primary: #fafaf9;
+    --vp-text-secondary: #a8a29e;
+    --vp-text-muted: #78716c;
+
+    --vp-border-subtle: rgba(212, 168, 83, 0.08);
+    --vp-border-default: rgba(212, 168, 83, 0.15);
+    --vp-border-hover: rgba(212, 168, 83, 0.35);
+
+    background: var(--vp-bg-primary);
+    color: var(--vp-text-primary);
+    min-height: 100vh;
+}
+
+/* Typography */
+.vp-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+}
+
+.vp-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: var(--vp-gold);
+}
+
+/* Buttons */
+.vp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.vp-btn-primary {
+    background: linear-gradient(135deg, var(--vp-gold), var(--vp-gold-muted));
+    color: var(--vp-bg-primary);
+    border: none;
+}
+
+.vp-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(var(--vp-gold-rgb), 0.3);
+}
+
+.vp-btn-secondary {
+    background: transparent;
+    color: var(--vp-text-primary);
+    border: 1px solid var(--vp-border-default);
+}
+
+.vp-btn-secondary:hover {
+    border-color: var(--vp-border-hover);
+    background: rgba(var(--vp-gold-rgb), 0.05);
+}
+
+/* Cards */
+.vp-card {
+    background: var(--vp-bg-card);
+    border: 1px solid var(--vp-border-subtle);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+}
+
+.vp-card:hover {
+    border-color: var(--vp-border-default);
+    transform: translateY(-4px);
+}
+
+/* Product Grid */
+.vp-products-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+@media (min-width: 640px) {
+    .vp-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .vp-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .vp-products-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Product Card */
+.vp-product-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--vp-bg-secondary);
+    border: 1px solid var(--vp-border-subtle);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vp-product-card:hover {
+    border-color: var(--vp-border-default);
+}
+
+.vp-product-card:hover .vp-product-image {
+    transform: scale(1.05);
+}
+
+.vp-product-card:hover .vp-product-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.vp-product-image {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vp-product-actions {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+}
+
+/* Badges */
+.vp-badge {
+    display: inline-flex;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.55rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.vp-badge-new {
+    background: var(--vp-gold);
+    color: var(--vp-bg-primary);
+}
+
+.vp-badge-bestseller {
+    background: var(--vp-purple);
+    color: white;
+}
+
+/* Filter Sidebar */
+.vp-filter-section {
+    border-bottom: 1px solid var(--vp-border-subtle);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.vp-filter-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--vp-text-primary);
+    margin-bottom: 1rem;
+}
+
+/* Container */
+.vp-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .vp-container {
+        padding: 0 2rem;
+    }
+}
