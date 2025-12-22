@@ -918,6 +918,12 @@ export default function CinematicHeroPro(): React.ReactElement {
   const [mounted, setMounted] = useState(false);
   // mobile: Detect mobile for reducing particles and disabling parallax
   const isMobile = useIsMobile();
+
+  // FIX: useTransform must be called unconditionally (React hooks rule)
+  // We always compute the transforms but only apply them on non-mobile
+  const transformedX = useTransform(mouseX, (v) => v * -0.5);
+  const transformedY = useTransform(mouseY, (v) => v * -0.5);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -955,8 +961,8 @@ export default function CinematicHeroPro(): React.ReactElement {
   return (
     <section
       ref={containerRef}
-      // mobile: Use 70svh on mobile for CTA visibility, full screen on desktop
-      className="relative min-h-[70svh] md:min-h-screen w-full overflow-hidden bg-[#030303]"
+      // mobile: Use 70svh on mobile for CTA visibility, FULL h-screen on desktop
+      className="relative min-h-[70svh] md:h-screen w-full overflow-hidden bg-[#030303]"
     >
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}
@@ -1021,9 +1027,9 @@ export default function CinematicHeroPro(): React.ReactElement {
       <div className="relative z-30 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center"
-          style={isMobile ? {} : {
-            x: useTransform(mouseX, (v) => v * -0.5),
-            y: useTransform(mouseY, (v) => v * -0.5),
+          style={isMobile ? undefined : {
+            x: transformedX,
+            y: transformedY,
           }}
         >
           {/* Studio Badge */}
