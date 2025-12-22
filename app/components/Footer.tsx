@@ -46,9 +46,9 @@ export default function Footer(): React.ReactElement {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Top Section - mobile: tighter padding */}
-        <div className="py-12 sm:py-16 md:py-20">
-          <div className="grid gap-10 lg:grid-cols-2 lg:gap-8">
+        {/* Top Section - mobile: compact padding */}
+        <div className="py-8 sm:py-12 md:py-16">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-8">
             {/* Left Side - Brand & CTA - mobile: center text */}
             <motion.div
               className="text-center lg:text-left"
@@ -56,25 +56,25 @@ export default function Footer(): React.ReactElement {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASING }}
             >
-              {/* Logo - mobile: center */}
-              <div className="flex items-center gap-3 mb-6 justify-center lg:justify-start">
-                <div className="relative flex h-10 w-10 items-center justify-center">
+              {/* Logo - mobile: smaller */}
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 justify-center lg:justify-start">
+                <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center">
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706] opacity-20" />
                   <div className="absolute inset-[1px] rounded-lg bg-[#050507]" />
                   <span className="relative text-base font-bold text-[#f59e0b]">O</span>
                 </div>
                 <div>
-                  <span className="text-lg font-semibold text-[#f8fafc]">OMREX.STUDIO</span>
+                  <span className="text-base sm:text-lg font-semibold text-[#f8fafc]">OMREX.STUDIO</span>
                 </div>
               </div>
 
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#f8fafc] mb-4">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#f8fafc] mb-3 sm:mb-4">
                 Ready to build something
                 <br />
                 <span className="text-gradient-gold">cinematic?</span>
               </h3>
 
-              <p className="text-[#a1a1aa] max-w-md mb-8 mx-auto lg:mx-0 text-sm sm:text-base">
+              <p className="text-[#a1a1aa] max-w-md mb-6 sm:mb-8 mx-auto lg:mx-0 text-xs sm:text-sm">
                 Let's create a web experience that stands out from the template crowd and actually converts.
               </p>
 
@@ -103,19 +103,19 @@ export default function Footer(): React.ReactElement {
               </div>
             </motion.div>
 
-            {/* Right Side - Links - mobile: 2 cols centered */}
+            {/* Right Side - Links - mobile: compact 2 cols */}
             <motion.div
-              className="grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-3 text-center sm:text-left"
+              className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-3 text-center sm:text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASING, delay: 0.2 }}
             >
               {/* Navigation */}
               <div>
-                <h4 className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#f59e0b] mb-4">
+                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
                   Navigation
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2 sm:space-y-3">
                   {FOOTER_LINKS.navigation.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -131,10 +131,10 @@ export default function Footer(): React.ReactElement {
 
               {/* Legal */}
               <div>
-                <h4 className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#f59e0b] mb-4">
+                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
                   Legal
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2 sm:space-y-3">
                   {FOOTER_LINKS.legal.map((link) => (
                     <li key={link.href}>
                       <Link
@@ -150,22 +150,20 @@ export default function Footer(): React.ReactElement {
 
               {/* Contact Info */}
               <div className="col-span-2 sm:col-span-1">
-                <h4 className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#f59e0b] mb-4">
+                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
                   Contact
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2 sm:space-y-3">
                   <li>
                     <a
-                      href="mailto:hello@omrex.studio"
-                      className="text-[#a1a1aa] hover:text-[#f8fafc] transition-colors text-sm"
+                      href="mailto:omar.abosoud@outlook.com"
+                      className="text-[#a1a1aa] hover:text-[#f59e0b] transition-colors text-xs sm:text-sm break-all"
                     >
-                      hello@omrex.studio
+                      omar.abosoud@outlook.com
                     </a>
                   </li>
-                  <li className="text-[#71717a] text-sm">
-                    Based in Jordan
-                    <br />
-                    Working Worldwide
+                  <li className="text-[#71717a] text-xs sm:text-sm">
+                    🌍 Working Worldwide
                   </li>
                 </ul>
               </div>
@@ -176,9 +174,9 @@ export default function Footer(): React.ReactElement {
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Bottom Section - mobile: center everything, more padding */}
+        {/* Bottom Section - mobile: compact */}
         <motion.div
-          className="py-6 sm:py-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:gap-4"
+          className="py-4 sm:py-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
