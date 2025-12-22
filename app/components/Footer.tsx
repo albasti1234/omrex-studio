@@ -49,125 +49,134 @@ export default function Footer(): React.ReactElement {
         {/* Top Section - mobile: compact padding */}
         <div className="py-8 sm:py-12 md:py-16">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-8">
-            {/* Left Side - Brand & CTA - mobile: center text */}
+            {/* Left Side - Brand & CTA - mobile: left aligned layout */}
             <motion.div
-              className="text-center lg:text-left"
+              className="text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASING }}
             >
-              {/* Logo - mobile: smaller */}
-              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 justify-center lg:justify-start">
-                <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706] opacity-20" />
-                  <div className="absolute inset-[1px] rounded-lg bg-[#050507]" />
-                  <span className="relative text-base font-bold text-[#f59e0b]">O</span>
+              {/* Row: Logo + Info on left, Buttons on right */}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+                {/* Left Column: Logo + Text */}
+                <div className="flex-1">
+                  {/* Logo */}
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                    <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center">
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706] opacity-20" />
+                      <div className="absolute inset-[1px] rounded-lg bg-[#050507]" />
+                      <span className="relative text-sm sm:text-base font-bold text-[#f59e0b]">O</span>
+                    </div>
+                    <span className="text-sm sm:text-lg font-semibold text-[#f8fafc]">OMREX.STUDIO</span>
+                  </div>
+
+                  <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#f8fafc] mb-2">
+                    Ready to build something <span className="text-gradient-gold">cinematic?</span>
+                  </h3>
+
+                  <p className="text-[#71717a] max-w-xs text-xs sm:text-sm">
+                    Premium web experiences that convert.
+                  </p>
                 </div>
-                <div>
-                  <span className="text-base sm:text-lg font-semibold text-[#f8fafc]">OMREX.STUDIO</span>
-                </div>
-              </div>
 
-              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#f8fafc] mb-3 sm:mb-4">
-                Ready to build something
-                <br />
-                <span className="text-gradient-gold">cinematic?</span>
-              </h3>
-
-              <p className="text-[#a1a1aa] max-w-md mb-6 sm:mb-8 mx-auto lg:mx-0 text-xs sm:text-sm">
-                Let's create a web experience that stands out from the template crowd and actually converts.
-              </p>
-
-              {/* Buttons - mobile: full width, stacked */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Link href="/brief">
-                  <motion.button
-                    className="btn-primary"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span>Start Your Brief</span>
-                    <span>✦</span>
-                  </motion.button>
-                </Link>
-                <Link href="/contact">
-                  <motion.button
-                    className="btn-secondary"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span>Get in Touch</span>
-                    <span>→</span>
-                  </motion.button>
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Right Side - Links - mobile: compact 2 cols */}
-            <motion.div
-              className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-3 text-center sm:text-left"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: EASING, delay: 0.2 }}
-            >
-              {/* Navigation */}
-              <div>
-                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
-                  Navigation
-                </h4>
-                <ul className="space-y-2 sm:space-y-3">
-                  {FOOTER_LINKS.navigation.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-[#a1a1aa] hover:text-[#f8fafc] transition-colors text-sm"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Legal */}
-              <div>
-                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
-                  Legal
-                </h4>
-                <ul className="space-y-2 sm:space-y-3">
-                  {FOOTER_LINKS.legal.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-[#a1a1aa] hover:text-[#f8fafc] transition-colors text-sm"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Contact Info */}
-              <div className="col-span-2 sm:col-span-1">
-                <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
-                  Contact
-                </h4>
-                <ul className="space-y-2 sm:space-y-3">
-                  <li>
-                    <a
-                      href="mailto:omar.abosoud@outlook.com"
-                      className="text-[#a1a1aa] hover:text-[#f59e0b] transition-colors text-xs sm:text-sm break-all"
+                {/* Right Column: Buttons - stacked vertically */}
+                <div className="flex flex-col gap-2 sm:gap-3 sm:min-w-[160px]">
+                  <Link href="/brief">
+                    <motion.button
+                      className="btn-primary w-full text-xs sm:text-sm py-2.5 sm:py-3"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      omar.abosoud@outlook.com
-                    </a>
-                  </li>
-                  <li className="text-[#71717a] text-xs sm:text-sm">
-                    🌍 Working Worldwide
-                  </li>
-                </ul>
+                      <span>Start Brief</span>
+                      <span>✦</span>
+                    </motion.button>
+                  </Link>
+                  <Link href="/contact">
+                    <motion.button
+                      className="btn-secondary w-full text-xs sm:text-sm py-2.5 sm:py-3"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span>Get in Touch</span>
+                      <span>→</span>
+                    </motion.button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
+
+            {/* Right Side - Links with OMREX watermark behind */}
+            <div className="relative">
+              {/* OMREX Watermark - behind links */}
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+                <span className="text-[20vw] sm:text-[12vw] font-bold text-white/[0.02] select-none">OMREX</span>
+              </div>
+
+              <motion.div
+                className="relative grid grid-cols-3 gap-4 sm:gap-6 text-left"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, ease: EASING, delay: 0.2 }}
+              >
+                {/* Navigation */}
+                <div>
+                  <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
+                    Navigation
+                  </h4>
+                  <ul className="space-y-2 sm:space-y-3">
+                    {FOOTER_LINKS.navigation.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-[#a1a1aa] hover:text-[#f8fafc] transition-colors text-sm"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Legal */}
+                <div>
+                  <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
+                    Legal
+                  </h4>
+                  <ul className="space-y-2 sm:space-y-3">
+                    {FOOTER_LINKS.legal.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-[#a1a1aa] hover:text-[#f8fafc] transition-colors text-sm"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Contact Info */}
+                <div className="col-span-2 sm:col-span-1">
+                  <h4 className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#f59e0b] mb-3 sm:mb-4">
+                    Contact
+                  </h4>
+                  <ul className="space-y-2 sm:space-y-3">
+                    <li>
+                      <a
+                        href="mailto:omar.abosoud@outlook.com"
+                        className="text-[#a1a1aa] hover:text-[#f59e0b] transition-colors text-xs sm:text-sm break-all"
+                      >
+                        omar.abosoud@outlook.com
+                      </a>
+                    </li>
+                    <li className="text-[#71717a] text-xs sm:text-sm">
+                      🌍 Working Worldwide
+                    </li>
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
 
@@ -222,12 +231,7 @@ export default function Footer(): React.ReactElement {
         </motion.div>
       </div>
 
-      {/* Large background text */}
-      <div className="absolute bottom-0 left-0 right-0 overflow-hidden pointer-events-none">
-        <div className="text-[15vw] font-bold text-white/[0.02] text-center leading-none select-none">
-          OMREX
-        </div>
-      </div>
+      {/* Remove bottom watermark - now it's behind the links */}
     </footer>
   );
 }
