@@ -46,17 +46,18 @@ export default function Footer(): React.ReactElement {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Top Section */}
-        <div className="py-16 sm:py-20">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-8">
-            {/* Left Side - Brand & CTA */}
+        {/* Top Section - mobile: tighter padding */}
+        <div className="py-12 sm:py-16 md:py-20">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-8">
+            {/* Left Side - Brand & CTA - mobile: center text */}
             <motion.div
+              className="text-center lg:text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASING }}
             >
-              {/* Logo */}
-              <div className="flex items-center gap-3 mb-6">
+              {/* Logo - mobile: center */}
+              <div className="flex items-center gap-3 mb-6 justify-center lg:justify-start">
                 <div className="relative flex h-10 w-10 items-center justify-center">
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#f59e0b] to-[#d97706] opacity-20" />
                   <div className="absolute inset-[1px] rounded-lg bg-[#050507]" />
@@ -67,17 +68,18 @@ export default function Footer(): React.ReactElement {
                 </div>
               </div>
 
-              <h3 className="text-2xl sm:text-3xl font-semibold text-[#f8fafc] mb-4">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#f8fafc] mb-4">
                 Ready to build something
                 <br />
                 <span className="text-gradient-gold">cinematic?</span>
               </h3>
 
-              <p className="text-[#a1a1aa] max-w-md mb-8">
+              <p className="text-[#a1a1aa] max-w-md mb-8 mx-auto lg:mx-0 text-sm sm:text-base">
                 Let's create a web experience that stands out from the template crowd and actually converts.
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              {/* Buttons - mobile: full width, stacked */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Link href="/brief">
                   <motion.button
                     className="btn-primary"
@@ -101,9 +103,9 @@ export default function Footer(): React.ReactElement {
               </div>
             </motion.div>
 
-            {/* Right Side - Links */}
+            {/* Right Side - Links - mobile: 2 cols centered */}
             <motion.div
-              className="grid grid-cols-2 gap-8 sm:grid-cols-3"
+              className="grid grid-cols-2 gap-6 sm:gap-8 sm:grid-cols-3 text-center sm:text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, ease: EASING, delay: 0.2 }}
@@ -174,9 +176,9 @@ export default function Footer(): React.ReactElement {
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Bottom Section */}
+        {/* Bottom Section - mobile: center everything, more padding */}
         <motion.div
-          className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="py-6 sm:py-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-between sm:gap-4"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -186,19 +188,19 @@ export default function Footer(): React.ReactElement {
             © {new Date().getFullYear()} OMREX.STUDIO. All rights reserved.
           </p>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
+          {/* Social Links - mobile: larger touch targets */}
+          <div className="flex items-center gap-3 sm:gap-4 order-first sm:order-none">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[#71717a] transition-all hover:border-[#f59e0b]/50 hover:text-[#f59e0b]"
+                className="group relative flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-white/10 text-[#71717a] transition-all hover:border-[#f59e0b]/50 hover:text-[#f59e0b]"
                 aria-label={social.label}
               >
                 <span className="text-sm">{social.icon}</span>
-                
+
                 {/* Hover glow */}
                 <div className="absolute inset-0 rounded-full bg-[#f59e0b]/0 transition-all group-hover:bg-[#f59e0b]/10" />
               </a>
