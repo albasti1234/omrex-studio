@@ -118,25 +118,25 @@ function HeroSection(): React.ReactElement {
         </motion.p>
 
         <div className="relative mt-0">
-  {/* الصورة اللي ورا كلمة EMBER */}
-  <motion.div
-    className="
+          {/* الصورة اللي ورا كلمة EMBER */}
+          <motion.div
+            className="
       pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[1100px] max-w-[95vw]-translate-x-1/2 -translate-y-1/2 bg-[url('/images/ember/ember-title-bg.jpg')] bg-cover bg-center opacity-60 blur-[0.2px]"
-    initial={{ opacity: 0, scale: 1.02 }}
-    animate={{ opacity: 0.6, scale: 1 }}
-    transition={{ duration: 1.2, delay: 0.9 }}
-  />
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 0.6, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.9 }}
+          />
 
-  {/* العنوان */}
-  <motion.h1
-    className="relative z-10 font-display text-6xl md:text-8xl lg:text-9xl text-[#f5f0e8] tracking-[0.05em]"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 1, delay: 0.9 }}
-  >
-    EMBER
-  </motion.h1>
-</div>
+          {/* العنوان */}
+          <motion.h1
+            className="relative z-10 font-display text-6xl md:text-8xl lg:text-9xl text-[#f5f0e8] tracking-[0.05em]"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9 }}
+          >
+            EMBER
+          </motion.h1>
+        </div>
 
 
         <motion.div
@@ -248,14 +248,14 @@ function PhilosophySection(): React.ReactElement {
               <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/20 to-transparent" />
               <div className="absolute inset-4 border border-[#d4a574]/30 pointer-events-none" />
               <div className="absolute inset-0">
-  <Image
-    src="/images/ember/art-of-fire.jpg"
-    alt="Open fire cuisine texture"
-    fill
-    className="object-cover object-center"
-    priority
-  />
-</div>
+                <Image
+                  src="/images/ember/art-of-fire.jpg"
+                  alt="Open fire cuisine texture"
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
 
             </div>
             <motion.div
@@ -277,13 +277,13 @@ function PhilosophySection(): React.ReactElement {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <p className="font-elegant text-2xl md:text-3xl text-[#f5f0e8]/90 leading-relaxed mb-8">
-              At Ember, we believe that fire is not just a cooking method—it's 
+              At Ember, we believe that fire is not just a cooking method—it's
               a philosophy. Every flame tells a story, every dish is a journey.
             </p>
-            
+
             <p className="font-body text-sm text-[#f5f0e8]/50 leading-relaxed mb-8">
-              Our kitchen is built around the primal element that has brought 
-              humanity together since the beginning of time. We source the finest 
+              Our kitchen is built around the primal element that has brought
+              humanity together since the beginning of time. We source the finest
               ingredients from local farms and international purveyors.
             </p>
 
@@ -359,7 +359,7 @@ function SignatureDishes(): React.ReactElement {
               <span className="absolute top-4 right-4 bg-[#d4a574] px-3 py-1 text-[9px] font-body tracking-[0.2em] uppercase text-[#0d0d0d]">
                 {dish.tag}
               </span>
-              
+
               <div className="flex items-end justify-between mt-8">
                 <div>
                   <h3 className="font-display text-2xl text-[#f5f0e8] group-hover:text-[#d4a574] transition-colors">
@@ -430,36 +430,36 @@ function AmbianceSection(): React.ReactElement {
 
       <div className="flex gap-6 px-6 overflow-x-auto hide-scrollbar">
         {AMBIANCE_SPACES.map((space, index) => (
-  <motion.div
-    key={space.title}
-    className="relative flex-shrink-0 w-[70vw] md:w-[40vw] lg:w-[30vw] aspect-[4/3] bg-[#1a1714] group overflow-hidden"
-    initial={{ opacity: 0, y: 40 }}
-    animate={isInView ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-  >
-    {/* ✅ الصورة */}
-    <Image
-      src={space.img}
-      alt={space.title}
-      fill
-      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.06]"
-      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 40vw, 70vw"
-      priority={index === 0}
-    />
+          <motion.div
+            key={space.title}
+            className="relative flex-shrink-0 w-[70vw] md:w-[40vw] lg:w-[30vw] aspect-[4/3] bg-[#1a1714] group overflow-hidden"
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+          >
+            {/* ✅ الصورة */}
+            <Image
+              src={space.img}
+              alt={space.title}
+              fill
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.06]"
+              sizes="(min-width: 1024px) 30vw, (min-width: 768px) 40vw, 70vw"
+              priority={index === 0}
+            />
 
-    {/* overlays */}
-    <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/10 to-transparent" />
-    <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 to-transparent" />
+            {/* overlays */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 to-transparent" />
 
-    {/* العنوان */}
-    <div className="absolute bottom-6 left-6">
-      <span className="font-display text-lg text-[#f5f0e8]">{space.title}</span>
-    </div>
+            {/* العنوان */}
+            <div className="absolute bottom-6 left-6">
+              <span className="font-display text-lg text-[#f5f0e8]">{space.title}</span>
+            </div>
 
-    {/* corner */}
-    <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-[#d4a574]/50 group-hover:w-12 group-hover:h-12 transition-all duration-300" />
-  </motion.div>
-))}
+            {/* corner */}
+            <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-[#d4a574]/50 group-hover:w-12 group-hover:h-12 transition-all duration-300" />
+          </motion.div>
+        ))}
 
       </div>
     </section>
@@ -487,18 +487,18 @@ function ChefSection(): React.ReactElement {
               <span className="h-px w-12 bg-[#d4a574]/50" />
               <span className="text-[#d4a574] text-xs tracking-[0.4em] uppercase">The Visionary</span>
             </div>
-            
+
             <h2 className="font-display text-4xl md:text-5xl text-[#f5f0e8] mb-6">
               Chef Marcus Chen
             </h2>
 
             <p className="font-elegant text-xl text-[#f5f0e8]/80 leading-relaxed mb-6">
-              "Fire is the oldest form of alchemy. It transforms the ordinary into 
+              "Fire is the oldest form of alchemy. It transforms the ordinary into
               the extraordinary."
             </p>
 
             <p className="font-body text-sm text-[#f5f0e8]/50 leading-relaxed mb-8">
-              With over two decades of experience in Michelin-starred kitchens across 
+              With over two decades of experience in Michelin-starred kitchens across
               Europe and Asia, Chef Chen brings a unique perspective to Ember Kitchen.
             </p>
 
@@ -529,10 +529,14 @@ function ChefSection(): React.ReactElement {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="relative aspect-[3/4] bg-[#0d0d0d] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#d4a574]/20 to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[#d4a574]/10 text-[200px]">👨‍🍳</span>
-              </div>
+              <Image
+                src="/images/ember/chef-marcus.jpg"
+                alt="Chef Marcus Chen"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/60 to-transparent" />
               <div className="absolute inset-6 border border-[#d4a574]/20 pointer-events-none" />
             </div>
 
@@ -619,9 +623,8 @@ function TestimonialsSection(): React.ReactElement {
             <button
               key={index}
               onClick={() => setCurrent(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                current === index ? "bg-[#d4a574] w-8" : "bg-[#d4a574]/30"
-              }`}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${current === index ? "bg-[#d4a574] w-8" : "bg-[#d4a574]/30"
+                }`}
             />
           ))}
         </div>
@@ -647,7 +650,7 @@ function ReservationCTA(): React.ReactElement {
         transition={{ duration: 0.8 }}
       >
         <span className="text-[#d4a574] text-2xl">✦</span>
-        
+
         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#f5f0e8] mt-6 mb-6">
           Begin Your Journey
         </h2>
