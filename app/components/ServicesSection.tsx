@@ -165,7 +165,7 @@ function ServiceCard({ service, index, isInView }: ServiceCardProps): React.Reac
       onMouseMove={handleMouseMove}
       className="group relative"
     >
-      <div className="relative h-full overflow-hidden rounded-2xl border border-white/5 bg-[#0a0a0c] p-6 sm:p-8 transition-all duration-500 hover:border-white/10">
+      <div className="relative h-full overflow-hidden rounded-2xl border border-white/10 bg-[#111113] p-6 sm:p-8 transition-all duration-500 hover:border-white/20">
         {/* Spotlight effect */}
         <motion.div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
