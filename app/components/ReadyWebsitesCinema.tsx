@@ -14,9 +14,10 @@ import { DEMO_WEBSITES, type DemoWebsite } from "@/data/demos";
 // CONSTANTS
 // =============================================================================
 
-const CARD_WIDTH = 350;
-const CARD_GAP = 24;
-const SCROLL_CARD_WIDTH = CARD_WIDTH + CARD_GAP; // 374px
+const CARD_WIDTH = 300; // Base width for mobile
+const CARD_WIDTH_DESKTOP = 350;
+const CARD_GAP = 20;
+const SCROLL_CARD_WIDTH = CARD_WIDTH + CARD_GAP; // 320px
 
 const EASING = [0.16, 1, 0.3, 1] as const;
 
@@ -99,7 +100,7 @@ export default function ReadyWebsitesCinema() {
 
           <div className="flex items-end justify-between">
             <div>
-              <h2 className="text-4xl md:text-5xl font-light text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-light text-white tracking-tight">
                 Ready{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/70">
                   Websites
@@ -137,7 +138,7 @@ export default function ReadyWebsitesCinema() {
       {/* Horizontal Scroll Container */}
       <div
         ref={scrollRef}
-        className="relative flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth px-6 pb-4 hide-scrollbar"
+        className="relative flex gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth px-4 sm:px-6 pb-4 hide-scrollbar"
         style={{ scrollPaddingLeft: "24px" }}
       >
         {/* First Button - Browse All */}
@@ -169,8 +170,8 @@ export default function ReadyWebsitesCinema() {
             key={index}
             onClick={() => scrollToCard(index)}
             className={`h-1 rounded-full transition-all duration-300 ${activeIndex === index
-                ? "w-8 bg-white/60"
-                : "w-2 bg-white/20 hover:bg-white/30"
+              ? "w-8 bg-white/60"
+              : "w-2 bg-white/20 hover:bg-white/30"
               }`}
             aria-label={`Go to demo ${index + 1}`}
           />
@@ -199,7 +200,7 @@ const BrowseAllButton = memo(function BrowseAllButton({
     >
       <Link href="/demos">
         <motion.button
-          className="group relative h-[320px] w-[140px] flex flex-col items-center justify-center gap-4 border border-white/10 hover:border-white/30 rounded-2xl bg-white/[0.02] transition-all duration-300"
+          className="group relative h-[280px] sm:h-[320px] w-[100px] sm:w-[140px] flex flex-col items-center justify-center gap-3 sm:gap-4 border border-white/10 hover:border-white/30 rounded-2xl bg-white/[0.02] transition-all duration-300"
           whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -258,7 +259,7 @@ const ViewFullButton = memo(function ViewFullButton({
     >
       <Link href={activeRoute}>
         <motion.button
-          className="group relative h-[320px] w-[160px] flex flex-col items-center justify-center gap-4 border border-white/10 hover:border-white/40 rounded-2xl bg-white/[0.02] transition-all duration-300"
+          className="group relative h-[280px] sm:h-[320px] w-[120px] sm:w-[160px] flex flex-col items-center justify-center gap-3 sm:gap-4 border border-white/10 hover:border-white/40 rounded-2xl bg-white/[0.02] transition-all duration-300"
           whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -324,9 +325,9 @@ const DemoCard = memo(function DemoCard({
 
   const CardContent = (
     <article
-      className={`group relative w-[350px] h-[320px] rounded-2xl overflow-hidden border transition-all duration-300 ${isActive
-          ? "border-white/30 shadow-xl"
-          : "border-white/10 hover:border-white/20"
+      className={`group relative w-[280px] sm:w-[320px] md:w-[350px] h-[280px] sm:h-[320px] rounded-2xl overflow-hidden border transition-all duration-300 ${isActive
+        ? "border-white/30 shadow-xl"
+        : "border-white/10 hover:border-white/20"
         } ${isComingSoon ? "cursor-default" : "cursor-pointer"}`}
       style={{ backgroundColor: demo.color.secondary }}
     >
@@ -336,7 +337,7 @@ const DemoCard = memo(function DemoCard({
           src={demo.thumbnail}
           alt={`${demo.title} preview`}
           fill
-          sizes="350px"
+          sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 350px"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
           placeholder="blur"

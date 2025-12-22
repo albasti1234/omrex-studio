@@ -114,38 +114,38 @@ function generateCurtainFolds(count: number): CurtainFold[] {
 function useMouseParallax(strength: number = 20) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
+
   const springX = useSpring(x, SPRING_GENTLE);
   const springY = useSpring(y, SPRING_GENTLE);
-  
+
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     x.set(((e.clientX - centerX) / centerX) * strength);
     y.set(((e.clientY - centerY) / centerY) * strength);
   }, [x, y, strength]);
-  
+
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
-  
+
   return { x: springX, y: springY };
 }
 
 function useSequencedEntrance() {
   const [phase, setPhase] = useState<"loading" | "curtains" | "reveal" | "complete">("loading");
-  
+
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
-    
+
     timers.push(setTimeout(() => setPhase("curtains"), TIMING.curtainStart));
     timers.push(setTimeout(() => setPhase("reveal"), TIMING.curtainStart + TIMING.curtainDuration));
     timers.push(setTimeout(() => setPhase("complete"), TIMING.curtainStart + TIMING.curtainDuration + 1500));
-    
+
     return () => timers.forEach(clearTimeout);
   }, []);
-  
+
   return phase;
 }
 
@@ -165,19 +165,19 @@ type CurtainProps = {
 
 function RealisticCurtain({ side, isOpen, folds }: CurtainProps): React.ReactElement {
   const isLeft = side === "left";
-  
+
   return (
     <motion.div
       className={`absolute top-0 z-20 h-full w-[55%] ${isLeft ? "left-0 origin-left" : "right-0 origin-right"}`}
       initial={{ scaleX: 1 }}
       animate={{ scaleX: isOpen ? 0 : 1 }}
-      transition={{ 
-        duration: TIMING.curtainDuration / 1000, 
+      transition={{
+        duration: TIMING.curtainDuration / 1000,
         ease: EASING,
       }}
     >
       {/* Main curtain body */}
-      <div 
+      <div
         className="relative h-full w-full overflow-hidden"
         style={{
           background: isLeft
@@ -186,13 +186,13 @@ function RealisticCurtain({ side, isOpen, folds }: CurtainProps): React.ReactEle
         }}
       >
         {/* Velvet texture overlay */}
-        <div 
+        <div
           className="absolute inset-0 opacity-40"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
           }}
         />
-        
+
         {/* Curtain folds */}
         {folds.map((fold) => (
           <motion.div
@@ -219,18 +219,18 @@ function RealisticCurtain({ side, isOpen, folds }: CurtainProps): React.ReactEle
             }}
           />
         ))}
-        
+
         {/* Gold trim on inner edge */}
-        <div 
+        <div
           className={`absolute top-0 h-full w-[3px] ${isLeft ? "right-0" : "left-0"}`}
           style={{
             background: "linear-gradient(180deg, transparent 0%, rgba(245,158,11,0.4) 20%, rgba(217,119,6,0.6) 50%, rgba(245,158,11,0.4) 80%, transparent 100%)",
-            boxShadow: isLeft 
+            boxShadow: isLeft
               ? "0 0 20px rgba(245,158,11,0.3), 0 0 40px rgba(245,158,11,0.1)"
               : "0 0 20px rgba(245,158,11,0.3), 0 0 40px rgba(245,158,11,0.1)",
           }}
         />
-        
+
         {/* Gold decorative rope */}
         <motion.div
           className={`absolute top-[15%] h-[70%] w-[6px] ${isLeft ? "right-4" : "left-4"}`}
@@ -247,9 +247,9 @@ function RealisticCurtain({ side, isOpen, folds }: CurtainProps): React.ReactEle
             ease: "easeInOut",
           }}
         />
-        
+
         {/* Inner shadow for depth */}
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             boxShadow: isLeft
@@ -278,13 +278,13 @@ function SpotlightSystem({ mouseX, mouseY, isActive }: SpotlightSystemProps): Re
     [mouseX, mouseY],
     ([x, y]) => `radial-gradient(900px ellipse at ${50 + Number(x) * 3}% ${50 + Number(y) * 3}%, rgba(245, 158, 11, 0.15), transparent 60%)`
   );
-  
+
   // Secondary accent light
   const accentBg = useTransform(
     [mouseX, mouseY],
     ([x, y]) => `radial-gradient(600px circle at ${30 - Number(x) * 2}% ${70 - Number(y) * 2}%, rgba(217, 119, 6, 0.08), transparent 50%)`
   );
-  
+
   return (
     <>
       {/* Main warm spotlight */}
@@ -295,7 +295,7 @@ function SpotlightSystem({ mouseX, mouseY, isActive }: SpotlightSystemProps): Re
         animate={{ opacity: isActive ? 1 : 0 }}
         transition={{ duration: 1.5 }}
       />
-      
+
       {/* Secondary accent light */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-10"
@@ -304,7 +304,7 @@ function SpotlightSystem({ mouseX, mouseY, isActive }: SpotlightSystemProps): Re
         animate={{ opacity: isActive ? 0.7 : 0 }}
         transition={{ duration: 2, delay: 0.5 }}
       />
-      
+
       {/* Top stage light */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[50%]"
@@ -315,7 +315,7 @@ function SpotlightSystem({ mouseX, mouseY, isActive }: SpotlightSystemProps): Re
         animate={{ opacity: isActive ? 1 : 0 }}
         transition={{ duration: 2, delay: 0.3 }}
       />
-      
+
       {/* Lens flare effect */}
       <motion.div
         className="pointer-events-none absolute left-1/2 top-[20%] z-10 h-32 w-32 -translate-x-1/2"
@@ -324,7 +324,7 @@ function SpotlightSystem({ mouseX, mouseY, isActive }: SpotlightSystemProps): Re
           filter: "blur(20px)",
         }}
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ 
+        animate={{
           opacity: isActive ? [0, 0.6, 0.3] : 0,
           scale: isActive ? [0.5, 1.2, 1] : 0.5,
         }}
@@ -359,10 +359,10 @@ function DustSystem({ particles, isActive }: DustSystemProps): React.ReactElemen
             boxShadow: `0 0 ${particle.size * 3}px rgba(245,158,11,${particle.opacity * 0.5})`,
           }}
           animate={isActive ? {
-          y: [0, -200 - particle.rise, -400], // ⬅️ استخدم rise بدل Math.random()
-          x: [0, particle.drift, particle.drift * 1.5],
-          opacity: [0, particle.opacity, particle.opacity * 0.8, 0],
-          scale: [0.5, 1, 0.8, 0.3],
+            y: [0, -200 - particle.rise, -400], // ⬅️ استخدم rise بدل Math.random()
+            x: [0, particle.drift, particle.drift * 1.5],
+            opacity: [0, particle.opacity, particle.opacity * 0.8, 0],
+            scale: [0.5, 1, 0.8, 0.3],
           } : { opacity: 0 }}
           transition={{
             duration: particle.duration,
@@ -391,7 +391,7 @@ function SparkSystem({ particles, isActive }: SparkSystemProps): React.ReactElem
       {particles.map((particle) => {
         const endX = particle.startX + Math.cos(particle.angle * Math.PI / 180) * particle.distance / 10;
         const endY = particle.startY + Math.sin(particle.angle * Math.PI / 180) * particle.distance / 10;
-        
+
         return (
           <motion.div
             key={particle.id}
@@ -436,11 +436,11 @@ type AnimatedTitleProps = {
 function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
   const titleText = "OMREX";
   const subtitleText = ".STUDIO";
-  
+
   return (
     <motion.h1 className="relative mb-6 select-none">
       {/* Main title */}
-      <span className="block text-[2.8rem] font-bold leading-[1] tracking-tight sm:text-[4rem] lg:text-[5.5rem]">
+      <span className="block text-[2rem] font-bold leading-[1] tracking-tight xs:text-[2.8rem] sm:text-[4rem] lg:text-[5.5rem]">
         {/* OMREX */}
         <span className="relative inline-block">
           {titleText.split("").map((char, i) => (
@@ -448,9 +448,9 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
               key={i}
               className="relative inline-block text-[#f8fafc]"
               initial={{ opacity: 0, y: 50, rotateX: -90 }}
-              animate={isVisible ? { 
-                opacity: 1, 
-                y: 0, 
+              animate={isVisible ? {
+                opacity: 1,
+                y: 0,
                 rotateX: 0,
               } : {}}
               transition={{
@@ -466,7 +466,7 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
             </motion.span>
           ))}
         </span>
-        
+
         {/* .STUDIO with gold gradient */}
         <span className="relative inline-block">
           {subtitleText.split("").map((char, i) => (
@@ -481,9 +481,9 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
                 filter: "drop-shadow(0 0 30px rgba(245,158,11,0.4))",
               }}
               initial={{ opacity: 0, y: 50, rotateX: -90 }}
-              animate={isVisible ? { 
-                opacity: 1, 
-                y: 0, 
+              animate={isVisible ? {
+                opacity: 1,
+                y: 0,
                 rotateX: 0,
               } : {}}
               transition={{
@@ -497,7 +497,7 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
           ))}
         </span>
       </span>
-      
+
       {/* Animated underline */}
       <motion.div
         className="absolute -bottom-2 left-0 h-[2px] bg-gradient-to-r from-transparent via-[#f59e0b] to-transparent"
@@ -505,7 +505,7 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
         animate={isVisible ? { width: "100%", opacity: 1 } : {}}
         transition={{ duration: 1.2, delay: TIMING.contentDelay / 1000 + 0.8, ease: EASING }}
       />
-      
+
       {/* Glow pulse behind title */}
       <motion.div
         className="absolute left-1/2 top-1/2 -z-10 h-[200%] w-[150%] -translate-x-1/2 -translate-y-1/2"
@@ -514,7 +514,7 @@ function AnimatedTitle({ isVisible }: AnimatedTitleProps): React.ReactElement {
           filter: "blur(40px)",
         }}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={isVisible ? { 
+        animate={isVisible ? {
           opacity: [0, 0.6, 0.4],
           scale: [0.8, 1.1, 1],
         } : {}}
@@ -540,10 +540,10 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
   const buttonRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
+
   const springX = useSpring(x, SPRING_SNAPPY);
   const springY = useSpring(y, SPRING_SNAPPY);
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
     const rect = buttonRef.current.getBoundingClientRect();
@@ -552,14 +552,14 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
     x.set((e.clientX - centerX) * 0.2);
     y.set((e.clientY - centerY) * 0.2);
   };
-  
+
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
   };
-  
+
   const isPrimary = variant === "primary";
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -577,13 +577,12 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
           whileTap={{ scale: 0.97 }}
         >
           <motion.button
-            className={`group relative overflow-hidden rounded-full px-8 py-4 text-[0.75rem] font-semibold uppercase tracking-[0.2em] transition-all duration-500 sm:px-10 sm:py-5 ${
-              isPrimary
+            className={`group relative overflow-hidden rounded-full px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] transition-all duration-500 sm:px-10 sm:py-5 sm:text-[0.75rem] ${isPrimary
                 ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_50px_rgba(245,158,11,0.4)]"
                 : "border border-[#f59e0b]/40 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/80 hover:bg-[#f59e0b]/10"
-            }`}
+              }`}
             whileHover={{
-              boxShadow: isPrimary 
+              boxShadow: isPrimary
                 ? "0 0 80px rgba(245,158,11,0.6), 0 0 120px rgba(245,158,11,0.3)"
                 : "0 0 40px rgba(245,158,11,0.2)",
             }}
@@ -591,7 +590,7 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
             <span className="relative z-10 flex items-center gap-2">
               {children}
             </span>
-            
+
             {/* Animated shine effect */}
             {isPrimary && (
               <motion.div
@@ -604,7 +603,7 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               />
             )}
-            
+
             {/* Border glow for secondary */}
             {!isPrimary && (
               <motion.div
@@ -639,7 +638,7 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.8, ease: EASING, delay: 0.3 }}
       >
-        <motion.div 
+        <motion.div
           className="absolute bottom-0 left-0 right-0 h-[1px]"
           style={{
             background: "linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.3) 20%, rgba(245,158,11,0.5) 50%, rgba(245,158,11,0.3) 80%, transparent 100%)",
@@ -650,7 +649,7 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
-      
+
       {/* Bottom bar */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 z-30 h-14 bg-[#030303] sm:h-16 lg:h-20"
@@ -658,7 +657,7 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
         animate={{ y: isVisible ? 0 : 100 }}
         transition={{ duration: 0.8, ease: EASING, delay: 0.3 }}
       >
-        <motion.div 
+        <motion.div
           className="absolute left-0 right-0 top-0 h-[1px]"
           style={{
             background: "linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.3) 20%, rgba(245,158,11,0.5) 50%, rgba(245,158,11,0.3) 80%, transparent 100%)",
@@ -679,7 +678,7 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
 
 function FilmGrain(): React.ReactElement {
   return (
-    <motion.div 
+    <motion.div
       className="pointer-events-none absolute inset-0 z-50"
       style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -703,7 +702,7 @@ function FilmGrain(): React.ReactElement {
 
 function Vignette(): React.ReactElement {
   return (
-    <div 
+    <div
       className="pointer-events-none absolute inset-0 z-20"
       style={{
         background: `
@@ -734,7 +733,7 @@ function CinematicDetails({ isVisible }: CinematicDetailsProps): React.ReactElem
         transition={{ duration: 1, delay: 2.5, ease: EASING }}
       >
         <div className="flex items-center gap-3">
-          <motion.div 
+          <motion.div
             className="h-px w-10 bg-gradient-to-r from-[#f59e0b]/60 to-transparent"
             animate={{ width: [40, 60, 40] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -756,7 +755,7 @@ function CinematicDetails({ isVisible }: CinematicDetailsProps): React.ReactElem
           <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#52525b]">
             Jordan → Worldwide
           </span>
-          <motion.div 
+          <motion.div
             className="h-px w-10 bg-gradient-to-l from-[#f59e0b]/60 to-transparent"
             animate={{ width: [40, 60, 40] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -774,7 +773,7 @@ function CinematicDetails({ isVisible }: CinematicDetailsProps): React.ReactElem
         <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#52525b]">
           <motion.span
             className="h-2 w-2 rounded-full bg-[#f59e0b]"
-            animate={{ 
+            animate={{
               opacity: [1, 0.3, 1],
               boxShadow: [
                 "0 0 10px rgba(245,158,11,0.8)",
@@ -799,7 +798,7 @@ function CinematicDetails({ isVisible }: CinematicDetailsProps): React.ReactElem
       >
         <div className="text-right font-mono text-[9px] uppercase tracking-[0.2em]">
           <div className="text-[#52525b]">Scene 01 / 01</div>
-          <motion.div 
+          <motion.div
             className="text-[#f59e0b]"
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -808,7 +807,7 @@ function CinematicDetails({ isVisible }: CinematicDetailsProps): React.ReactElem
           </motion.div>
         </div>
       </motion.div>
-      
+
       {/* Frame corners */}
       <motion.div
         className="absolute left-6 top-20 z-40 hidden h-8 w-8 border-l-2 border-t-2 border-[#f59e0b]/20 lg:left-10 lg:top-24 lg:block"
@@ -856,7 +855,7 @@ function ScrollIndicator({ isVisible, onClick }: ScrollIndicatorProps): React.Re
       transition={{ duration: 1, delay: 3 }}
       onClick={onClick}
     >
-      <motion.div 
+      <motion.div
         className="flex flex-col items-center gap-4"
         animate={{ y: [0, 5, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -864,11 +863,11 @@ function ScrollIndicator({ isVisible, onClick }: ScrollIndicatorProps): React.Re
         <span className="text-[9px] uppercase tracking-[0.3em] text-[#71717a]">
           Scroll to explore
         </span>
-        
+
         <div className="relative flex h-12 w-7 items-start justify-center rounded-full border border-[#f59e0b]/30 p-2">
           <motion.div
             className="h-2 w-1.5 rounded-full bg-gradient-to-b from-[#f59e0b] to-[#d97706]"
-            animate={{ 
+            animate={{
               y: [0, 16, 0],
               opacity: [1, 0.5, 1],
             }}
@@ -877,7 +876,7 @@ function ScrollIndicator({ isVisible, onClick }: ScrollIndicatorProps): React.Re
               boxShadow: "0 0 10px rgba(245,158,11,0.6)",
             }}
           />
-          
+
           {/* Outer glow ring */}
           <motion.div
             className="absolute inset-0 rounded-full"
@@ -909,7 +908,7 @@ export default function CinematicHeroPro(): React.ReactElement {
     setMounted(true);
   }, []);
   // Pre-generated particles for consistency
-// Pre-generated particles for consistency (client-only)
+  // Pre-generated particles for consistency (client-only)
   const dustParticles = useMemo(
     () => (mounted ? generateDustParticles(DUST_PARTICLES) : []),
     [mounted]
@@ -921,16 +920,16 @@ export default function CinematicHeroPro(): React.ReactElement {
   );
 
   const curtainFolds = useMemo(() => generateCurtainFolds(12), []);
-  
+
   // Derived states
   const curtainsOpen = phase !== "loading" && phase !== "curtains";
   const contentVisible = phase === "reveal" || phase === "complete";
   const effectsActive = phase === "complete";
-  
+
   // Video handling
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  
+
   // Scroll handler
   const scrollToContent = useCallback(() => {
     window.scrollTo({
@@ -947,28 +946,28 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}
       {/* ============================================= */}
-      
+
       {/* Background Image بدل الفيديو */}
-<motion.div
-  className="absolute inset-0 z-0"
-  initial={{ opacity: 0, scale: 1.08 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 2.2, ease: EASING_SMOOTH }}
->
-  <Image
-    src="/images/hero/hero-bg.jpg"
-    alt="Cinematic hero background"
-    fill
-    priority
-    sizes="100vw"
-    className="object-contain bg-black"
-  />
+      <motion.div
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0, scale: 1.08 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2.2, ease: EASING_SMOOTH }}
+      >
+        <Image
+          src="/images/hero/hero-bg.jpg"
+          alt="Cinematic hero background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
 
-  {/* نفس أوفَرلايز تبعونك (خليهم) */}
-  <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/60 via-[#030303]/30 to-[#030303]/80" />
-  <div className="absolute inset-0 bg-[#030303]/20 mix-blend-multiply" />
+        {/* نفس أوفَرلايز تبعونك (خليهم) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/60 via-[#030303]/30 to-[#030303]/80" />
+        <div className="absolute inset-0 bg-[#030303]/20 mix-blend-multiply" />
 
-</motion.div>
+      </motion.div>
 
 
       {/* Fallback gradient background */}
@@ -981,20 +980,20 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* ============================================= */}
       {/* CINEMATIC CURTAINS */}
       {/* ============================================= */}
-      
+
       <RealisticCurtain side="left" isOpen={curtainsOpen} folds={curtainFolds} />
       <RealisticCurtain side="right" isOpen={curtainsOpen} folds={curtainFolds} />
 
       {/* ============================================= */}
       {/* LETTERBOX BARS */}
       {/* ============================================= */}
-      
+
       <Letterbox isVisible={curtainsOpen} />
 
       {/* ============================================= */}
       {/* LIGHTING & EFFECTS */}
       {/* ============================================= */}
-      
+
       <SpotlightSystem mouseX={mouseX} mouseY={mouseY} isActive={effectsActive} />
       <DustSystem particles={dustParticles} isActive={contentVisible} />
       <SparkSystem particles={sparkParticles} isActive={effectsActive} />
@@ -1002,9 +1001,9 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* ============================================= */}
       {/* MAIN CONTENT */}
       {/* ============================================= */}
-      
+
       <div className="relative z-30 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center"
           style={{
             x: useTransform(mouseX, (v) => v * -0.5),
@@ -1018,7 +1017,7 @@ export default function CinematicHeroPro(): React.ReactElement {
             animate={contentVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: TIMING.contentDelay / 1000, ease: EASING }}
           >
-            <motion.span 
+            <motion.span
               className="h-px w-10 bg-gradient-to-r from-transparent to-[#f59e0b]/60"
               animate={{ width: [40, 60, 40] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -1026,7 +1025,7 @@ export default function CinematicHeroPro(): React.ReactElement {
             <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-[#f59e0b]">
               ✦ Cinematic Web Studio ✦
             </span>
-            <motion.span 
+            <motion.span
               className="h-px w-10 bg-gradient-to-l from-transparent to-[#f59e0b]/60"
               animate={{ width: [40, 60, 40] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
@@ -1098,19 +1097,19 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* ============================================= */}
       {/* SCROLL INDICATOR */}
       {/* ============================================= */}
-      
+
       <ScrollIndicator isVisible={effectsActive} onClick={scrollToContent} />
 
       {/* ============================================= */}
       {/* CINEMATIC DETAILS */}
       {/* ============================================= */}
-      
+
       <CinematicDetails isVisible={effectsActive} />
 
       {/* ============================================= */}
       {/* OVERLAYS */}
       {/* ============================================= */}
-      
+
       <Vignette />
       <FilmGrain />
     </section>
