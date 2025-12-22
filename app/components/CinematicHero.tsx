@@ -861,7 +861,8 @@ type ScrollIndicatorProps = {
 function ScrollIndicator({ isVisible, onClick }: ScrollIndicatorProps): React.ReactElement {
   return (
     <motion.div
-      className="absolute bottom-28 left-1/2 z-40 -translate-x-1/2 cursor-pointer lg:bottom-32"
+      // mobile: Hide scroll indicator on small screens, show on md+
+      className="absolute bottom-28 left-1/2 z-40 -translate-x-1/2 cursor-pointer lg:bottom-32 hidden md:block"
       initial={{ opacity: 0 }}
       animate={isVisible ? { opacity: 1 } : {}}
       transition={{ duration: 1, delay: 3 }}
