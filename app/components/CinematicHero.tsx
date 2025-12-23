@@ -589,7 +589,7 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
           whileTap={{ scale: 0.97 }}
         >
           <motion.button
-            className={`group relative overflow-hidden rounded-full px-6 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.15em] transition-all duration-500 sm:px-10 sm:py-5 sm:text-[0.75rem] ${isPrimary
+            className={`group relative overflow-hidden rounded-full px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.12em] transition-all duration-500 sm:px-8 sm:py-4 sm:text-[0.7rem] md:px-10 md:py-5 md:text-[0.75rem] cursor-pointer ${isPrimary
               ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_50px_rgba(245,158,11,0.4)]"
               : "border border-[#f59e0b]/40 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/80 hover:bg-[#f59e0b]/10"
               }`}
@@ -643,9 +643,9 @@ type LetterboxProps = {
 function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
   return (
     <>
-      {/* Top bar */}
+      {/* Top bar - mobile: reduced height */}
       <motion.div
-        className="absolute left-0 right-0 top-0 z-30 h-14 bg-[#030303] sm:h-16 lg:h-20"
+        className="absolute left-0 right-0 top-0 z-30 h-10 bg-[#030303] sm:h-14 lg:h-20"
         initial={{ y: -100 }}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.8, ease: EASING, delay: 0.3 }}
@@ -662,9 +662,9 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
         />
       </motion.div>
 
-      {/* Bottom bar */}
+      {/* Bottom bar - mobile: reduced height */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-30 h-14 bg-[#030303] sm:h-16 lg:h-20"
+        className="absolute bottom-0 left-0 right-0 z-30 h-10 bg-[#030303] sm:h-14 lg:h-20"
         initial={{ y: 100 }}
         animate={{ y: isVisible ? 0 : 100 }}
         transition={{ duration: 0.8, ease: EASING, delay: 0.3 }}
