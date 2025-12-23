@@ -1200,11 +1200,11 @@ function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0] })
           />
         </motion.div>
 
-        {/* Gradient Overlay */}
+        {/* Gradient Overlay - Reduced for better visibility */}
         <motion.div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to top, ${THEME.colors.bg.primary} 0%, ${THEME.colors.bg.primary}80 40%, transparent 100%)` }}
-          animate={{ opacity: hovered ? 0.95 : 0.8 }}
+          style={{ background: `linear-gradient(to top, ${THEME.colors.bg.primary}cc 0%, ${THEME.colors.bg.primary}40 40%, transparent 100%)` }}
+          animate={{ opacity: hovered ? 0.85 : 0.7 }}
           transition={{ duration: 0.4 }}
         />
 
@@ -1327,10 +1327,10 @@ function GenderCard({ category }: { category: { id: string; label: string; subti
           <Image src={category.image} alt={category.label} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
         </motion.div>
 
-        {/* Overlay */}
+        {/* Overlay - Lighter for better visibility */}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to top, ${THEME.colors.bg.primary}cc 0%, transparent 60%)` }}
+          style={{ background: `linear-gradient(to top, ${THEME.colors.bg.primary}99 0%, transparent 50%)` }}
         />
 
         {/* Content */}
@@ -1408,7 +1408,7 @@ function IngredientsSection() {
             <motion.div
               key={ing.name}
               className="group relative overflow-hidden p-6 text-center backdrop-blur-md"
-              style={{ background: THEME.colors.bg.glass, border: `1px solid ${THEME.colors.border.subtle}` }}
+              style={{ background: 'rgba(28,26,32,0.85)', border: `1px solid ${THEME.colors.border.default}` }}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1 }}
