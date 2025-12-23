@@ -115,9 +115,9 @@ function StarRating({
   const [hoverRating, setHoverRating] = useState(0);
 
   const sizeClasses = {
-    sm: "text-lg gap-0.5",
-    md: "text-2xl gap-1",
-    lg: "text-3xl gap-1",
+    sm: "text-lg gap-1",
+    md: "text-2xl gap-1.5",
+    lg: "text-3xl gap-2",
   };
 
   return (
@@ -133,9 +133,9 @@ function StarRating({
             onClick={() => onRatingChange?.(star)}
             onMouseEnter={() => interactive && setHoverRating(star)}
             onMouseLeave={() => interactive && setHoverRating(0)}
-            className={`relative transition-all duration-200 ${interactive ? "cursor-pointer" : "cursor-default"
+            className={`relative transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center ${interactive ? "cursor-pointer" : "cursor-default"
               }`}
-            whileHover={interactive ? { scale: 1.2, y: -2 } : {}}
+            whileHover={interactive ? { scale: 1.15 } : {}}
             whileTap={interactive ? { scale: 0.9 } : {}}
           >
             {/* Glow effect for active stars */}
@@ -232,15 +232,16 @@ function ReviewCard({ review, isActive = true }: ReviewCardProps): React.ReactEl
   return (
     <SpotlightCard
       className={`h-full rounded-2xl border transition-all duration-500 ${isActive
-          ? `border-[${THEME.border.hover}] bg-[${THEME.bg.cardHover}]`
-          : `border-[${THEME.border.default}] bg-[${THEME.bg.card}]`
+        ? `border-[${THEME.border.hover}] bg-[${THEME.bg.cardHover}]`
+        : `border-[${THEME.border.default}] bg-[${THEME.bg.card}]`
         }`}
       style={{
         borderColor: isActive ? THEME.border.hover : THEME.border.default,
         background: isActive ? THEME.bg.cardHover : THEME.bg.card,
       }}
     >
-      <div className="relative p-6">
+      {/* mobile: Reduced padding on mobile */}
+      <div className="relative p-5 sm:p-6 md:p-8">
         {/* Quote mark */}
         <motion.div
           className="absolute -left-1 -top-2 text-[4rem] font-serif leading-none"
@@ -350,7 +351,8 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
 
   return (
     <SpotlightCard className="rounded-3xl border border-[#f59e0b]/10 bg-[#0a0a0a]/60 backdrop-blur-xl">
-      <div className="relative p-8">
+      {/* mobile: Reduced padding on mobile */}
+      <div className="relative p-5 sm:p-6 md:p-8">
         {/* Background decorations */}
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full blur-3xl"
@@ -362,7 +364,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
         />
 
         {/* Header */}
-        <div className="relative z-10 mb-8 text-center">
+        <div className="relative z-10 mb-6 sm:mb-8 text-center">
           <motion.div
             className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5"
             style={{
@@ -384,7 +386,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
             </span>
           </motion.div>
 
-          <h3 style={{ color: THEME.text.primary }} className="text-[1.4rem] font-semibold">
+          <h3 style={{ color: THEME.text.primary }} className="text-[1.2rem] sm:text-[1.4rem] font-semibold">
             Leave a Review
           </h3>
         </div>
@@ -410,7 +412,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
         </AnimatePresence>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
+        <form onSubmit={handleSubmit} className="relative z-10 space-y-5 sm:space-y-6">
           {/* Name Input */}
           <div>
             <label
@@ -427,7 +429,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
               required
-              className="w-full rounded-xl px-4 py-3.5 text-sm outline-none transition-all duration-300"
+              className="w-full rounded-xl px-4 py-3 sm:py-3.5 text-[16px] sm:text-sm outline-none transition-all duration-300"
               style={{
                 background: THEME.bg.input,
                 border: `1px solid ${THEME.border.default}`,
@@ -490,7 +492,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
               placeholder="Tell us about your experience..."
               required
               rows={4}
-              className="w-full resize-none rounded-xl px-4 py-3.5 text-sm outline-none transition-all duration-300"
+              className="w-full resize-none rounded-xl px-4 py-3 sm:py-3.5 text-[16px] sm:text-sm outline-none transition-all duration-300"
               style={{
                 background: THEME.bg.input,
                 border: `1px solid ${THEME.border.default}`,
@@ -507,7 +509,7 @@ function ReviewForm({ onSubmit }: ReviewFormProps): React.ReactElement {
           <motion.button
             type="submit"
             disabled={isSubmitting || !isValid}
-            className="group relative w-full overflow-hidden rounded-xl py-4 font-semibold uppercase tracking-[0.1em] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
+            className="group relative w-full overflow-hidden rounded-xl py-3.5 sm:py-4 font-semibold uppercase tracking-[0.1em] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
             style={{
               background: isValid
                 ? `linear-gradient(135deg, ${THEME.primary}, ${THEME.primaryDark})`
@@ -583,7 +585,7 @@ function ReviewStats({ totalReviews, averageRating }: ReviewStatsProps): React.R
       <div className="text-center">
         <div className="flex items-center justify-center gap-4">
           <motion.span
-            className="text-[3.5rem] font-bold tabular-nums"
+            className="text-[2.5rem] sm:text-[3.5rem] font-bold tabular-nums"
             style={{ color: THEME.text.primary }}
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -716,7 +718,7 @@ export default function CommunityReviews(): React.ReactElement {
             />
           </div>
 
-          // mobile: Smaller text on mobile
+          {/* mobile: Smaller text on mobile */}
           <h2 style={{ color: THEME.text.primary }} className="text-[1.5rem] font-semibold sm:text-[1.8rem] md:text-[2.2rem]">
             What people <span className="text-gradient-gold">think</span>
           </h2>
@@ -768,24 +770,28 @@ export default function CommunityReviews(): React.ReactElement {
 
                 {/* Navigation dots */}
                 {reviews.length > 1 && (
-                  <div className="absolute -bottom-8 left-1/2 flex -translate-x-1/2 gap-2">
+                  <div className="absolute -bottom-10 left-1/2 flex -translate-x-1/2 gap-1 sm:gap-2">
                     {reviews.slice(0, 5).map((_, index) => (
                       <motion.button
                         key={index}
                         onClick={() => setActiveIndex(index)}
-                        className="relative h-2 rounded-full transition-all duration-300"
-                        style={{
-                          width: index === activeIndex ? 24 : 8,
-                          background:
-                            index === activeIndex ? THEME.primary : THEME.text.dark,
-                          boxShadow:
-                            index === activeIndex
-                              ? `0 0 10px ${THEME.glow.medium}`
-                              : "none",
-                        }}
-                        whileHover={{ scale: 1.2 }}
+                        className="relative flex items-center justify-center min-w-[44px] min-h-[44px]"
+                        whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                      />
+                      >
+                        <span
+                          className="h-2.5 sm:h-2 rounded-full transition-all duration-300"
+                          style={{
+                            width: index === activeIndex ? 24 : 8,
+                            background:
+                              index === activeIndex ? THEME.primary : THEME.text.dark,
+                            boxShadow:
+                              index === activeIndex
+                                ? `0 0 10px ${THEME.glow.medium}`
+                                : "none",
+                          }}
+                        />
+                      </motion.button>
                     ))}
                   </div>
                 )}

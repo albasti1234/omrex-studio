@@ -113,8 +113,7 @@ export default function Footer(): React.ReactElement {
               </div>
 
               <motion.div
-                className="relative grid grid-cols-3 gap-4 sm:gap-6 text-left"
-                initial={{ opacity: 0, y: 30 }}
+                className="relative grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 text-left" initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, ease: EASING, delay: 0.2 }}
               >

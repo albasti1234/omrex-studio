@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, memo } from "react";
 import {
   motion,
   useInView,
   AnimatePresence,
   useMotionValue,
   useSpring,
+  useReducedMotion,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +24,6 @@ import CommunityReviews from "./components/CommunityReviews";
 const EASING = [0.16, 1, 0.3, 1] as const;
 const SPRING_CONFIG = { stiffness: 150, damping: 15, mass: 0.1 };
 
-// 🎨 AMBER/GOLD THEME COLORS
 const THEME = {
   primary: "#f59e0b",
   primaryLight: "#fbbf24",
@@ -145,20 +145,53 @@ const PROCESS_STEPS = [
 // CUSTOM HOOKS
 // =============================================================================
 
-function useMousePosition() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+// ✅ Enhanced: Touch device detection
+function useDeviceDetection() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkDevice = () => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
+  return { isTouchDevice, isMobile };
+}
+
+// ✅ Enhanced: Mouse position with touch support
+function useMousePosition() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const { isTouchDevice } = useDeviceDetection();
+
+  useEffect(() => {
+    if (isTouchDevice) return;
+
     const handleMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener("mousemove", handleMove);
-    return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
 
-  return position;
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [isTouchDevice]);
+
+  return { position, isTouchDevice };
 }
 
+// ✅ Enhanced: Reduce motion on mobile
+function useShouldReduceMotion() {
+  const prefersReducedMotion = useReducedMotion();
+  const { isMobile } = useDeviceDetection();
+
+  return prefersReducedMotion || isMobile;
+}
+
+// Count up animation
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
@@ -185,130 +218,108 @@ function useCountUp(target: number, duration: number = 2000) {
 // SUB-COMPONENTS
 // =============================================================================
 
-// -----------------------------------------------------------------------------
-// Spotlight Card (Amber Theme)
-// -----------------------------------------------------------------------------
-
-type SpotlightCardProps = {
-  readonly children: React.ReactNode;
-  readonly className?: string;
-};
-
-function SpotlightCard({
+// ✅ Optimized: Spotlight Card with touch support
+const SpotlightCard = memo(function SpotlightCard({
   children,
   className = "",
-}: SpotlightCardProps): React.ReactElement {
+}: {
+  readonly children: React.ReactNode;
+  readonly className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const { isTouchDevice } = useDeviceDetection();
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isTouchDevice || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     setPosition({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     });
-  };
+  }, [isTouchDevice]);
 
   return (
     <div
       ref={ref}
       className={`relative overflow-hidden ${className}`}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => !isTouchDevice && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Spotlight */}
-      <motion.div
-        className="pointer-events-none absolute -inset-px z-0 opacity-0 transition-opacity duration-300"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        style={{
-          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${THEME.glow}, transparent 40%)`,
-        }}
-      />
-      {/* Border glow */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] opacity-0"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        style={{
-          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${THEME.glow}, transparent 40%)`,
-          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-          maskComposite: "xor",
-          WebkitMaskComposite: "xor",
-          padding: "1px",
-        }}
-      />
+      {/* Spotlight - Desktop only */}
+      {!isTouchDevice && (
+        <motion.div
+          className="pointer-events-none absolute -inset-px z-0"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${THEME.glow}, transparent 40%)`,
+          }}
+        />
+      )}
       <div className="relative z-20">{children}</div>
     </div>
   );
-}
+});
 
-// -----------------------------------------------------------------------------
-// Magnetic Button (Amber Theme)
-// -----------------------------------------------------------------------------
-
-type MagneticButtonProps = {
-  readonly children: React.ReactNode;
-  readonly className?: string;
-  readonly href?: string;
-  readonly variant?: "primary" | "secondary";
-};
-
-function MagneticButton({
+// ✅ Optimized: Magnetic Button with touch support
+const MagneticButton = memo(function MagneticButton({
   children,
   className = "",
   href,
   variant = "primary",
-}: MagneticButtonProps): React.ReactElement {
+}: {
+  readonly children: React.ReactNode;
+  readonly className?: string;
+  readonly href?: string;
+  readonly variant?: "primary" | "secondary";
+}) {
   const ref = useRef<HTMLDivElement>(null);
+  const { isTouchDevice } = useDeviceDetection();
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-
   const springX = useSpring(x, SPRING_CONFIG);
   const springY = useSpring(y, SPRING_CONFIG);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isTouchDevice || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     x.set((e.clientX - centerX) * 0.2);
     y.set((e.clientY - centerY) * 0.2);
-  };
+  }, [isTouchDevice, x, y]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     x.set(0);
     y.set(0);
-  };
+  }, [x, y]);
 
   const isPrimary = variant === "primary";
-
-  const buttonClasses = isPrimary
-    ? `bg-gradient-to-r from-[${THEME.primary}] via-[${THEME.primaryLight}] to-[${THEME.primary}] text-[#030303] shadow-[0_0_40px_rgba(${THEME.primaryRgb},0.3)]`
-    : `border border-[${THEME.primary}]/30 bg-transparent text-[${THEME.text.primary}] hover:border-[${THEME.primary}]/60 hover:bg-[${THEME.primary}]/10`;
 
   const content = (
     <motion.div
       ref={ref}
       className={`relative ${className}`}
-      style={{ x: springX, y: springY }}
+      style={isTouchDevice ? {} : { x: springX, y: springY }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       <button
-        className={`group relative overflow-hidden rounded-full px-8 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${
-          isPrimary
+        className={`group relative overflow-hidden rounded-full px-8 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${isPrimary
             ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:shadow-[0_0_60px_rgba(245,158,11,0.5)]"
             : "border border-[#f59e0b]/30 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/60 hover:bg-[#f59e0b]/10"
-        }`}
+          }`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
 
-        {/* Shine effect for primary */}
-        {isPrimary && (
+        {/* Shine effect - Desktop only */}
+        {isPrimary && !isTouchDevice && (
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
             initial={{ x: "-100%" }}
@@ -321,42 +332,77 @@ function MagneticButton({
   );
 
   if (href) {
-    return (
-      <Link href={href} className="group">
-        {content}
-      </Link>
-    );
+    return <Link href={href}>{content}</Link>;
   }
 
   return content;
-}
+});
+
+// ✅ NEW: Film Grain - Desktop only
+const FilmGrain = memo(function FilmGrain() {
+  const { isMobile } = useDeviceDetection();
+
+  if (isMobile) return null;
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-40 opacity-[0.02]"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+      }}
+    />
+  );
+});
+
+// ✅ NEW: Cursor Glow - Desktop only
+const CursorGlow = memo(function CursorGlow({
+  position
+}: {
+  position: { x: number; y: number }
+}) {
+  const { isTouchDevice } = useDeviceDetection();
+
+  if (isTouchDevice) return null;
+
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-50 transition-opacity duration-300"
+      style={{
+        background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(${THEME.primaryRgb}, 0.04), transparent 40%)`,
+      }}
+    />
+  );
+});
 
 // =============================================================================
 // SECTIONS
 // =============================================================================
 
 // -----------------------------------------------------------------------------
-// Stats Section (Amber Theme)
+// Stats Section
 // -----------------------------------------------------------------------------
 
-function StatsSection(): React.ReactElement {
+function StatsSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { isMobile } = useDeviceDetection();
 
   return (
-    <section ref={ref} className="relative px-4 py-20 sm:px-6 lg:px-8">
-      {/* Background accent */}
-      <div className="pointer-events-none absolute inset-0">
-        <div
-          className="absolute left-1/2 top-1/2 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2"
-          style={{
-            background: `radial-gradient(ellipse at center, rgba(${THEME.primaryRgb}, 0.03), transparent 60%)`,
-          }}
-        />
-      </div>
+    <section ref={ref} className="relative px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
+      {/* Background accent - Desktop only */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute left-1/2 top-1/2 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2"
+            style={{
+              background: `radial-gradient(ellipse at center, rgba(${THEME.primaryRgb}, 0.03), transparent 60%)`,
+            }}
+          />
+        </div>
+      )}
 
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:gap-12">
           {STATS.map((stat, index) => (
             <StatItem
               key={stat.label}
@@ -373,108 +419,107 @@ function StatsSection(): React.ReactElement {
   );
 }
 
-type StatItemProps = {
-  readonly value: number;
-  readonly suffix: string;
-  readonly label: string;
-  readonly index: number;
-  readonly isInView: boolean;
-};
-
-function StatItem({
+const StatItem = memo(function StatItem({
   value,
   suffix,
   label,
   index,
   isInView,
-}: StatItemProps): React.ReactElement {
+}: {
+  readonly value: number;
+  readonly suffix: string;
+  readonly label: string;
+  readonly index: number;
+  readonly isInView: boolean;
+}) {
   const { count, start } = useCountUp(value, 2000);
+  const shouldReduceMotion = useShouldReduceMotion();
 
   useEffect(() => {
     if (isInView) {
-      const timer = setTimeout(() => start(), index * 200);
+      const timer = setTimeout(() => start(), shouldReduceMotion ? 0 : index * 200);
       return () => clearTimeout(timer);
     }
-  }, [isInView, start, index]);
+  }, [isInView, start, index, shouldReduceMotion]);
 
   return (
     <motion.div
       className="group relative text-center"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : index * 0.1 }}
     >
-      {/* Glow on hover */}
-      <div
-        className="absolute inset-0 -z-10 rounded-2xl blur-2xl transition-all duration-500"
-        style={{
-          background: `rgba(${THEME.primaryRgb}, 0)`,
-        }}
-      />
-
       <div className="relative">
         <span
-          className="block text-[2.5rem] font-semibold tabular-nums sm:text-[3rem]"
+          className="block text-[2rem] font-semibold tabular-nums sm:text-[2.5rem] lg:text-[3rem]"
           style={{ color: THEME.text.primary }}
         >
           {Math.round(count)}
           {suffix}
         </span>
         <span
-          className="mt-1 block text-[0.7rem] uppercase tracking-[0.2em]"
+          className="mt-1 block text-[0.65rem] uppercase tracking-[0.15em] sm:text-[0.7rem] sm:tracking-[0.2em]"
           style={{ color: THEME.text.muted }}
         >
           {label}
         </span>
       </div>
 
-      {/* Underline animation */}
-      <motion.div
-        className="mx-auto mt-4 h-[2px] w-0"
+      {/* Underline - shows on tap/hover */}
+      <div
+        className="mx-auto mt-3 h-[2px] w-0 transition-all duration-300 group-hover:w-16 sm:mt-4 sm:group-hover:w-20"
         style={{
           background: `linear-gradient(90deg, transparent, ${THEME.primary}, transparent)`,
         }}
-        whileHover={{ width: "80%" }}
-        transition={{ duration: 0.3 }}
       />
     </motion.div>
   );
-}
+});
 
 // -----------------------------------------------------------------------------
-// Services Section (Amber Theme)
+// Services Section
 // -----------------------------------------------------------------------------
 
-function ServicesSection(): React.ReactElement {
+function ServicesSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const { isTouchDevice } = useDeviceDetection();
+  const shouldReduceMotion = useShouldReduceMotion();
+
+  const handleInteraction = useCallback((id: string) => {
+    if (isTouchDevice) {
+      setActiveId((prev) => (prev === id ? null : id));
+    } else {
+      setActiveId(id);
+    }
+  }, [isTouchDevice]);
 
   return (
-    <section ref={ref} className="relative px-4 py-24 sm:px-6 lg:px-8">
+    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-12 text-center sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="mb-4 flex items-center justify-center gap-3">
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, transparent, rgba(${THEME.primaryRgb}, 0.5))`,
               }}
             />
             <span
-              className="text-[11px] uppercase tracking-[0.3em]"
+              className="text-[10px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
               style={{ color: THEME.primary }}
             >
               Services
             </span>
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, rgba(${THEME.primaryRgb}, 0.5), transparent)`,
               }}
@@ -482,7 +527,7 @@ function ServicesSection(): React.ReactElement {
           </div>
 
           <h2
-            className="text-[1.8rem] font-semibold sm:text-[2.2rem]"
+            className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.2rem]"
             style={{ color: THEME.text.primary }}
           >
             What we <span className="text-gradient-gold">create</span>
@@ -490,51 +535,48 @@ function ServicesSection(): React.ReactElement {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {SERVICES.map((service, index) => (
             <motion.div
               key={service.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + index * 0.1 }}
-              onMouseEnter={() => setHoveredId(service.id)}
-              onMouseLeave={() => setHoveredId(null)}
+              transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : 0.1 + index * 0.1 }}
+              onMouseEnter={() => !isTouchDevice && setActiveId(service.id)}
+              onMouseLeave={() => !isTouchDevice && setActiveId(null)}
+              onClick={() => isTouchDevice && handleInteraction(service.id)}
             >
               <SpotlightCard
-                className={`group h-full rounded-2xl border p-6 transition-all duration-300 ${
-                  hoveredId === service.id
+                className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeId === service.id
                     ? "border-[#f59e0b]/40 bg-[#0a0a0a]/80"
                     : "border-white/5 bg-[#0a0a0a]/40"
-                }`}
+                  }`}
               >
                 {/* Icon */}
-                <motion.div
-                  className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border text-2xl"
+                <div
+                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border text-xl transition-all duration-300 sm:mb-6 sm:h-14 sm:w-14 sm:text-2xl"
                   style={{
                     borderColor:
-                      hoveredId === service.id
+                      activeId === service.id
                         ? `rgba(${THEME.primaryRgb}, 0.5)`
                         : "rgba(255,255,255,0.1)",
                     background:
-                      hoveredId === service.id
+                      activeId === service.id
                         ? `rgba(${THEME.primaryRgb}, 0.1)`
                         : "rgba(255,255,255,0.02)",
                     color:
-                      hoveredId === service.id
+                      activeId === service.id
                         ? THEME.primary
                         : THEME.text.secondary,
+                    transform: activeId === service.id ? "scale(1.1)" : "scale(1)",
                   }}
-                  animate={{
-                    scale: hoveredId === service.id ? 1.1 : 1,
-                  }}
-                  transition={{ duration: 0.3 }}
                 >
                   {service.icon}
-                </motion.div>
+                </div>
 
                 {/* Title */}
                 <h3
-                  className="mb-3 text-[1.1rem] font-semibold"
+                  className="mb-2 text-[1rem] font-semibold sm:mb-3 sm:text-[1.1rem]"
                   style={{ color: THEME.text.primary }}
                 >
                   {service.title}
@@ -542,18 +584,18 @@ function ServicesSection(): React.ReactElement {
 
                 {/* Description */}
                 <p
-                  className="mb-4 text-[0.85rem] leading-relaxed"
+                  className="mb-3 text-[0.8rem] leading-relaxed sm:mb-4 sm:text-[0.85rem]"
                   style={{ color: THEME.text.secondary }}
                 >
                   {service.description}
                 </p>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {service.features.map((feature) => (
                     <span
                       key={feature}
-                      className="rounded-full px-2.5 py-1 text-[9px] uppercase tracking-[0.1em]"
+                      className="rounded-full px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:px-2.5 sm:py-1 sm:text-[9px]"
                       style={{
                         background: `rgba(${THEME.primaryRgb}, 0.1)`,
                         color: THEME.primary,
@@ -574,13 +616,15 @@ function ServicesSection(): React.ReactElement {
 }
 
 // -----------------------------------------------------------------------------
-// Testimonials Section (Amber Theme)
+// Testimonials Section
 // -----------------------------------------------------------------------------
 
-function TestimonialsSection(): React.ReactElement {
+function TestimonialsSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
+  const { isMobile } = useDeviceDetection();
+  const shouldReduceMotion = useShouldReduceMotion();
 
   // Auto-rotate
   useEffect(() => {
@@ -591,41 +635,43 @@ function TestimonialsSection(): React.ReactElement {
   }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
-      {/* Background glow */}
-      <motion.div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2"
-        style={{
-          background: `radial-gradient(circle, rgba(${THEME.primaryRgb}, 0.05), transparent 50%)`,
-          filter: "blur(80px)",
-        }}
-        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      />
+    <section ref={ref} className="relative overflow-hidden px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
+      {/* Background glow - Desktop only */}
+      {!isMobile && !shouldReduceMotion && (
+        <motion.div
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 sm:h-[600px] sm:w-[600px]"
+          style={{
+            background: `radial-gradient(circle, rgba(${THEME.primaryRgb}, 0.05), transparent 50%)`,
+            filter: "blur(60px)",
+          }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+      )}
 
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-10 text-center sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="mb-4 flex items-center justify-center gap-3">
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, transparent, rgba(${THEME.primaryRgb}, 0.5))`,
               }}
             />
             <span
-              className="text-[11px] uppercase tracking-[0.3em]"
+              className="text-[10px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
               style={{ color: THEME.primary }}
             >
               Testimonials
             </span>
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, rgba(${THEME.primaryRgb}, 0.5), transparent)`,
               }}
@@ -633,58 +679,49 @@ function TestimonialsSection(): React.ReactElement {
           </div>
 
           <h2
-            className="text-[1.8rem] font-semibold sm:text-[2.2rem]"
+            className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.2rem]"
             style={{ color: THEME.text.primary }}
           >
             What clients <span className="text-gradient-gold">say</span>
           </h2>
         </motion.div>
 
-        {/* Testimonial Cards */}
-        <div className="relative h-[380px] sm:h-[320px]">
+        {/* ✅ FIX: Dynamic height instead of fixed */}
+        <div className="relative min-h-[300px] sm:min-h-[280px]">
           <AnimatePresence mode="popLayout">
             {TESTIMONIALS.map((testimonial, index) => {
               const isActive = index === activeIndex;
-              const offset = index - activeIndex;
+              if (!isActive) return null;
 
               return (
                 <motion.div
                   key={testimonial.id}
                   className="absolute inset-0"
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                  animate={{
-                    opacity: isActive ? 1 : 0.3,
-                    y: offset * 20,
-                    scale: 1 - Math.abs(offset) * 0.05,
-                    zIndex: TESTIMONIALS.length - Math.abs(offset),
-                  }}
-                  exit={{ opacity: 0, y: -50 }}
-                  transition={{ duration: 0.5, ease: EASING }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.4 }}
                 >
-                  <SpotlightCard
-                    className="h-full rounded-3xl border border-[#f59e0b]/15 bg-[#0a0a0a]/80 p-8 backdrop-blur-xl sm:p-12"
-                  >
+                  <SpotlightCard className="h-full rounded-2xl border border-[#f59e0b]/15 bg-[#0a0a0a]/80 p-6 backdrop-blur-xl sm:rounded-3xl sm:p-8 lg:p-12">
                     <div className="flex h-full flex-col items-center justify-center text-center">
                       {/* Quote icon */}
-                      <motion.div
-                        className="mb-6 text-[4rem] leading-none"
+                      <div
+                        className="mb-4 text-[2.5rem] leading-none sm:mb-6 sm:text-[4rem]"
                         style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
-                        animate={{ y: [0, -5, 0] }}
-                        transition={{ duration: 3, repeat: Infinity }}
                       >
                         "
-                      </motion.div>
+                      </div>
 
                       <blockquote
-                        className="text-[1.1rem] leading-relaxed sm:text-[1.25rem]"
+                        className="text-[0.95rem] leading-relaxed sm:text-[1.1rem] lg:text-[1.25rem]"
                         style={{ color: THEME.text.primary }}
                       >
                         {testimonial.quote}
                       </blockquote>
 
-                      <div className="mt-8 flex items-center gap-4">
+                      <div className="mt-6 flex items-center gap-3 sm:mt-8 sm:gap-4">
                         <div
-                          className="relative h-14 w-14 overflow-hidden rounded-full border-2"
+                          className="relative h-11 w-11 overflow-hidden rounded-full border-2 sm:h-14 sm:w-14"
                           style={{ borderColor: `rgba(${THEME.primaryRgb}, 0.3)` }}
                         >
                           <Image
@@ -693,23 +730,16 @@ function TestimonialsSection(): React.ReactElement {
                             fill
                             className="object-cover"
                           />
-                          {/* Ring animation */}
-                          <motion.div
-                            className="absolute inset-0 rounded-full border-2"
-                            style={{ borderColor: `rgba(${THEME.primaryRgb}, 0.5)` }}
-                            animate={{ scale: [1, 1.2, 1], opacity: [1, 0, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          />
                         </div>
                         <div className="text-left">
                           <div
-                            className="font-semibold"
+                            className="text-[0.9rem] font-semibold sm:text-base"
                             style={{ color: THEME.text.primary }}
                           >
                             {testimonial.author}
                           </div>
                           <div
-                            className="text-[0.8rem]"
+                            className="text-[0.75rem] sm:text-[0.8rem]"
                             style={{ color: THEME.text.muted }}
                           >
                             {testimonial.role}
@@ -724,33 +754,25 @@ function TestimonialsSection(): React.ReactElement {
           </AnimatePresence>
         </div>
 
-        {/* Navigation */}
-        <div className="mt-8 flex items-center justify-center gap-4">
+        {/* ✅ FIX: Larger touch targets for navigation dots */}
+        <div className="mt-6 flex items-center justify-center gap-1 sm:mt-8 sm:gap-2">
           {TESTIMONIALS.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className="group relative h-3 w-3"
+              className="group relative flex h-11 w-11 items-center justify-center"
+              aria-label={`Go to testimonial ${index + 1}`}
             >
               <span
-                className="absolute inset-0 rounded-full transition-all duration-300"
+                className="h-2.5 w-2.5 rounded-full transition-all duration-300 sm:h-3 sm:w-3"
                 style={{
-                  background:
-                    index === activeIndex ? THEME.primary : THEME.text.dark,
+                  background: index === activeIndex ? THEME.primary : THEME.text.dark,
+                  transform: index === activeIndex ? "scale(1.2)" : "scale(1)",
                 }}
               />
-              {index === activeIndex && (
+              {index === activeIndex && !shouldReduceMotion && (
                 <motion.span
-                  className="absolute inset-0 rounded-full"
-                  style={{ background: THEME.primary }}
-                  layoutId="activeTestimonial"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-              {/* Pulse on active */}
-              {index === activeIndex && (
-                <motion.span
-                  className="absolute inset-0 rounded-full"
+                  className="absolute h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3"
                   style={{ background: THEME.primary }}
                   animate={{ scale: [1, 2], opacity: [0.5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -765,39 +787,49 @@ function TestimonialsSection(): React.ReactElement {
 }
 
 // -----------------------------------------------------------------------------
-// Process Section (Amber Theme)
+// Process Section
 // -----------------------------------------------------------------------------
 
-function ProcessSection(): React.ReactElement {
+function ProcessSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const { isTouchDevice, isMobile } = useDeviceDetection();
+  const shouldReduceMotion = useShouldReduceMotion();
+
+  const handleInteraction = useCallback((index: number) => {
+    if (isTouchDevice) {
+      setActiveStep((prev) => (prev === index ? null : index));
+    } else {
+      setActiveStep(index);
+    }
+  }, [isTouchDevice]);
 
   return (
-    <section ref={ref} className="relative px-4 py-24 sm:px-6 lg:px-8">
+    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
-          className="mb-16 text-center"
-          initial={{ opacity: 0, y: 30 }}
+          className="mb-12 text-center sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="mb-4 flex items-center justify-center gap-3">
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, transparent, rgba(${THEME.primaryRgb}, 0.5))`,
               }}
             />
             <span
-              className="text-[11px] uppercase tracking-[0.3em]"
+              className="text-[10px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
               style={{ color: THEME.primary }}
             >
               Process
             </span>
             <span
-              className="h-px w-12"
+              className="h-px w-8 sm:w-12"
               style={{
                 background: `linear-gradient(90deg, rgba(${THEME.primaryRgb}, 0.5), transparent)`,
               }}
@@ -805,7 +837,7 @@ function ProcessSection(): React.ReactElement {
           </div>
 
           <h2
-            className="text-[1.8rem] font-semibold sm:text-[2.2rem]"
+            className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.2rem]"
             style={{ color: THEME.text.primary }}
           >
             How we <span className="text-gradient-gold">work</span>
@@ -814,114 +846,98 @@ function ProcessSection(): React.ReactElement {
 
         {/* Steps */}
         <div className="relative">
-          {/* Connection line */}
-          <motion.div
-            className="absolute left-0 right-0 top-[60px] hidden h-[2px] lg:block"
-            style={{
-              background: `linear-gradient(90deg, transparent 10%, rgba(${THEME.primaryRgb}, 0.2) 30%, rgba(${THEME.primaryRgb}, 0.2) 70%, transparent 90%)`,
-            }}
-            initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 1.5, delay: 0.5 }}
-          />
+          {/* Connection line - Desktop only */}
+          {!isMobile && (
+            <motion.div
+              className="absolute left-0 right-0 top-[60px] hidden h-[2px] lg:block"
+              style={{
+                background: `linear-gradient(90deg, transparent 10%, rgba(${THEME.primaryRgb}, 0.2) 30%, rgba(${THEME.primaryRgb}, 0.2) 70%, transparent 90%)`,
+              }}
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : {}}
+              transition={{ duration: shouldReduceMotion ? 0 : 1.5, delay: 0.5 }}
+            />
+          )}
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {PROCESS_STEPS.map((step, index) => (
               <motion.div
                 key={step.number}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
-                onMouseEnter={() => setHoveredStep(index)}
-                onMouseLeave={() => setHoveredStep(null)}
+                transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : 0.2 + index * 0.1 }}
+                onMouseEnter={() => !isTouchDevice && setActiveStep(index)}
+                onMouseLeave={() => !isTouchDevice && setActiveStep(null)}
+                onClick={() => isTouchDevice && handleInteraction(index)}
               >
                 <SpotlightCard
-                  className={`group h-full rounded-2xl border p-6 transition-all duration-300 ${
-                    hoveredStep === index
+                  className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeStep === index
                       ? "border-[#f59e0b]/30 bg-[#0a0a0a]/80"
                       : "border-white/5 bg-[#0a0a0a]/40"
-                  }`}
+                    }`}
                 >
                   {/* Step indicator */}
-                  <div className="relative mb-6 flex items-center justify-center">
-                    <motion.div
-                      className="relative flex h-16 w-16 items-center justify-center rounded-full border"
+                  <div className="relative mb-4 flex items-center justify-center sm:mb-6">
+                    <div
+                      className="relative flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-300 sm:h-16 sm:w-16"
                       style={{
                         borderColor:
-                          hoveredStep === index
+                          activeStep === index
                             ? `rgba(${THEME.primaryRgb}, 0.5)`
                             : "rgba(255,255,255,0.1)",
                         background: "rgba(10,10,10,0.5)",
+                        transform: activeStep === index ? "scale(1.1)" : "scale(1)",
                       }}
-                      animate={{
-                        scale: hoveredStep === index ? 1.1 : 1,
-                      }}
-                      transition={{ duration: 0.3 }}
                     >
-                      {/* Animated ring */}
-                      {hoveredStep === index && (
-                        <motion.div
-                          className="absolute inset-0 rounded-full border-2"
-                          style={{ borderColor: `rgba(${THEME.primaryRgb}, 0.5)` }}
-                          initial={{ scale: 1, opacity: 1 }}
-                          animate={{ scale: 1.5, opacity: 0 }}
-                          transition={{ duration: 1, repeat: Infinity }}
-                        />
-                      )}
                       <span
-                        className="text-[1.5rem]"
+                        className="text-xl transition-colors duration-300 sm:text-[1.5rem]"
                         style={{
                           color:
-                            hoveredStep === index
+                            activeStep === index
                               ? THEME.primary
                               : THEME.text.secondary,
                         }}
                       >
                         {step.icon}
                       </span>
-                    </motion.div>
+                    </div>
 
-                    {/* Connection dot */}
-                    <motion.div
-                      className="absolute -bottom-3 left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full lg:block"
-                      style={{ background: THEME.primary }}
-                      animate={{
-                        scale: hoveredStep === index ? [1, 1.5, 1] : 1,
-                        boxShadow:
-                          hoveredStep === index
-                            ? `0 0 20px rgba(${THEME.primaryRgb}, 0.8)`
-                            : "none",
-                      }}
-                      transition={{
-                        duration: 0.5,
-                        repeat: hoveredStep === index ? Infinity : 0,
-                      }}
-                    />
+                    {/* Connection dot - Desktop only */}
+                    {!isMobile && (
+                      <div
+                        className="absolute -bottom-3 left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full transition-all duration-300 lg:block"
+                        style={{
+                          background: THEME.primary,
+                          boxShadow:
+                            activeStep === index
+                              ? `0 0 15px rgba(${THEME.primaryRgb}, 0.8)`
+                              : "none",
+                        }}
+                      />
+                    )}
                   </div>
 
                   {/* Number */}
-                  <motion.div
-                    className="mb-2 text-[2.5rem] font-bold transition-colors"
+                  <div
+                    className="mb-2 text-[2rem] font-bold transition-colors duration-300 sm:text-[2.5rem]"
                     style={{
                       color:
-                        hoveredStep === index
+                        activeStep === index
                           ? `rgba(${THEME.primaryRgb}, 0.2)`
                           : "rgba(255,255,255,0.05)",
                     }}
-                    animate={{ y: hoveredStep === index ? -5 : 0 }}
-                    transition={{ duration: 0.3 }}
                   >
                     {step.number}
-                  </motion.div>
+                  </div>
 
                   <h3
-                    className="mb-2 text-[1.1rem] font-semibold"
+                    className="mb-2 text-[1rem] font-semibold sm:text-[1.1rem]"
                     style={{ color: THEME.text.primary }}
                   >
                     {step.title}
                   </h3>
                   <p
-                    className="text-[0.85rem] leading-relaxed"
+                    className="text-[0.8rem] leading-relaxed sm:text-[0.85rem]"
                     style={{ color: THEME.text.secondary }}
                   >
                     {step.description}
@@ -937,77 +953,96 @@ function ProcessSection(): React.ReactElement {
 }
 
 // -----------------------------------------------------------------------------
-// CTA Section (Amber Theme)
+// CTA Section
 // -----------------------------------------------------------------------------
 
-function CTASection(): React.ReactElement {
+function CTASection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const { isTouchDevice, isMobile } = useDeviceDetection();
+  const shouldReduceMotion = useShouldReduceMotion();
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouchDevice) return;
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     });
-  };
+  }, [isTouchDevice]);
 
   return (
-    <section ref={ref} className="relative px-4 py-24 sm:px-6 lg:px-8">
+    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           onMouseMove={handleMouseMove}
-          className="relative overflow-hidden rounded-[2.5rem] border border-[#f59e0b]/20 bg-[#0a0a0a]/60 backdrop-blur-xl"
+          className="relative overflow-hidden rounded-2xl border border-[#f59e0b]/20 bg-[#0a0a0a]/60 backdrop-blur-xl sm:rounded-[2.5rem]"
         >
-          {/* Animated background gradient */}
-          <motion.div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(${THEME.primaryRgb}, 0.1), transparent 40%)`,
-            }}
-          />
+          {/* Mouse follow gradient - Desktop only */}
+          {!isTouchDevice && (
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(${THEME.primaryRgb}, 0.1), transparent 40%)`,
+              }}
+            />
+          )}
 
-          {/* Floating orbs */}
-          <motion.div
-            className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full blur-3xl"
-            style={{ background: `rgba(${THEME.primaryRgb}, 0.2)` }}
-            animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
-          <motion.div
-            className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full blur-3xl"
-            style={{ background: `rgba(${THEME.primaryRgb}, 0.15)` }}
-            animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
+          {/* Floating orbs - Desktop only, reduced motion respected */}
+          {!isMobile && !shouldReduceMotion && (
+            <>
+              <motion.div
+                className="pointer-events-none absolute -left-20 -top-20 h-32 w-32 rounded-full sm:h-40 sm:w-40"
+                style={{
+                  background: `rgba(${THEME.primaryRgb}, 0.15)`,
+                  filter: "blur(40px)",
+                }}
+                animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
+                transition={{ duration: 8, repeat: Infinity }}
+              />
+              <motion.div
+                className="pointer-events-none absolute -bottom-20 -right-20 h-32 w-32 rounded-full sm:h-40 sm:w-40"
+                style={{
+                  background: `rgba(${THEME.primaryRgb}, 0.1)`,
+                  filter: "blur(40px)",
+                }}
+                animate={{ x: [0, -20, 0], y: [0, -15, 0] }}
+                transition={{ duration: 10, repeat: Infinity }}
+              />
+            </>
+          )}
 
-          <div className="relative px-6 py-16 text-center sm:px-12 sm:py-20">
-            {/* Decorative elements */}
-            <motion.div
-              className="absolute left-8 top-8 text-[2rem]"
-              style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              ✦
-            </motion.div>
-            <motion.div
-              className="absolute bottom-8 right-8 text-[2rem]"
-              style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
-              animate={{ rotate: [360, 0] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              ✦
-            </motion.div>
+          <div className="relative px-5 py-12 text-center sm:px-12 sm:py-16 lg:py-20">
+            {/* Decorative elements - Reduced on mobile */}
+            {!isMobile && !shouldReduceMotion && (
+              <>
+                <motion.div
+                  className="absolute left-6 top-6 text-xl sm:left-8 sm:top-8 sm:text-[2rem]"
+                  style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
+                  ✦
+                </motion.div>
+                <motion.div
+                  className="absolute bottom-6 right-6 text-xl sm:bottom-8 sm:right-8 sm:text-[2rem]"
+                  style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
+                  animate={{ rotate: [360, 0] }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
+                  ✦
+                </motion.div>
+              </>
+            )}
 
             <motion.h2
-              className="text-[1.8rem] font-semibold sm:text-[2.5rem]"
+              className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.5rem]"
               style={{ color: THEME.text.primary }}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 }}
             >
@@ -1017,30 +1052,24 @@ function CTASection(): React.ReactElement {
             </motion.h2>
 
             <motion.p
-              className="mx-auto mt-4 max-w-md text-[1rem]"
+              className="mx-auto mt-3 max-w-md text-[0.9rem] sm:mt-4 sm:text-[1rem]"
               style={{ color: THEME.text.secondary }}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 }}
             >
-              Let's create a web experience that stands out from the template
-              crowd.
+              Let's create a web experience that stands out from the template crowd.
             </motion.p>
 
             <motion.div
-              className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
-              initial={{ opacity: 0, y: 20 }}
+              className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4"
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 }}
             >
               <MagneticButton href="/brief" variant="primary">
                 Start your brief
-                <motion.span
-                  animate={{ rotate: [0, 15, -15, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  ✦
-                </motion.span>
+                <span>✦</span>
               </MagneticButton>
 
               <MagneticButton href="/contact" variant="secondary">
@@ -1050,28 +1079,29 @@ function CTASection(): React.ReactElement {
             </motion.div>
           </div>
 
-          {/* Animated border */}
-          <div className="absolute inset-0 rounded-[2.5rem]">
-            <svg
-              className="h-full w-full"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                className="h-full w-full fill-none"
-                style={{ stroke: `rgba(${THEME.primaryRgb}, 0.2)` }}
-                strokeWidth="1"
-                rx="40"
-                strokeDasharray="8 8"
-              >
-                <animate
-                  attributeName="stroke-dashoffset"
-                  values="0;16"
-                  dur="2s"
-                  repeatCount="indefinite"
-                />
-              </rect>
-            </svg>
-          </div>
+          {/* Animated border - Simplified on mobile */}
+          {!isMobile && (
+            <div className="absolute inset-0 rounded-[inherit]">
+              <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <rect
+                  className="h-full w-full fill-none"
+                  style={{ stroke: `rgba(${THEME.primaryRgb}, 0.2)` }}
+                  strokeWidth="1"
+                  rx="40"
+                  strokeDasharray="8 8"
+                >
+                  {!shouldReduceMotion && (
+                    <animate
+                      attributeName="stroke-dashoffset"
+                      values="0;16"
+                      dur="2s"
+                      repeatCount="indefinite"
+                    />
+                  )}
+                </rect>
+              </svg>
+            </div>
+          )}
         </motion.div>
       </div>
     </section>
@@ -1083,25 +1113,15 @@ function CTASection(): React.ReactElement {
 // =============================================================================
 
 export default function HomePage(): React.ReactElement {
-  const mousePosition = useMousePosition();
+  const { position: mousePosition, isTouchDevice } = useMousePosition();
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#030303]">
-      {/* Global Cursor Glow - AMBER */}
-      <div
-        className="pointer-events-none fixed inset-0 z-50 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(${THEME.primaryRgb}, 0.04), transparent 40%)`,
-        }}
-      />
+      {/* ✅ Cursor Glow - Desktop only */}
+      {!isTouchDevice && <CursorGlow position={mousePosition} />}
 
-      {/* Film Grain Overlay */}
-      <div
-        className="pointer-events-none fixed inset-0 z-40 opacity-[0.02]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
+      {/* ✅ Film Grain - Desktop only */}
+      <FilmGrain />
 
       {/* Sections */}
       <CinematicHero />
@@ -1109,7 +1129,7 @@ export default function HomePage(): React.ReactElement {
       <ServicesSection />
       <ReadyWebsitesCinema />
       <ProcessSection />
-      <CommunityReviews/>
+      <CommunityReviews />
       <CTASection />
     </main>
   );
