@@ -962,8 +962,8 @@ export default function CinematicHeroPro(): React.ReactElement {
   return (
     <section
       ref={containerRef}
-      // mobile: 70svh for CTA visibility, desktop: h-screen for full viewport + proper centering
-      className="relative h-[70svh] md:h-screen w-full overflow-hidden bg-[#030303]"
+      // mobile: 85svh for CTA visibility, desktop: h-screen for full viewport + proper centering
+      className="relative h-[85svh] md:h-screen w-full overflow-hidden bg-[#030303]"
     >
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}

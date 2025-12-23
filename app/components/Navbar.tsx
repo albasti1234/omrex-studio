@@ -117,7 +117,7 @@ export default function Navbar(): React.ReactElement | null {
                 whileTap={{ scale: 0.98 }}
               >
                 {/* Logo mark - More cinematic */}
-                <div className="relative flex h-10 w-10 items-center justify-center">
+                <div className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center">
                   {/* Outer glow */}
                   <motion.div
                     className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -143,7 +143,7 @@ export default function Navbar(): React.ReactElement | null {
 
                   {/* Letter */}
                   <span
-                    className="relative text-base font-bold tracking-tight"
+                    className="relative text-sm sm:text-base font-bold tracking-tight"
                     style={{ color: THEME.primary }}
                   >
                     O
@@ -163,13 +163,13 @@ export default function Navbar(): React.ReactElement | null {
                 {/* Logo text */}
                 <div className="flex flex-col leading-tight">
                   <span
-                    className="text-[0.9rem] font-semibold tracking-[0.08em]"
+                    className="text-[0.8rem] sm:text-[0.9rem] font-semibold tracking-[0.08em]"
                     style={{ color: THEME.text.primary }}
                   >
                     OMREX
                   </span>
                   <span
-                    className="text-[0.55rem] uppercase tracking-[0.25em]"
+                    className="text-[0.5rem] sm:text-[0.55rem] uppercase tracking-[0.25em]"
                     style={{ color: THEME.text.muted }}
                   >
                     Studio
@@ -263,7 +263,7 @@ export default function Navbar(): React.ReactElement | null {
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
             >
-              <div className="relative flex h-4 w-5 flex-col items-center justify-center">
+              <div className="relative flex h-4 w-5 flex-col items-center justify-center" style={{ marginTop: '-2px' }}>
                 <motion.span
                   className="absolute h-[2px] w-5 rounded-full"
                   style={{ background: isMobileMenuOpen ? THEME.primary : THEME.text.primary }}
