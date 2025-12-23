@@ -439,17 +439,23 @@ function MagneticButton({
     primary: {
       background: `linear-gradient(135deg, ${THEME.colors.accent.gold}, ${THEME.colors.accent.goldMuted})`,
       color: THEME.colors.bg.primary,
-      border: "none",
+      borderWidth: 0,
+      borderStyle: "solid" as const,
+      borderColor: "transparent",
     },
     secondary: {
       background: "transparent",
       color: THEME.colors.text.primary,
-      border: `1px solid ${THEME.colors.border.default}`,
+      borderWidth: 1,
+      borderStyle: "solid" as const,
+      borderColor: THEME.colors.border.default,
     },
     ghost: {
       background: "transparent",
       color: THEME.colors.accent.gold,
-      border: "none",
+      borderWidth: 0,
+      borderStyle: "solid" as const,
+      borderColor: "transparent",
     },
   } as const;
 
@@ -822,10 +828,10 @@ function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.1 }}
         >
-          <MagneticButton href="/collections" variant="primary">
+          <MagneticButton href="/demos/velvet-perfumes/collections" variant="primary">
             Explore Collections
           </MagneticButton>
-          <MagneticButton href="/bestsellers" variant="secondary">
+          <MagneticButton href="/demos/velvet-perfumes/bestsellers" variant="secondary">
             Shop Bestsellers
           </MagneticButton>
         </motion.div>
@@ -1113,7 +1119,7 @@ function FeaturedScentSection() {
                 </span>
               </div>
 
-              <MagneticButton href={`/product/${FEATURED_SCENT.id}`} variant="primary">
+              <MagneticButton href={`/demos/velvet-perfumes/fragrances/${FEATURED_SCENT.id}`} variant="primary">
                 Discover Now
                 <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                   →
@@ -1171,7 +1177,7 @@ function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0] })
   const [hovered, setHovered] = useState(false);
 
   return (
-    <Link href={`/collections/${collection.id}`}>
+    <Link href={`/demos/velvet-perfumes/fragrances?collection=${collection.id}`}>
       <motion.div
         className="group relative aspect-[3/4] cursor-pointer overflow-hidden"
         onMouseEnter={() => setHovered(true)}
@@ -1306,7 +1312,7 @@ function GenderCard({ category }: { category: { id: string; label: string; subti
   const [hovered, setHovered] = useState(false);
 
   return (
-    <Link href={`/shop/${category.id}`}>
+    <Link href={`/demos/velvet-perfumes/fragrances?gender=${category.id}`}>
       <motion.div
         className="group relative aspect-[4/5] cursor-pointer overflow-hidden"
         onMouseEnter={() => setHovered(true)}

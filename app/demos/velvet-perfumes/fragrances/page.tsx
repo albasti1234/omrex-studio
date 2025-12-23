@@ -281,7 +281,7 @@ function ComparePanel() {
                         Clear
                     </button>
                     <Link
-                        href="/demos/velvet-perfumes/compare"
+                        href={`/demos/velvet-perfumes/compare?ids=${compareList.join(",")}`}
                         className="px-6 py-2 text-xs uppercase tracking-wider"
                         style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
                     >

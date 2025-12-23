@@ -104,7 +104,7 @@ export default function CollectionsPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.6, delay: i * 0.1 }}
                             >
-                                <Link href={`/demos/velvet-perfumes/shop?collection=${collection.slug}`}>
+                                <Link href={`/demos/velvet-perfumes/fragrances?collection=${collection.slug}`}>
                                     <div className="group relative aspect-[4/5] overflow-hidden" style={{ background: THEME.colors.bg.secondary }}>
                                         {/* Image */}
                                         <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
