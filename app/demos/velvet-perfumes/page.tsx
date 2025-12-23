@@ -1177,7 +1177,7 @@ function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0] })
   const [hovered, setHovered] = useState(false);
 
   return (
-    <Link href={`/demos/velvet-perfumes/fragrances?collection=${collection.id}`}>
+    <Link href={`/demos/velvet-perfumes/collections/${collection.id}`}>
       <motion.div
         className="group relative aspect-[3/4] cursor-pointer overflow-hidden"
         onMouseEnter={() => setHovered(true)}
