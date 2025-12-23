@@ -164,9 +164,9 @@ export default function Footer(): React.ReactElement {
                     <li>
                       <a
                         href="mailto:omar.abosoud@outlook.com"
-                        className="text-[#a1a1aa] hover:text-[#f59e0b] transition-colors text-xs sm:text-sm break-all"
+                        className="text-[#a1a1aa] hover:text-[#f59e0b] transition-colors text-xs sm:text-sm inline-flex items-center gap-1.5"
                       >
-                        omar.abosoud@outlook.com
+                        <span>✉</span> Email us
                       </a>
                     </li>
                     <li className="text-[#71717a] text-xs sm:text-sm">
@@ -182,55 +182,54 @@ export default function Footer(): React.ReactElement {
         {/* Divider */}
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Bottom Section - mobile: compact */}
+        {/* Bottom Section - all items centered on mobile */}
         <motion.div
-          className="py-4 sm:py-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between"
+          className="py-5 sm:py-6 flex flex-col items-center gap-5 sm:gap-4"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          {/* Copyright */}
-          <p className="text-[12px] text-[#52525b]">
-            © {new Date().getFullYear()} OMREX.STUDIO. All rights reserved.
-          </p>
-
-          {/* Social Links - mobile: larger touch targets */}
-          <div className="flex items-center gap-3 sm:gap-4 order-first sm:order-none">
+          {/* Social Links - centered */}
+          <div className="flex items-center justify-center gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-white/10 text-[#71717a] transition-all hover:border-[#f59e0b]/50 hover:text-[#f59e0b]"
+                className="group relative flex h-11 w-11 sm:h-10 sm:w-10 items-center justify-center rounded-full border border-white/10 text-[#71717a] transition-all hover:border-[#f59e0b]/50 hover:text-[#f59e0b]"
                 aria-label={social.label}
               >
                 <span className="text-sm">{social.icon}</span>
-
-                {/* Hover glow */}
                 <div className="absolute inset-0 rounded-full bg-[#f59e0b]/0 transition-all group-hover:bg-[#f59e0b]/10" />
               </a>
             ))}
           </div>
 
-          {/* Back to top */}
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group flex items-center gap-2 text-[12px] text-[#52525b] hover:text-[#f59e0b] transition-colors"
-          >
-            <span>Back to top</span>
-            <motion.span
-              className="inline-block"
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+          {/* Copyright + Back to top - row on desktop, stacked on mobile */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-[11px] sm:text-[12px] text-[#52525b]">
+            <p>
+              © {new Date().getFullYear()} OMREX.STUDIO
+            </p>
+
+            <span className="hidden sm:block">•</span>
+
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center gap-1.5 hover:text-[#f59e0b] transition-colors"
             >
-              ↑
-            </motion.span>
-          </button>
+              <span>Back to top</span>
+              <motion.span
+                className="inline-block"
+                animate={{ y: [0, -2, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                ↑
+              </motion.span>
+            </button>
+          </div>
         </motion.div>
       </div>
-
-      {/* Remove bottom watermark - now it's behind the links */}
     </footer>
   );
 }
