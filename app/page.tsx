@@ -311,9 +311,9 @@ const MagneticButton = memo(function MagneticButton({
       whileTap={{ scale: 0.98 }}
     >
       <button
-        className={`group relative overflow-hidden rounded-full px-8 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${isPrimary
-            ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:shadow-[0_0_60px_rgba(245,158,11,0.5)]"
-            : "border border-[#f59e0b]/30 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/60 hover:bg-[#f59e0b]/10"
+        className={`group relative cursor-pointer overflow-hidden rounded-full px-8 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${isPrimary
+          ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:shadow-[0_0_60px_rgba(245,158,11,0.5)]"
+          : "border border-[#f59e0b]/30 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/60 hover:bg-[#f59e0b]/10"
           }`}
       >
         <span className="relative z-10 flex items-center gap-2">{children}</span>
@@ -548,8 +548,8 @@ function ServicesSection() {
             >
               <SpotlightCard
                 className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeId === service.id
-                    ? "border-[#f59e0b]/40 bg-[#0a0a0a]/80"
-                    : "border-white/5 bg-[#0a0a0a]/40"
+                  ? "border-[#f59e0b]/40 bg-[#0a0a0a]/80"
+                  : "border-white/5 bg-[#0a0a0a]/40"
                   }`}
               >
                 {/* Icon */}
@@ -872,8 +872,8 @@ function ProcessSection() {
               >
                 <SpotlightCard
                   className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeStep === index
-                      ? "border-[#f59e0b]/30 bg-[#0a0a0a]/80"
-                      : "border-white/5 bg-[#0a0a0a]/40"
+                    ? "border-[#f59e0b]/30 bg-[#0a0a0a]/80"
+                    : "border-white/5 bg-[#0a0a0a]/40"
                     }`}
                 >
                   {/* Step indicator */}
