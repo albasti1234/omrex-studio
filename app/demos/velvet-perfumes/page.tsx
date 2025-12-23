@@ -21,32 +21,32 @@ import Link from "next/link";
 const THEME = {
   colors: {
     bg: {
-      primary: "#070709",
-      secondary: "#0c0c10",
-      tertiary: "#111118",
-      card: "rgba(12,12,18,0.7)",
-      glass: "rgba(8,8,12,0.6)",
+      primary: "#0d0c0f",      // Brightened from #070709
+      secondary: "#141318",    // Brightened from #0c0c10
+      tertiary: "#1a1820",     // Brightened from #111118
+      card: "rgba(20,19,24,0.85)",  // Brighter card background
+      glass: "rgba(14,13,17,0.7)",  // Brighter glass effect
     },
     accent: {
-      gold: "#d4a853",
-      goldLight: "#e8c47a",
-      goldMuted: "#a88a3d",
-      goldRgb: "212, 168, 83",
-      purple: "#8b5cf6",
-      purpleDeep: "#6d28d9",
-      purpleRgb: "139, 92, 246",
-      rose: "#be185d",
+      gold: "#e5b85a",         // Brighter gold
+      goldLight: "#f0d08a",    // Brighter light gold
+      goldMuted: "#c4a04a",    // Brighter muted gold
+      goldRgb: "229, 184, 90",
+      purple: "#9d6df7",       // Brighter purple
+      purpleDeep: "#7c3aed",
+      purpleRgb: "157, 109, 247",
+      rose: "#d4267a",         // Brighter rose
     },
     text: {
-      primary: "#fafaf9",
-      secondary: "#a8a29e",
-      muted: "#78716c",
-      dim: "#57534e",
+      primary: "#ffffff",      // Pure white for max contrast
+      secondary: "#c4c0bc",    // Brighter secondary text
+      muted: "#9a958f",        // Brighter muted text
+      dim: "#716c66",          // Brighter dim text
     },
     border: {
-      subtle: "rgba(212,168,83,0.08)",
-      default: "rgba(212,168,83,0.15)",
-      hover: "rgba(212,168,83,0.35)",
+      subtle: "rgba(229,184,90,0.12)",   // More visible borders
+      default: "rgba(229,184,90,0.22)",  // More visible
+      hover: "rgba(229,184,90,0.45)",    // Brighter hover
     },
   },
 } as const;
