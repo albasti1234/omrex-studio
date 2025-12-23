@@ -107,7 +107,7 @@ export default function Navbar(): React.ReactElement | null {
 
         {/* mobile: Safe area + container constraint */}
         <nav className="mx-auto max-w-[560px] sm:max-w-[640px] md:max-w-6xl px-4 sm:px-6 lg:px-8 safe-top">
-          <div className="flex h-16 items-center justify-between sm:h-20">
+          <div className="flex h-14 items-center justify-between sm:h-16 md:h-20">
 
             {/* ✅ IMPROVED: Logo */}
             <Link href="/" className="group relative z-10">
