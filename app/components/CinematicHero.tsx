@@ -717,10 +717,7 @@ function Vignette(): React.ReactElement {
     <div
       className="pointer-events-none absolute inset-0 z-20"
       style={{
-        background: `
-          radial-gradient(ellipse at center, transparent 30%, rgba(3,3,3,0.4) 70%, rgba(3,3,3,0.8) 100%),
-          linear-gradient(180deg, rgba(3,3,3,0.3) 0%, transparent 15%, transparent 85%, rgba(3,3,3,0.3) 100%)
-        `,
+        background: `radial-gradient(ellipse at center, transparent 50%, rgba(3,3,3,0.15) 80%, rgba(3,3,3,0.35) 100%)`,
       }}
     />
   );
@@ -963,7 +960,7 @@ export default function CinematicHeroPro(): React.ReactElement {
     <section
       ref={containerRef}
       // mobile: 85svh for CTA visibility, desktop: h-screen for full viewport + proper centering
-      className="relative h-[85svh] md:h-screen w-full overflow-hidden bg-[#121215]"
+      className="relative h-[85svh] md:h-screen w-full overflow-hidden bg-[#030303]"
     >
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}
@@ -983,10 +980,16 @@ export default function CinematicHeroPro(): React.ReactElement {
           priority
           sizes="100vw"
           className="object-cover"
+          style={{ filter: 'brightness(0.85)' }}
         />
 
-        {/* Minimal overlays for Samsung Internet compatibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#121215]/20 via-transparent to-[#121215]/40" />
+        {/* ONE light overlay only - for text readability */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(3,3,3,0.15) 0%, transparent 40%, transparent 60%, rgba(3,3,3,0.3) 100%)'
+          }}
+        />
       </motion.div>
 
 
