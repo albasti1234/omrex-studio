@@ -979,7 +979,7 @@ export default function CinematicHeroPro(): React.ReactElement {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-top sm:object-center"
           style={{ filter: 'brightness(0.9)' }}
         />
 
