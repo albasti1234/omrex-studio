@@ -1137,8 +1137,96 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* OVERLAYS */}
       {/* ============================================= */}
 
+      <CinematicSmoke />
       <Vignette />
       <FilmGrain />
     </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Cinematic Smoke Effect - Subtle & Realistic
+// -----------------------------------------------------------------------------
+
+function CinematicSmoke(): React.ReactElement {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+      {/* Smoke Layer 1 - Bottom left, slow drift */}
+      <motion.div
+        className="absolute -bottom-20 -left-20 h-[60%] w-[80%]"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(180,160,140,0.06) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+        animate={{
+          x: [0, 80, 40, 0],
+          y: [0, -30, -60, 0],
+          scale: [1, 1.2, 1.1, 1],
+          opacity: [0.04, 0.07, 0.05, 0.04],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Smoke Layer 2 - Bottom right, medium drift */}
+      <motion.div
+        className="absolute -bottom-10 -right-20 h-[50%] w-[70%]"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(200,180,150,0.05) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }}
+        animate={{
+          x: [0, -60, -30, 0],
+          y: [0, -50, -80, 0],
+          scale: [1, 1.15, 1.05, 1],
+          opacity: [0.03, 0.06, 0.04, 0.03],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 5,
+        }}
+      />
+
+      {/* Smoke Layer 3 - Center bottom, rising effect */}
+      <motion.div
+        className="absolute -bottom-32 left-1/4 h-[70%] w-[50%]"
+        style={{
+          background: 'radial-gradient(ellipse 120% 80% at center, rgba(160,140,120,0.04) 0%, transparent 50%)',
+          filter: 'blur(100px)',
+        }}
+        animate={{
+          y: [0, -100, -150, 0],
+          scale: [1, 1.3, 1.2, 1],
+          opacity: [0.03, 0.05, 0.04, 0.03],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 10,
+        }}
+      />
+
+      {/* Subtle golden mist - accent color */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[40%]"
+        style={{
+          background: 'linear-gradient(to top, rgba(245,158,11,0.02) 0%, transparent 100%)',
+        }}
+        animate={{
+          opacity: [0.02, 0.04, 0.02],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+    </div>
   );
 }
