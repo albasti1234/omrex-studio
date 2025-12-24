@@ -963,7 +963,7 @@ export default function CinematicHeroPro(): React.ReactElement {
     <section
       ref={containerRef}
       // mobile: 85svh for CTA visibility, desktop: h-screen for full viewport + proper centering
-      className="relative h-[85svh] md:h-screen w-full overflow-hidden bg-[#030303]"
+      className="relative h-[85svh] md:h-screen w-full overflow-hidden bg-[#121215]"
     >
       {/* ============================================= */}
       {/* BACKGROUND LAYER */}
@@ -985,10 +985,8 @@ export default function CinematicHeroPro(): React.ReactElement {
           className="object-cover"
         />
 
-        {/* Lightened overlays for better image visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/30 via-[#030303]/15 to-[#030303]/50" />
-        <div className="absolute inset-0 bg-[#030303]/10 mix-blend-multiply" />
-
+        {/* Minimal overlays for Samsung Internet compatibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#121215]/20 via-transparent to-[#121215]/40" />
       </motion.div>
 
 

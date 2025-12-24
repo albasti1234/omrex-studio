@@ -42,9 +42,9 @@ const THEME = {
     dark: "#52525b",
   },
   bg: {
-    dark: "#0c0c0e",
-    card: "rgba(22, 22, 24, 0.9)",
-    cardHover: "rgba(30, 30, 34, 0.95)",
+    dark: "#121215",
+    card: "#1c1c20",
+    cardHover: "#252528",
   },
 } as const;
 
@@ -548,8 +548,8 @@ function ServicesSection() {
             >
               <SpotlightCard
                 className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeId === service.id
-                  ? "border-[#f59e0b]/60 bg-[#1a1a1d]/95"
-                  : "border-white/15 bg-[#141416]/85"
+                  ? "border-[#c47d08] bg-[#252528]"
+                  : "border-[#3a3a3f] bg-[#1c1c20]"
                   }`}
               >
                 {/* Icon */}
@@ -702,7 +702,7 @@ function TestimonialsSection() {
                   exit={{ opacity: 0, y: -30 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <SpotlightCard className="h-full rounded-2xl border border-[#f59e0b]/30 bg-[#161618]/95 p-6 backdrop-blur-xl sm:rounded-3xl sm:p-8 lg:p-12">
+                  <SpotlightCard className="h-full rounded-2xl border border-[#c47d08] bg-[#1c1c20] p-6 sm:rounded-3xl sm:p-8 lg:p-12">
                     <div className="flex h-full flex-col items-center justify-center text-center">
                       {/* Quote icon */}
                       <div
@@ -872,8 +872,8 @@ function ProcessSection() {
               >
                 <SpotlightCard
                   className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeStep === index
-                    ? "border-[#f59e0b]/50 bg-[#1a1a1d]/95"
-                    : "border-white/15 bg-[#141416]/85"
+                    ? "border-[#c47d08] bg-[#252528]"
+                    : "border-[#3a3a3f] bg-[#1c1c20]"
                     }`}
                 >
                   {/* Step indicator */}
@@ -883,9 +883,9 @@ function ProcessSection() {
                       style={{
                         borderColor:
                           activeStep === index
-                            ? `rgba(${THEME.primaryRgb}, 0.6)`
-                            : "rgba(255,255,255,0.2)",
-                        background: "rgba(22,22,24,0.8)",
+                            ? "#c47d08"
+                            : "#3a3a3f",
+                        background: "#1c1c20",
                         transform: activeStep === index ? "scale(1.1)" : "scale(1)",
                       }}
                     >
@@ -980,7 +980,7 @@ function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           onMouseMove={handleMouseMove}
-          className="relative overflow-hidden rounded-2xl border border-[#f59e0b]/40 bg-[#161618]/90 backdrop-blur-xl sm:rounded-[2.5rem]"
+          className="relative overflow-hidden rounded-2xl border border-[#c47d08] bg-[#1c1c20] sm:rounded-[2.5rem]"
         >
           {/* Mouse follow gradient - Desktop only */}
           {!isTouchDevice && (
