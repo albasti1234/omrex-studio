@@ -477,136 +477,172 @@ const StatItem = memo(function StatItem({
 });
 
 // -----------------------------------------------------------------------------
-// Services Section
+// Services Section - LUXURY 3D DESIGN
 // -----------------------------------------------------------------------------
 
 function ServicesSection() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [activeId, setActiveId] = useState<string | null>(null);
   const { isTouchDevice } = useDeviceDetection();
   const shouldReduceMotion = useShouldReduceMotion();
 
-  const handleInteraction = useCallback((id: string) => {
-    if (isTouchDevice) {
-      setActiveId((prev) => (prev === id ? null : id));
-    } else {
-      setActiveId(id);
-    }
-  }, [isTouchDevice]);
-
   return (
-    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <motion.div
-          className="mb-12 text-center sm:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{
-                background: `linear-gradient(90deg, transparent, rgba(${THEME.primaryRgb}, 0.5))`,
-              }}
-            />
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
-              style={{ color: THEME.primary }}
-            >
-              Services
-            </span>
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{
-                background: `linear-gradient(90deg, rgba(${THEME.primaryRgb}, 0.5), transparent)`,
-              }}
-            />
-          </div>
+    <section ref={ref} className="relative px-4 py-20 sm:py-32 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Cinematic Background Glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(245,158,11,0.08),transparent_60%)] blur-3xl" />
+      </div>
 
-          <h2
-            className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.2rem]"
-            style={{ color: THEME.text.primary }}
+      <div className="mx-auto max-w-7xl relative z-10">
+        {/* Premium Header */}
+        <motion.div
+          className="mb-16 text-center sm:mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-4 mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            What we <span className="text-gradient-gold">create</span>
+            <span className="h-[1px] w-16 bg-gradient-to-r from-transparent via-[#f59e0b] to-transparent" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-[#f59e0b] font-medium">
+              ✦ Our Expertise ✦
+            </span>
+            <span className="h-[1px] w-16 bg-gradient-to-r from-transparent via-[#f59e0b] to-transparent" />
+          </motion.div>
+
+          <h2 className="text-[2rem] font-bold sm:text-[2.5rem] lg:text-[3.5rem] leading-tight">
+            <span className="text-white">Crafting </span>
+            <span className="bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#d97706] bg-clip-text text-transparent">
+              Digital Experiences
+            </span>
           </h2>
+          <p className="mt-4 text-[#a1a1aa] text-base sm:text-lg max-w-2xl mx-auto">
+            Premium services designed to elevate your brand to cinematic heights
+          </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+        {/* 3D Luxury Cards Grid */}
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((service, index) => (
             <motion.div
               key={service.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : 0.1 + index * 0.1 }}
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+              transition={{
+                duration: 0.8,
+                delay: shouldReduceMotion ? 0 : 0.15 * index,
+                ease: [0.16, 1, 0.3, 1]
+              }}
               onMouseEnter={() => !isTouchDevice && setActiveId(service.id)}
               onMouseLeave={() => !isTouchDevice && setActiveId(null)}
-              onClick={() => isTouchDevice && handleInteraction(service.id)}
+              onClick={() => isTouchDevice && setActiveId(activeId === service.id ? null : service.id)}
+              className="group perspective-1000"
             >
-              <SpotlightCard
-                className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeId === service.id
-                  ? "border-[#c47d08] bg-[#252528]"
-                  : "border-[#3a3a3f] bg-[#1c1c20]"
-                  }`}
+              <motion.div
+                className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30,30,35,0.9) 0%, rgba(15,15,18,0.95) 100%)',
+                  boxShadow: activeId === service.id
+                    ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
+                    : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
+                  transform: activeId === service.id ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
               >
-                {/* Icon */}
+                {/* Animated Glow Border */}
                 <div
-                  className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border text-xl transition-all duration-300 sm:mb-6 sm:h-14 sm:w-14 sm:text-2xl"
+                  className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    borderColor:
-                      activeId === service.id
-                        ? `rgba(${THEME.primaryRgb}, 0.5)`
-                        : "rgba(255,255,255,0.1)",
-                    background:
-                      activeId === service.id
-                        ? `rgba(${THEME.primaryRgb}, 0.1)`
-                        : "rgba(255,255,255,0.02)",
-                    color:
-                      activeId === service.id
-                        ? THEME.primary
-                        : THEME.text.secondary,
-                    transform: activeId === service.id ? "scale(1.1)" : "scale(1)",
+                    background: 'linear-gradient(135deg, rgba(245,158,11,0.2), transparent 40%, transparent 60%, rgba(251,191,36,0.2))',
                   }}
-                >
-                  {service.icon}
-                </div>
+                />
 
-                {/* Title */}
-                <h3
-                  className="mb-2 text-[1rem] font-semibold sm:mb-3 sm:text-[1.1rem]"
-                  style={{ color: THEME.text.primary }}
-                >
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p
-                  className="mb-3 text-[0.8rem] leading-relaxed sm:mb-4 sm:text-[0.85rem]"
-                  style={{ color: THEME.text.secondary }}
-                >
-                  {service.description}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {service.features.map((feature) => (
+                {/* Card Content */}
+                <div className="relative z-10 p-6 sm:p-8">
+                  {/* Floating Icon with 3D Effect */}
+                  <motion.div
+                    className="mb-6 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl relative"
+                    animate={activeId === service.id ? { y: -5, rotate: 5 } : { y: 0, rotate: 0 }}
+                    transition={{ duration: 0.4 }}
+                    style={{
+                      background: activeId === service.id
+                        ? 'linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.15) 100%)'
+                        : 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                      boxShadow: activeId === service.id
+                        ? '0 15px 40px -10px rgba(245,158,11,0.4), inset 0 0 20px rgba(245,158,11,0.1)'
+                        : '0 8px 30px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+                      border: activeId === service.id
+                        ? '1px solid rgba(245,158,11,0.4)'
+                        : '1px solid rgba(255,255,255,0.1)',
+                    }}
+                  >
                     <span
-                      key={feature}
-                      className="rounded-full px-2 py-0.5 text-[8px] uppercase tracking-[0.1em] sm:px-2.5 sm:py-1 sm:text-[9px]"
+                      className="text-3xl sm:text-4xl transition-all duration-300"
                       style={{
-                        background: `rgba(${THEME.primaryRgb}, 0.1)`,
-                        color: THEME.primary,
-                        border: `1px solid rgba(${THEME.primaryRgb}, 0.2)`,
+                        color: activeId === service.id ? '#fbbf24' : '#a1a1aa',
+                        filter: activeId === service.id ? 'drop-shadow(0 0 20px rgba(245,158,11,0.6))' : 'none'
                       }}
                     >
-                      {feature}
+                      {service.icon}
                     </span>
-                  ))}
+                  </motion.div>
+
+                  {/* Title */}
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-[#fbbf24] transition-colors duration-300">
+                    {service.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed mb-5">
+                    {service.description}
+                  </p>
+
+                  {/* Premium Feature Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-wider transition-all duration-300"
+                        style={{
+                          background: activeId === service.id
+                            ? 'linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(217,119,6,0.1) 100%)'
+                            : 'rgba(255,255,255,0.05)',
+                          color: activeId === service.id ? '#fbbf24' : '#71717a',
+                          border: activeId === service.id
+                            ? '1px solid rgba(245,158,11,0.3)'
+                            : '1px solid rgba(255,255,255,0.08)',
+                        }}
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Shine Effect on Hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                    style={{
+                      background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 55%, transparent 60%)',
+                    }}
+                  />
                 </div>
-              </SpotlightCard>
+
+                {/* Bottom Glow Line */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-[2px] transition-all duration-500"
+                  style={{
+                    background: activeId === service.id
+                      ? 'linear-gradient(90deg, transparent, #f59e0b, transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                    boxShadow: activeId === service.id ? '0 0 30px rgba(245,158,11,0.5)' : 'none',
+                  }}
+                />
+              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -787,165 +823,174 @@ function TestimonialsSection() {
 }
 
 // -----------------------------------------------------------------------------
-// Process Section
+// Process Section - LUXURY TIMELINE DESIGN
 // -----------------------------------------------------------------------------
 
 function ProcessSection() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [activeStep, setActiveStep] = useState<number | null>(null);
-  const { isTouchDevice, isMobile } = useDeviceDetection();
+  const { isTouchDevice } = useDeviceDetection();
   const shouldReduceMotion = useShouldReduceMotion();
 
-  const handleInteraction = useCallback((index: number) => {
-    if (isTouchDevice) {
-      setActiveStep((prev) => (prev === index ? null : index));
-    } else {
-      setActiveStep(index);
-    }
-  }, [isTouchDevice]);
-
   return (
-    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        {/* Header */}
-        <motion.div
-          className="mb-12 text-center sm:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{
-                background: `linear-gradient(90deg, transparent, rgba(${THEME.primaryRgb}, 0.5))`,
-              }}
-            />
-            <span
-              className="text-[10px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
-              style={{ color: THEME.primary }}
-            >
-              Process
-            </span>
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{
-                background: `linear-gradient(90deg, rgba(${THEME.primaryRgb}, 0.5), transparent)`,
-              }}
-            />
-          </div>
+    <section ref={ref} className="relative px-4 py-20 sm:py-32 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Cinematic Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(245,158,11,0.06),transparent_50%)] blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(217,119,6,0.05),transparent_50%)] blur-3xl" />
+      </div>
 
-          <h2
-            className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.2rem]"
-            style={{ color: THEME.text.primary }}
+      <div className="mx-auto max-w-7xl relative z-10">
+        {/* Premium Header */}
+        <motion.div
+          className="mb-16 text-center sm:mb-24"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="inline-flex items-center gap-4 mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            How we <span className="text-gradient-gold">work</span>
+            <span className="h-[1px] w-16 bg-gradient-to-r from-transparent via-[#f59e0b] to-transparent" />
+            <span className="text-[11px] uppercase tracking-[0.4em] text-[#f59e0b] font-medium">
+              ✦ Our Process ✦
+            </span>
+            <span className="h-[1px] w-16 bg-gradient-to-r from-transparent via-[#f59e0b] to-transparent" />
+          </motion.div>
+
+          <h2 className="text-[2rem] font-bold sm:text-[2.5rem] lg:text-[3.5rem] leading-tight">
+            <span className="text-white">The Journey to </span>
+            <span className="bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#d97706] bg-clip-text text-transparent">
+              Excellence
+            </span>
           </h2>
+          <p className="mt-4 text-[#a1a1aa] text-base sm:text-lg max-w-2xl mx-auto">
+            A refined process that transforms your vision into cinematic reality
+          </p>
         </motion.div>
 
-        {/* Steps */}
-        <div className="relative">
-          {/* Connection line - Desktop only */}
-          {!isMobile && (
+        {/* Luxury Timeline Cards */}
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {PROCESS_STEPS.map((step, index) => (
             <motion.div
-              className="absolute left-0 right-0 top-[60px] hidden h-[2px] lg:block"
-              style={{
-                background: `linear-gradient(90deg, transparent 10%, rgba(${THEME.primaryRgb}, 0.2) 30%, rgba(${THEME.primaryRgb}, 0.2) 70%, transparent 90%)`,
+              key={step.number}
+              initial={{ opacity: 0, y: 60, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{
+                duration: 0.8,
+                delay: shouldReduceMotion ? 0 : 0.2 * index,
+                ease: [0.16, 1, 0.3, 1]
               }}
-              initial={{ scaleX: 0 }}
-              animate={isInView ? { scaleX: 1 } : {}}
-              transition={{ duration: shouldReduceMotion ? 0 : 1.5, delay: 0.5 }}
-            />
-          )}
-
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-            {PROCESS_STEPS.map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : 0.2 + index * 0.1 }}
-                onMouseEnter={() => !isTouchDevice && setActiveStep(index)}
-                onMouseLeave={() => !isTouchDevice && setActiveStep(null)}
-                onClick={() => isTouchDevice && handleInteraction(index)}
-              >
-                <SpotlightCard
-                  className={`group h-full cursor-pointer rounded-2xl border p-5 transition-all duration-300 sm:p-6 ${activeStep === index
-                    ? "border-[#c47d08] bg-[#252528]"
-                    : "border-[#3a3a3f] bg-[#1c1c20]"
-                    }`}
-                >
-                  {/* Step indicator */}
-                  <div className="relative mb-4 flex items-center justify-center sm:mb-6">
-                    <div
-                      className="relative flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-300 sm:h-16 sm:w-16"
-                      style={{
-                        borderColor:
-                          activeStep === index
-                            ? "#c47d08"
-                            : "#3a3a3f",
-                        background: "#1c1c20",
-                        transform: activeStep === index ? "scale(1.1)" : "scale(1)",
-                      }}
-                    >
-                      <span
-                        className="text-xl transition-colors duration-300 sm:text-[1.5rem]"
-                        style={{
-                          color:
-                            activeStep === index
-                              ? THEME.primary
-                              : THEME.text.secondary,
-                        }}
-                      >
-                        {step.icon}
-                      </span>
-                    </div>
-
-                    {/* Connection dot - Desktop only */}
-                    {!isMobile && (
-                      <div
-                        className="absolute -bottom-3 left-1/2 hidden h-2 w-2 -translate-x-1/2 rounded-full transition-all duration-300 lg:block"
-                        style={{
-                          background: THEME.primary,
-                          boxShadow:
-                            activeStep === index
-                              ? `0 0 15px rgba(${THEME.primaryRgb}, 0.8)`
-                              : "none",
-                        }}
-                      />
-                    )}
-                  </div>
-
-                  {/* Number */}
-                  <div
-                    className="mb-2 text-[2rem] font-bold transition-colors duration-300 sm:text-[2.5rem]"
+              onMouseEnter={() => !isTouchDevice && setActiveStep(index)}
+              onMouseLeave={() => !isTouchDevice && setActiveStep(null)}
+              onClick={() => isTouchDevice && setActiveStep(activeStep === index ? null : index)}
+              className="group relative"
+            >
+              {/* Glowing Connection Line - Desktop */}
+              {index < PROCESS_STEPS.length - 1 && (
+                <div className="hidden lg:block absolute top-12 left-full w-full h-[2px] z-0">
+                  <motion.div
+                    className="h-full"
                     style={{
-                      color:
-                        activeStep === index
-                          ? `rgba(${THEME.primaryRgb}, 0.2)`
-                          : "rgba(255,255,255,0.05)",
+                      background: 'linear-gradient(90deg, rgba(245,158,11,0.4), rgba(245,158,11,0.1))',
+                    }}
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : {}}
+                    transition={{ duration: 1, delay: 0.5 + index * 0.2 }}
+                  />
+                </div>
+              )}
+
+              {/* Main Card */}
+              <motion.div
+                className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
+                style={{
+                  background: 'linear-gradient(160deg, rgba(35,35,40,0.95) 0%, rgba(18,18,22,0.98) 100%)',
+                  boxShadow: activeStep === index
+                    ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
+                    : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
+                  transform: activeStep === index ? 'translateY(-15px) scale(1.03)' : 'translateY(0) scale(1)',
+                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                {/* Animated Top Glow */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500"
+                  style={{
+                    background: activeStep === index
+                      ? 'linear-gradient(90deg, transparent, #f59e0b, #fbbf24, #f59e0b, transparent)'
+                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+                    boxShadow: activeStep === index ? '0 0 40px rgba(245,158,11,0.6)' : 'none',
+                  }}
+                />
+
+                {/* Card Content */}
+                <div className="relative z-10 p-6 sm:p-8">
+                  {/* Step Number - Large Watermark */}
+                  <div
+                    className="absolute top-4 right-4 text-[4rem] sm:text-[5rem] font-black leading-none select-none transition-all duration-500"
+                    style={{
+                      color: activeStep === index ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
+                      textShadow: activeStep === index ? '0 0 60px rgba(245,158,11,0.3)' : 'none',
                     }}
                   >
                     {step.number}
                   </div>
 
+                  {/* Floating Icon */}
+                  <motion.div
+                    className="mb-6 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-2xl relative"
+                    animate={activeStep === index ? { y: -8, scale: 1.1 } : { y: 0, scale: 1 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      background: activeStep === index
+                        ? 'linear-gradient(145deg, rgba(245,158,11,0.3) 0%, rgba(217,119,6,0.15) 100%)'
+                        : 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                      boxShadow: activeStep === index
+                        ? '0 20px 50px -15px rgba(245,158,11,0.5), inset 0 -2px 20px rgba(245,158,11,0.15), 0 0 0 1px rgba(245,158,11,0.3)'
+                        : '0 10px 40px -10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.06)',
+                    }}
+                  >
+                    <span
+                      className="text-4xl sm:text-5xl transition-all duration-400"
+                      style={{
+                        color: activeStep === index ? '#fbbf24' : '#71717a',
+                        filter: activeStep === index ? 'drop-shadow(0 0 25px rgba(245,158,11,0.7))' : 'none',
+                      }}
+                    >
+                      {step.icon}
+                    </span>
+                  </motion.div>
+
+                  {/* Title */}
                   <h3
-                    className="mb-2 text-[1rem] font-semibold sm:text-[1.1rem]"
-                    style={{ color: THEME.text.primary }}
+                    className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300"
+                    style={{ color: activeStep === index ? '#fbbf24' : '#f8fafc' }}
                   >
                     {step.title}
                   </h3>
-                  <p
-                    className="text-[0.8rem] leading-relaxed sm:text-[0.85rem]"
-                    style={{ color: THEME.text.secondary }}
-                  >
+
+                  {/* Description */}
+                  <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed">
                     {step.description}
                   </p>
-                </SpotlightCard>
+                </div>
+
+                {/* Corner Accent */}
+                <div
+                  className="absolute bottom-0 right-0 w-24 h-24 transition-opacity duration-500"
+                  style={{
+                    background: 'radial-gradient(circle at bottom right, rgba(245,158,11,0.1), transparent 70%)',
+                    opacity: activeStep === index ? 1 : 0,
+                  }}
+                />
               </motion.div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
