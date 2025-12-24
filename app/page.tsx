@@ -595,11 +595,10 @@ const ServiceCard = memo(function ServiceCard({
       <motion.div
         className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
         style={{
-          backgroundColor: '#1a1a1f', // Fallback for Samsung Internet
-          backgroundImage: 'linear-gradient(145deg, #1e1e23 0%, #131316 100%)',
+          background: 'linear-gradient(145deg, rgba(30,30,35,0.9) 0%, rgba(15,15,18,0.95) 100%)',
           boxShadow: isActive
-            ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px #c47d08, inset 0 1px 0 rgba(255,255,255,0.1)'
-            : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px #2a2a2f, inset 0 1px 0 rgba(255,255,255,0.05)',
+            ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
+            : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
           transform: isActive ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
           transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
@@ -979,11 +978,10 @@ const ProcessCard = memo(function ProcessCard({
       <motion.div
         className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
         style={{
-          backgroundColor: '#1c1c22', // Fallback for Samsung Internet
-          backgroundImage: 'linear-gradient(160deg, #232328 0%, #141418 100%)',
+          background: 'linear-gradient(160deg, rgba(35,35,40,0.95) 0%, rgba(18,18,22,0.98) 100%)',
           boxShadow: isActive
-            ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px #c47d08, inset 0 1px 0 rgba(255,255,255,0.12)'
-            : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px #2a2a2f, inset 0 1px 0 rgba(255,255,255,0.04)',
+            ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
+            : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
           transform: isActive ? 'translateY(-15px) scale(1.03)' : 'translateY(0) scale(1)',
           transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
