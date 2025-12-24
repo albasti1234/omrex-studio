@@ -529,127 +529,148 @@ function ServicesSection() {
         {/* 3D Luxury Cards Grid */}
         <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((service, index) => (
-            <motion.div
+            <ServiceCard
               key={service.id}
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: shouldReduceMotion ? 0 : 0.15 * index,
-                ease: [0.16, 1, 0.3, 1]
-              }}
-              onMouseEnter={() => !isTouchDevice && setActiveId(service.id)}
-              onMouseLeave={() => !isTouchDevice && setActiveId(null)}
-              onClick={() => isTouchDevice && setActiveId(activeId === service.id ? null : service.id)}
-              className="group perspective-1000"
-            >
-              <motion.div
-                className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
-                style={{
-                  background: 'linear-gradient(145deg, rgba(30,30,35,0.9) 0%, rgba(15,15,18,0.95) 100%)',
-                  boxShadow: activeId === service.id
-                    ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
-                    : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
-                  transform: activeId === service.id ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                {/* Animated Glow Border */}
-                <div
-                  className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(245,158,11,0.2), transparent 40%, transparent 60%, rgba(251,191,36,0.2))',
-                  }}
-                />
-
-                {/* Card Content */}
-                <div className="relative z-10 p-6 sm:p-8">
-                  {/* Floating Icon with 3D Effect */}
-                  <motion.div
-                    className="mb-6 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl relative"
-                    animate={activeId === service.id ? { y: -5, rotate: 5 } : { y: 0, rotate: 0 }}
-                    transition={{ duration: 0.4 }}
-                    style={{
-                      background: activeId === service.id
-                        ? 'linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.15) 100%)'
-                        : 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                      boxShadow: activeId === service.id
-                        ? '0 15px 40px -10px rgba(245,158,11,0.4), inset 0 0 20px rgba(245,158,11,0.1)'
-                        : '0 8px 30px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
-                      border: activeId === service.id
-                        ? '1px solid rgba(245,158,11,0.4)'
-                        : '1px solid rgba(255,255,255,0.1)',
-                    }}
-                  >
-                    <span
-                      className="text-3xl sm:text-4xl transition-all duration-300"
-                      style={{
-                        color: activeId === service.id ? '#fbbf24' : '#a1a1aa',
-                        filter: activeId === service.id ? 'drop-shadow(0 0 20px rgba(245,158,11,0.6))' : 'none'
-                      }}
-                    >
-                      {service.icon}
-                    </span>
-                  </motion.div>
-
-                  {/* Title */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-[#fbbf24] transition-colors duration-300">
-                    {service.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed mb-5">
-                    {service.description}
-                  </p>
-
-                  {/* Premium Feature Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {service.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-wider transition-all duration-300"
-                        style={{
-                          background: activeId === service.id
-                            ? 'linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(217,119,6,0.1) 100%)'
-                            : 'rgba(255,255,255,0.05)',
-                          color: activeId === service.id ? '#fbbf24' : '#71717a',
-                          border: activeId === service.id
-                            ? '1px solid rgba(245,158,11,0.3)'
-                            : '1px solid rgba(255,255,255,0.08)',
-                        }}
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Shine Effect on Hover */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                    style={{
-                      background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 55%, transparent 60%)',
-                    }}
-                  />
-                </div>
-
-                {/* Bottom Glow Line */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-[2px] transition-all duration-500"
-                  style={{
-                    background: activeId === service.id
-                      ? 'linear-gradient(90deg, transparent, #f59e0b, transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
-                    boxShadow: activeId === service.id ? '0 0 30px rgba(245,158,11,0.5)' : 'none',
-                  }}
-                />
-              </motion.div>
-            </motion.div>
+              service={service}
+              index={index}
+              activeId={activeId}
+              setActiveId={setActiveId}
+              isTouchDevice={isTouchDevice}
+              shouldReduceMotion={shouldReduceMotion}
+              isInView={isInView}
+            />
           ))}
         </div>
       </div>
     </section>
   );
 }
+
+// ServiceCard with auto-hover on mobile when scrolling into view
+const ServiceCard = memo(function ServiceCard({
+  service,
+  index,
+  activeId,
+  setActiveId,
+  isTouchDevice,
+  shouldReduceMotion,
+  isInView,
+}: {
+  service: typeof SERVICES[number];
+  index: number;
+  activeId: string | null;
+  setActiveId: (id: string | null) => void;
+  isTouchDevice: boolean;
+  shouldReduceMotion: boolean;
+  isInView: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardInView = useInView(cardRef, {
+    margin: "-40% 0px -40% 0px",
+    once: false
+  });
+
+  useEffect(() => {
+    if (isTouchDevice && cardInView) {
+      setActiveId(service.id);
+    }
+  }, [cardInView, isTouchDevice, service.id, setActiveId]);
+
+  const isActive = activeId === service.id;
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50, rotateX: -15 }}
+      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+      transition={{
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.15 * index,
+        ease: [0.16, 1, 0.3, 1]
+      }}
+      onMouseEnter={() => !isTouchDevice && setActiveId(service.id)}
+      onMouseLeave={() => !isTouchDevice && setActiveId(null)}
+      className="group perspective-1000"
+    >
+      <motion.div
+        className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
+        style={{
+          background: 'linear-gradient(145deg, rgba(30,30,35,0.9) 0%, rgba(15,15,18,0.95) 100%)',
+          boxShadow: isActive
+            ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
+            : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
+          transform: isActive ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        <div
+          className={`absolute inset-0 rounded-3xl transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            background: 'linear-gradient(135deg, rgba(245,158,11,0.2), transparent 40%, transparent 60%, rgba(251,191,36,0.2))',
+          }}
+        />
+        <div className="relative z-10 p-6 sm:p-8">
+          <motion.div
+            className="mb-6 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl relative"
+            animate={isActive ? { y: -5, rotate: 5 } : { y: 0, rotate: 0 }}
+            transition={{ duration: 0.4 }}
+            style={{
+              background: isActive
+                ? 'linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.15) 100%)'
+                : 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+              boxShadow: isActive
+                ? '0 15px 40px -10px rgba(245,158,11,0.4), inset 0 0 20px rgba(245,158,11,0.1)'
+                : '0 8px 30px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
+              border: isActive ? '1px solid rgba(245,158,11,0.4)' : '1px solid rgba(255,255,255,0.1)',
+            }}
+          >
+            <span
+              className="text-3xl sm:text-4xl transition-all duration-300"
+              style={{
+                color: isActive ? '#fbbf24' : '#a1a1aa',
+                filter: isActive ? 'drop-shadow(0 0 20px rgba(245,158,11,0.6))' : 'none'
+              }}
+            >
+              {service.icon}
+            </span>
+          </motion.div>
+          <h3 className={`text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300 ${isActive ? 'text-[#fbbf24]' : 'text-white'}`}>
+            {service.title}
+          </h3>
+          <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed mb-5">
+            {service.description}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {service.features.map((feature) => (
+              <span
+                key={feature}
+                className="px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-wider transition-all duration-300"
+                style={{
+                  background: isActive
+                    ? 'linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(217,119,6,0.1) 100%)'
+                    : 'rgba(255,255,255,0.05)',
+                  color: isActive ? '#fbbf24' : '#71717a',
+                  border: isActive ? '1px solid rgba(245,158,11,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                }}
+              >
+                {feature}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[2px] transition-all duration-500"
+          style={{
+            background: isActive
+              ? 'linear-gradient(90deg, transparent, #f59e0b, transparent)'
+              : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+            boxShadow: isActive ? '0 0 30px rgba(245,158,11,0.5)' : 'none',
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+});
 
 // -----------------------------------------------------------------------------
 // Testimonials Section
@@ -876,126 +897,158 @@ function ProcessSection() {
         {/* Luxury Timeline Cards */}
         <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
           {PROCESS_STEPS.map((step, index) => (
-            <motion.div
+            <ProcessCard
               key={step.number}
-              initial={{ opacity: 0, y: 60, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: shouldReduceMotion ? 0 : 0.2 * index,
-                ease: [0.16, 1, 0.3, 1]
-              }}
-              onMouseEnter={() => !isTouchDevice && setActiveStep(index)}
-              onMouseLeave={() => !isTouchDevice && setActiveStep(null)}
-              onClick={() => isTouchDevice && setActiveStep(activeStep === index ? null : index)}
-              className="group relative"
-            >
-              {/* Glowing Connection Line - Desktop */}
-              {index < PROCESS_STEPS.length - 1 && (
-                <div className="hidden lg:block absolute top-12 left-full w-full h-[2px] z-0">
-                  <motion.div
-                    className="h-full"
-                    style={{
-                      background: 'linear-gradient(90deg, rgba(245,158,11,0.4), rgba(245,158,11,0.1))',
-                    }}
-                    initial={{ scaleX: 0 }}
-                    animate={isInView ? { scaleX: 1 } : {}}
-                    transition={{ duration: 1, delay: 0.5 + index * 0.2 }}
-                  />
-                </div>
-              )}
-
-              {/* Main Card */}
-              <motion.div
-                className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
-                style={{
-                  background: 'linear-gradient(160deg, rgba(35,35,40,0.95) 0%, rgba(18,18,22,0.98) 100%)',
-                  boxShadow: activeStep === index
-                    ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
-                    : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
-                  transform: activeStep === index ? 'translateY(-15px) scale(1.03)' : 'translateY(0) scale(1)',
-                  transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                {/* Animated Top Glow */}
-                <div
-                  className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500"
-                  style={{
-                    background: activeStep === index
-                      ? 'linear-gradient(90deg, transparent, #f59e0b, #fbbf24, #f59e0b, transparent)'
-                      : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
-                    boxShadow: activeStep === index ? '0 0 40px rgba(245,158,11,0.6)' : 'none',
-                  }}
-                />
-
-                {/* Card Content */}
-                <div className="relative z-10 p-6 sm:p-8">
-                  {/* Step Number - Large Watermark */}
-                  <div
-                    className="absolute top-4 right-4 text-[4rem] sm:text-[5rem] font-black leading-none select-none transition-all duration-500"
-                    style={{
-                      color: activeStep === index ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
-                      textShadow: activeStep === index ? '0 0 60px rgba(245,158,11,0.3)' : 'none',
-                    }}
-                  >
-                    {step.number}
-                  </div>
-
-                  {/* Floating Icon */}
-                  <motion.div
-                    className="mb-6 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-2xl relative"
-                    animate={activeStep === index ? { y: -8, scale: 1.1 } : { y: 0, scale: 1 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                      background: activeStep === index
-                        ? 'linear-gradient(145deg, rgba(245,158,11,0.3) 0%, rgba(217,119,6,0.15) 100%)'
-                        : 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                      boxShadow: activeStep === index
-                        ? '0 20px 50px -15px rgba(245,158,11,0.5), inset 0 -2px 20px rgba(245,158,11,0.15), 0 0 0 1px rgba(245,158,11,0.3)'
-                        : '0 10px 40px -10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.06)',
-                    }}
-                  >
-                    <span
-                      className="text-4xl sm:text-5xl transition-all duration-400"
-                      style={{
-                        color: activeStep === index ? '#fbbf24' : '#71717a',
-                        filter: activeStep === index ? 'drop-shadow(0 0 25px rgba(245,158,11,0.7))' : 'none',
-                      }}
-                    >
-                      {step.icon}
-                    </span>
-                  </motion.div>
-
-                  {/* Title */}
-                  <h3
-                    className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300"
-                    style={{ color: activeStep === index ? '#fbbf24' : '#f8fafc' }}
-                  >
-                    {step.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-
-                {/* Corner Accent */}
-                <div
-                  className="absolute bottom-0 right-0 w-24 h-24 transition-opacity duration-500"
-                  style={{
-                    background: 'radial-gradient(circle at bottom right, rgba(245,158,11,0.1), transparent 70%)',
-                    opacity: activeStep === index ? 1 : 0,
-                  }}
-                />
-              </motion.div>
-            </motion.div>
+              step={step}
+              index={index}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+              isTouchDevice={isTouchDevice}
+              shouldReduceMotion={shouldReduceMotion}
+              isInView={isInView}
+            />
           ))}
         </div>
       </div>
     </section>
   );
 }
+
+// ProcessCard with auto-hover on mobile
+const ProcessCard = memo(function ProcessCard({
+  step,
+  index,
+  activeStep,
+  setActiveStep,
+  isTouchDevice,
+  shouldReduceMotion,
+  isInView,
+}: {
+  step: typeof PROCESS_STEPS[number];
+  index: number;
+  activeStep: number | null;
+  setActiveStep: (index: number | null) => void;
+  isTouchDevice: boolean;
+  shouldReduceMotion: boolean;
+  isInView: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardInView = useInView(cardRef, {
+    margin: "-40% 0px -40% 0px",
+    once: false
+  });
+
+  useEffect(() => {
+    if (isTouchDevice && cardInView) {
+      setActiveStep(index);
+    }
+  }, [cardInView, isTouchDevice, index, setActiveStep]);
+
+  const isActive = activeStep === index;
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{
+        duration: 0.8,
+        delay: shouldReduceMotion ? 0 : 0.2 * index,
+        ease: [0.16, 1, 0.3, 1]
+      }}
+      onMouseEnter={() => !isTouchDevice && setActiveStep(index)}
+      onMouseLeave={() => !isTouchDevice && setActiveStep(null)}
+      className="group relative"
+    >
+      {/* Connection Line - Desktop */}
+      {index < PROCESS_STEPS.length - 1 && (
+        <div className="hidden lg:block absolute top-12 left-full w-full h-[2px] z-0">
+          <motion.div
+            className="h-full"
+            style={{
+              background: 'linear-gradient(90deg, rgba(245,158,11,0.4), rgba(245,158,11,0.1))',
+            }}
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 1, delay: 0.5 + index * 0.2 }}
+          />
+        </div>
+      )}
+
+      <motion.div
+        className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
+        style={{
+          background: 'linear-gradient(160deg, rgba(35,35,40,0.95) 0%, rgba(18,18,22,0.98) 100%)',
+          boxShadow: isActive
+            ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
+            : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
+          transform: isActive ? 'translateY(-15px) scale(1.03)' : 'translateY(0) scale(1)',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        <div
+          className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500"
+          style={{
+            background: isActive
+              ? 'linear-gradient(90deg, transparent, #f59e0b, #fbbf24, #f59e0b, transparent)'
+              : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+            boxShadow: isActive ? '0 0 40px rgba(245,158,11,0.6)' : 'none',
+          }}
+        />
+        <div className="relative z-10 p-6 sm:p-8">
+          <div
+            className="absolute top-4 right-4 text-[4rem] sm:text-[5rem] font-black leading-none select-none transition-all duration-500"
+            style={{
+              color: isActive ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
+              textShadow: isActive ? '0 0 60px rgba(245,158,11,0.3)' : 'none',
+            }}
+          >
+            {step.number}
+          </div>
+          <motion.div
+            className="mb-6 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-2xl relative"
+            animate={isActive ? { y: -8, scale: 1.1 } : { y: 0, scale: 1 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              background: isActive
+                ? 'linear-gradient(145deg, rgba(245,158,11,0.3) 0%, rgba(217,119,6,0.15) 100%)'
+                : 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+              boxShadow: isActive
+                ? '0 20px 50px -15px rgba(245,158,11,0.5), inset 0 -2px 20px rgba(245,158,11,0.15), 0 0 0 1px rgba(245,158,11,0.3)'
+                : '0 10px 40px -10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.06)',
+            }}
+          >
+            <span
+              className="text-4xl sm:text-5xl transition-all duration-400"
+              style={{
+                color: isActive ? '#fbbf24' : '#71717a',
+                filter: isActive ? 'drop-shadow(0 0 25px rgba(245,158,11,0.7))' : 'none',
+              }}
+            >
+              {step.icon}
+            </span>
+          </motion.div>
+          <h3
+            className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300"
+            style={{ color: isActive ? '#fbbf24' : '#f8fafc' }}
+          >
+            {step.title}
+          </h3>
+          <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed">
+            {step.description}
+          </p>
+        </div>
+        <div
+          className="absolute bottom-0 right-0 w-24 h-24 transition-opacity duration-500"
+          style={{
+            background: 'radial-gradient(circle at bottom right, rgba(245,158,11,0.1), transparent 70%)',
+            opacity: isActive ? 1 : 0,
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+});
 
 // -----------------------------------------------------------------------------
 // CTA Section
