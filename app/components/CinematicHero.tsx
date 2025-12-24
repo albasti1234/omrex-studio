@@ -985,9 +985,9 @@ export default function CinematicHeroPro(): React.ReactElement {
           className="object-cover"
         />
 
-        {/* نفس أوفَرلايز تبعونك (خليهم) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/60 via-[#030303]/30 to-[#030303]/80" />
-        <div className="absolute inset-0 bg-[#030303]/20 mix-blend-multiply" />
+        {/* Lightened overlays for better image visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/30 via-[#030303]/15 to-[#030303]/50" />
+        <div className="absolute inset-0 bg-[#030303]/10 mix-blend-multiply" />
 
       </motion.div>
 

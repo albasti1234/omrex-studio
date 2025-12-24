@@ -10,11 +10,11 @@
    =================================================================== */
 @layer base {
   :root {
-    /* ━━━ Core Colors - Slightly brighter for Samsung Internet compatibility ━━━ */
-    --color-bg-primary: #070709;
-    --color-bg-secondary: #0d0d0f;
-    --color-bg-tertiary: #141416;
-    --color-bg-elevated: #1a1a1d;
+    /* ━━━ Core Colors - Brightened for better visibility ━━━ */
+    --color-bg-primary: #0c0c0e;
+    --color-bg-secondary: #161618;
+    --color-bg-tertiary: #1e1e22;
+    --color-bg-elevated: #262629;
 
     /* ━━━ Accent - Amber/Gold ━━━ */
     --color-accent: #f59e0b;
@@ -44,15 +44,15 @@
     --color-text-tertiary: #71717a;
     --color-text-muted: #52525b;
 
-    /* ━━━ Border Colors - Higher opacity for Samsung Internet ━━━ */
-    --color-border: rgba(248, 250, 252, 0.12);
-    --color-border-hover: rgba(248, 250, 252, 0.20);
-    --color-border-accent: rgba(245, 158, 11, 0.35);
-    --color-border-accent-hover: rgba(245, 158, 11, 0.55);
+    /* ━━━ Border Colors - Much higher opacity for card visibility ━━━ */
+    --color-border: rgba(248, 250, 252, 0.18);
+    --color-border-hover: rgba(248, 250, 252, 0.30);
+    --color-border-accent: rgba(245, 158, 11, 0.50);
+    --color-border-accent-hover: rgba(245, 158, 11, 0.70);
 
-    /* ━━━ Glass Effect ━━━ */
-    --color-glass-bg: rgba(10, 10, 12, 0.8);
-    --color-glass-border: rgba(248, 250, 252, 0.1);
+    /* ━━━ Glass Effect - Lighter for visibility ━━━ */
+    --color-glass-bg: rgba(20, 20, 24, 0.85);
+    --color-glass-border: rgba(248, 250, 252, 0.18);
     --blur-glass: 20px;
 
     /* ━━━ Shadows ━━━ */
