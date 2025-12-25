@@ -1155,14 +1155,14 @@ function CinematicSmoke(): React.ReactElement {
       <motion.div
         className="absolute -bottom-20 -left-20 h-[60%] w-[80%]"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(180,160,140,0.06) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(ellipse at center, rgba(180,160,140,0.15) 0%, transparent 70%)',
+          filter: 'blur(40px)',
         }}
         animate={{
-          x: [0, 80, 40, 0],
-          y: [0, -30, -60, 0],
-          scale: [1, 1.2, 1.1, 1],
-          opacity: [0.04, 0.07, 0.05, 0.04],
+          x: [0, 100, 50, 0],
+          y: [0, -50, -100, 0],
+          scale: [1, 1.3, 1.15, 1],
+          opacity: [0.12, 0.20, 0.15, 0.12],
         }}
         transition={{
           duration: 25,
@@ -1175,14 +1175,14 @@ function CinematicSmoke(): React.ReactElement {
       <motion.div
         className="absolute -bottom-10 -right-20 h-[50%] w-[70%]"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(200,180,150,0.05) 0%, transparent 60%)',
-          filter: 'blur(80px)',
+          background: 'radial-gradient(ellipse at center, rgba(200,180,150,0.18) 0%, transparent 60%)',
+          filter: 'blur(50px)',
         }}
         animate={{
-          x: [0, -60, -30, 0],
-          y: [0, -50, -80, 0],
-          scale: [1, 1.15, 1.05, 1],
-          opacity: [0.03, 0.06, 0.04, 0.03],
+          x: [0, -80, -40, 0],
+          y: [0, -70, -120, 0],
+          scale: [1, 1.25, 1.1, 1],
+          opacity: [0.10, 0.18, 0.12, 0.10],
         }}
         transition={{
           duration: 30,
