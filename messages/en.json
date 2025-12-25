@@ -1,0 +1,59 @@
+{
+    "meta": {
+        "locale": "en",
+        "dir": "ltr"
+    },
+    "hero": {
+        "name": "Green Valley Restaurant",
+        "tagline": "Good food • Fair prices • Close to you",
+        "callBtn": "Call Now",
+        "whatsappBtn": "WhatsApp"
+    },
+    "menu": {
+        "title": "Our Menu",
+        "currency": "AED",
+        "categories": {
+            "sandwiches": "Sandwiches",
+            "meals": "Meals",
+            "grills": "Grills",
+            "pastries": "Pastries",
+            "drinks": "Drinks"
+        }
+    },
+    "whyUs": {
+        "title": "Why People Love Us",
+        "points": [
+            {
+                "icon": "💰",
+                "text": "Fair prices"
+            },
+            {
+                "icon": "🍽️",
+                "text": "Generous portions"
+            },
+            {
+                "icon": "⚡",
+                "text": "Fast service"
+            }
+        ],
+        "reviews": "See what our customers say on Google Maps"
+    },
+    "location": {
+        "title": "Location & Hours",
+        "address": "Baniyas West - Abu Dhabi",
+        "hours": "Daily 10 AM - 12 Midnight",
+        "mapsBtn": "Open in Google Maps"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "phone": "02-XXX-XXXX",
+        "note": "Call or message us directly",
+        "callBtn": "Call Now",
+        "whatsappBtn": "WhatsApp Us"
+    },
+    "footer": {
+        "copyright": "© 2024 Green Valley Restaurant",
+        "builtBy": "Built by OMREX.STUDIO"
+    },
+    "langSwitch": "عربي"
+}

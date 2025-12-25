@@ -19,15 +19,18 @@ const NAV_LINKS = [
 const EASING = [0.16, 1, 0.3, 1] as const;
 
 const THEME = {
-  primary: "#f59e0b",
-  primaryDark: "#d97706",
-  primaryRgb: "245, 158, 11",
-  bg: "#050507",
+  primary: "#d4a855",
+  primaryLight: "#e8c878",
+  primaryDark: "#b8923f",
+  primaryRgb: "212, 168, 85",
+  secondary: "#cd7f32",
+  bg: "#0a0a0c",
+  bgElevated: "#12121a",
   text: {
-    primary: "#f8fafc",
-    secondary: "#a1a1aa",
-    muted: "#71717a",
-    dim: "#52525b",
+    primary: "#faf8f5",
+    secondary: "#b8b5b0",
+    muted: "#8a8580",
+    dim: "#5a5550",
   },
 } as const;
 
@@ -214,37 +217,40 @@ export default function Navbar(): React.ReactElement | null {
               })}
             </div>
 
-            {/* Desktop CTA - Inline styled */}
+            {/* Desktop CTA - Premium Luxury Style */}
             <div className="hidden md:block">
               <Link href="/brief">
                 <motion.button
-                  className="group relative overflow-hidden rounded-full px-6 py-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.15em]"
+                  className="group relative overflow-hidden rounded-full px-7 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em]"
                   style={{
-                    background: `linear-gradient(135deg, ${THEME.primary}, ${THEME.primaryDark})`,
-                    color: THEME.bg,
+                    background: `linear-gradient(145deg, ${THEME.primary}, ${THEME.primaryDark})`,
+                    color: '#0a0a0c',
+                    border: '1px solid rgba(232, 200, 120, 0.3)',
+                    boxShadow: '0 4px 20px rgba(212, 168, 85, 0.2), inset 0 1px 0 rgba(255,255,255,0.15)',
                   }}
                   whileHover={{
-                    scale: 1.03,
-                    boxShadow: `0 0 25px rgba(${THEME.primaryRgb}, 0.4)`,
+                    scale: 1.02,
+                    boxShadow: '0 8px 35px rgba(212, 168, 85, 0.35), inset 0 1px 0 rgba(255,255,255,0.2)',
                   }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     Start Brief
                     <motion.span
-                      animate={{ rotate: [0, 15, -15, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                      style={{ fontSize: '0.75rem' }}
                     >
                       ✦
                     </motion.span>
                   </span>
 
-                  {/* Shine effect */}
+                  {/* Subtle shine effect */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.6 }}
                   />
                 </motion.button>
               </Link>

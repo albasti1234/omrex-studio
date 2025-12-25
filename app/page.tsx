@@ -595,18 +595,18 @@ const ServiceCard = memo(function ServiceCard({
       <motion.div
         className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
         style={{
-          background: 'linear-gradient(145deg, rgba(30,30,35,0.9) 0%, rgba(15,15,18,0.95) 100%)',
+          background: 'linear-gradient(155deg, #16161f 0%, #0c0c12 50%, #0a0810 100%)',
           boxShadow: isActive
-            ? '0 25px 80px -12px rgba(245,158,11,0.35), 0 0 0 1px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
-            : '0 20px 60px -15px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05)',
-          transform: isActive ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+            ? '0 30px 100px -15px rgba(212,168,85,0.25), 0 0 0 1px rgba(212,168,85,0.4), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 60px rgba(212,168,85,0.15)'
+            : '0 25px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.03)',
+          transform: isActive ? 'translateY(-10px) scale(1.015)' : 'translateY(0) scale(1)',
+          transition: 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
         <div
-          className={`absolute inset-0 rounded-3xl transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 rounded-3xl transition-opacity duration-700 ${isActive ? 'opacity-100' : 'opacity-0'}`}
           style={{
-            background: 'linear-gradient(135deg, rgba(245,158,11,0.2), transparent 40%, transparent 60%, rgba(251,191,36,0.2))',
+            background: 'radial-gradient(ellipse at top left, rgba(212,168,85,0.12) 0%, transparent 50%), radial-gradient(ellipse at bottom right, rgba(205,127,50,0.08) 0%, transparent 50%)',
           }}
         />
         <div className="relative z-10 p-6 sm:p-8">
@@ -616,12 +616,12 @@ const ServiceCard = memo(function ServiceCard({
             transition={{ duration: 0.4 }}
             style={{
               background: isActive
-                ? 'linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.15) 100%)'
-                : 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                ? 'linear-gradient(145deg, rgba(212,168,85,0.2) 0%, rgba(184,146,63,0.1) 100%)'
+                : 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
               boxShadow: isActive
-                ? '0 15px 40px -10px rgba(245,158,11,0.4), inset 0 0 20px rgba(245,158,11,0.1)'
-                : '0 8px 30px -8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
-              border: isActive ? '1px solid rgba(245,158,11,0.4)' : '1px solid rgba(255,255,255,0.1)',
+                ? '0 20px 50px -12px rgba(212,168,85,0.35), inset 0 0 30px rgba(212,168,85,0.08)'
+                : '0 10px 40px -10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+              border: isActive ? '1px solid rgba(212,168,85,0.35)' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
             <span
@@ -978,70 +978,70 @@ const ProcessCard = memo(function ProcessCard({
       <motion.div
         className="relative h-full rounded-3xl overflow-hidden cursor-pointer"
         style={{
-          background: 'linear-gradient(160deg, rgba(35,35,40,0.95) 0%, rgba(18,18,22,0.98) 100%)',
+          background: 'linear-gradient(165deg, #18182a 0%, #0e0e18 50%, #0a0a10 100%)',
           boxShadow: isActive
-            ? '0 30px 100px -20px rgba(245,158,11,0.4), 0 0 0 1px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
-            : '0 25px 70px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
-          transform: isActive ? 'translateY(-15px) scale(1.03)' : 'translateY(0) scale(1)',
-          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+            ? '0 35px 120px -25px rgba(212,168,85,0.3), 0 0 0 1px rgba(212,168,85,0.45), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 80px rgba(212,168,85,0.12)'
+            : '0 30px 90px -25px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.02)',
+          transform: isActive ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+          transition: 'all 0.7s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
         <div
-          className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500"
+          className="absolute top-0 left-0 right-0 h-[2px] transition-all duration-700"
           style={{
             background: isActive
-              ? 'linear-gradient(90deg, transparent, #f59e0b, #fbbf24, #f59e0b, transparent)'
-              : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
-            boxShadow: isActive ? '0 0 40px rgba(245,158,11,0.6)' : 'none',
+              ? 'linear-gradient(90deg, transparent 5%, #d4a855 25%, #e8c878 50%, #d4a855 75%, transparent 95%)'
+              : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
+            boxShadow: isActive ? '0 0 50px rgba(212,168,85,0.5), 0 0 20px rgba(212,168,85,0.3)' : 'none',
           }}
         />
         <div className="relative z-10 p-6 sm:p-8">
           <div
-            className="absolute top-4 right-4 text-[4rem] sm:text-[5rem] font-black leading-none select-none transition-all duration-500"
+            className="absolute top-4 right-4 text-[4rem] sm:text-[5rem] font-black leading-none select-none transition-all duration-600"
             style={{
-              color: isActive ? 'rgba(245,158,11,0.15)' : 'rgba(255,255,255,0.03)',
-              textShadow: isActive ? '0 0 60px rgba(245,158,11,0.3)' : 'none',
+              color: isActive ? 'rgba(212,168,85,0.12)' : 'rgba(255,255,255,0.02)',
+              textShadow: isActive ? '0 0 80px rgba(212,168,85,0.25)' : 'none',
             }}
           >
             {step.number}
           </div>
           <motion.div
             className="mb-6 w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center rounded-2xl relative"
-            animate={isActive ? { y: -8, scale: 1.1 } : { y: 0, scale: 1 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            animate={isActive ? { y: -6, scale: 1.08 } : { y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             style={{
               background: isActive
-                ? 'linear-gradient(145deg, rgba(245,158,11,0.3) 0%, rgba(217,119,6,0.15) 100%)'
-                : 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                ? 'linear-gradient(150deg, rgba(212,168,85,0.22) 0%, rgba(184,146,63,0.1) 100%)'
+                : 'linear-gradient(150deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
               boxShadow: isActive
-                ? '0 20px 50px -15px rgba(245,158,11,0.5), inset 0 -2px 20px rgba(245,158,11,0.15), 0 0 0 1px rgba(245,158,11,0.3)'
-                : '0 10px 40px -10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.06)',
+                ? '0 25px 60px -15px rgba(212,168,85,0.4), inset 0 -2px 25px rgba(212,168,85,0.1), 0 0 0 1px rgba(212,168,85,0.3)'
+                : '0 12px 45px -12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.04)',
             }}
           >
             <span
-              className="text-4xl sm:text-5xl transition-all duration-400"
+              className="text-4xl sm:text-5xl transition-all duration-500"
               style={{
-                color: isActive ? '#fbbf24' : '#71717a',
-                filter: isActive ? 'drop-shadow(0 0 25px rgba(245,158,11,0.7))' : 'none',
+                color: isActive ? '#e8c878' : '#6a6560',
+                filter: isActive ? 'drop-shadow(0 0 30px rgba(212,168,85,0.6))' : 'none',
               }}
             >
               {step.icon}
             </span>
           </motion.div>
           <h3
-            className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300"
-            style={{ color: isActive ? '#fbbf24' : '#f8fafc' }}
+            className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-400"
+            style={{ color: isActive ? '#e8c878' : '#faf8f5' }}
           >
             {step.title}
           </h3>
-          <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed">
+          <p className="text-[#8a8580] text-sm sm:text-base leading-relaxed">
             {step.description}
           </p>
         </div>
         <div
-          className="absolute bottom-0 right-0 w-24 h-24 transition-opacity duration-500"
+          className="absolute bottom-0 right-0 w-28 h-28 transition-opacity duration-600"
           style={{
-            background: 'radial-gradient(circle at bottom right, rgba(245,158,11,0.1), transparent 70%)',
+            background: 'radial-gradient(circle at bottom right, rgba(212,168,85,0.08), transparent 65%)',
             opacity: isActive ? 1 : 0,
           }}
         />

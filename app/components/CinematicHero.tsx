@@ -29,9 +29,9 @@ const TIMING = {
   staggerDelay: 120,
 } as const;
 
-// Particle configuration
-const DUST_PARTICLES = 35;
-const SPARK_PARTICLES = 12;
+// Particle configuration - REDUCED for performance
+const DUST_PARTICLES = 15;
+const SPARK_PARTICLES = 6;
 
 // =============================================================================
 // TYPES
@@ -690,19 +690,11 @@ function Letterbox({ isVisible }: LetterboxProps): React.ReactElement {
 
 function FilmGrain(): React.ReactElement {
   return (
-    <motion.div
+    <div
       className="pointer-events-none absolute inset-0 z-50"
       style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        opacity: 0.035,
-      }}
-      animate={{
-        opacity: [0.03, 0.04, 0.03],
-      }}
-      transition={{
-        duration: 0.5,
-        repeat: Infinity,
-        ease: "linear",
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        opacity: 0.025,
       }}
     />
   );
@@ -858,48 +850,43 @@ type ScrollIndicatorProps = {
 function ScrollIndicator({ isVisible, onClick }: ScrollIndicatorProps): React.ReactElement {
   return (
     <motion.div
-      // mobile: Hide scroll indicator on small screens to prevent overlap with CTA
-      className="absolute bottom-28 left-1/2 z-40 -translate-x-1/2 cursor-pointer lg:bottom-32 hidden md:block"
+      // Position at very bottom, hidden on mobile
+      className="absolute bottom-8 left-1/2 z-40 -translate-x-1/2 cursor-pointer hidden lg:block"
       initial={{ opacity: 0 }}
       animate={isVisible ? { opacity: 1 } : {}}
-      transition={{ duration: 1, delay: 3 }}
+      transition={{ duration: 1, delay: 3.5 }}
       onClick={onClick}
     >
       <motion.div
-        className="flex flex-col items-center gap-4"
-        animate={{ y: [0, 5, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="flex flex-col items-center gap-2"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="text-[9px] uppercase tracking-[0.3em] text-[#71717a]">
-          Scroll to explore
-        </span>
-
-        <div className="relative flex h-12 w-7 items-start justify-center rounded-full border border-[#f59e0b]/30 p-2">
-          <motion.div
-            className="h-2 w-1.5 rounded-full bg-gradient-to-b from-[#f59e0b] to-[#d97706]"
-            animate={{
-              y: [0, 16, 0],
-              opacity: [1, 0.5, 1],
-            }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            style={{
-              boxShadow: "0 0 10px rgba(245,158,11,0.6)",
-            }}
-          />
-
-          {/* Outer glow ring */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            animate={{
-              boxShadow: [
-                "0 0 0 0 rgba(245,158,11,0)",
-                "0 0 0 8px rgba(245,158,11,0.1)",
-                "0 0 0 0 rgba(245,158,11,0)",
-              ],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </div>
+        {/* Elegant scroll indicator - just the arrow */}
+        <motion.div
+          className="flex flex-col items-center"
+          animate={{ opacity: [0.4, 0.8, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="text-[8px] uppercase tracking-[0.4em] text-[#8a8580] mb-2">
+            Scroll
+          </span>
+          <svg
+            width="16"
+            height="24"
+            viewBox="0 0 16 24"
+            fill="none"
+            className="text-[#d4a855]"
+          >
+            <path
+              d="M8 0L8 20M8 20L2 14M8 20L14 14"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -979,8 +966,8 @@ export default function CinematicHeroPro(): React.ReactElement {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-top sm:object-center"
-          style={{ filter: 'brightness(0.9)' }}
+          className="object-cover"
+          style={{ filter: 'brightness(0.9)', objectPosition: 'center 30%' }}
         />
 
         {/* ONE light overlay only - for text readability */}
@@ -1137,7 +1124,6 @@ export default function CinematicHeroPro(): React.ReactElement {
       {/* OVERLAYS */}
       {/* ============================================= */}
 
-      <CinematicSmoke />
       <Vignette />
       <FilmGrain />
     </section>
@@ -1145,81 +1131,36 @@ export default function CinematicHeroPro(): React.ReactElement {
 }
 
 // -----------------------------------------------------------------------------
-// Cinematic Smoke Effect - Subtle & Realistic
+// Cinematic Smoke Effect - OPTIMIZED for Performance
 // -----------------------------------------------------------------------------
 
 function CinematicSmoke(): React.ReactElement {
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
-      {/* Smoke Layer 1 - Bottom left, slow drift */}
+    <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+      {/* Smoke Layer 1 - Bottom mist */}
       <motion.div
-        className="absolute -bottom-20 -left-20 h-[60%] w-[80%]"
+        className="absolute -bottom-10 left-0 right-0 h-[60%]"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(180,160,140,0.15) 0%, transparent 70%)',
-          filter: 'blur(40px)',
+          background: 'linear-gradient(to top, rgba(160,140,120,0.25) 0%, rgba(140,120,100,0.10) 40%, transparent 100%)',
         }}
         animate={{
-          x: [0, 100, 50, 0],
-          y: [0, -50, -100, 0],
-          scale: [1, 1.3, 1.15, 1],
-          opacity: [0.12, 0.20, 0.15, 0.12],
+          opacity: [0.20, 0.30, 0.20],
         }}
         transition={{
-          duration: 25,
+          duration: 12,
           repeat: Infinity,
           ease: "easeInOut",
         }}
       />
 
-      {/* Smoke Layer 2 - Bottom right, medium drift */}
-      <motion.div
-        className="absolute -bottom-10 -right-20 h-[50%] w-[70%]"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(200,180,150,0.18) 0%, transparent 60%)',
-          filter: 'blur(50px)',
-        }}
-        animate={{
-          x: [0, -80, -40, 0],
-          y: [0, -70, -120, 0],
-          scale: [1, 1.25, 1.1, 1],
-          opacity: [0.10, 0.18, 0.12, 0.10],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 5,
-        }}
-      />
-
-      {/* Smoke Layer 3 - Center bottom, rising effect */}
-      <motion.div
-        className="absolute -bottom-32 left-1/4 h-[70%] w-[50%]"
-        style={{
-          background: 'radial-gradient(ellipse 120% 80% at center, rgba(160,140,120,0.04) 0%, transparent 50%)',
-          filter: 'blur(100px)',
-        }}
-        animate={{
-          y: [0, -100, -150, 0],
-          scale: [1, 1.3, 1.2, 1],
-          opacity: [0.03, 0.05, 0.04, 0.03],
-        }}
-        transition={{
-          duration: 35,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 10,
-        }}
-      />
-
-      {/* Subtle golden mist - accent color */}
+      {/* Smoke Layer 2 - Golden mist accent */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 h-[40%]"
         style={{
-          background: 'linear-gradient(to top, rgba(245,158,11,0.02) 0%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(212,168,85,0.12) 0%, rgba(212,168,85,0.04) 50%, transparent 100%)',
         }}
         animate={{
-          opacity: [0.02, 0.04, 0.02],
+          opacity: [0.15, 0.25, 0.15],
         }}
         transition={{
           duration: 8,

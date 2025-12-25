@@ -26,6 +26,7 @@
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.561.0",
     "next": "16.1.0",
+    "next-intl": "^4.6.1",
     "openai": "^6.10.0",
     "postprocessing": "^6.38.0",
     "react": "19.2.0",

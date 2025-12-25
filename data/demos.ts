@@ -109,6 +109,21 @@ export const DEMO_WEBSITES: DemoWebsite[] = [
     features: ["Reservation", "Menu", "Gallery", "Contact"],
     status: "live",
   },
+  {
+    id: "green-valley",
+    title: "Green Valley",
+    subtitle: "Local Arabic Restaurant",
+    description: "Bilingual restaurant website (AR/EN) with cinematic design",
+    category: "Restaurant",
+    route: "/demos/green-valley",
+    thumbnail: "/images/green-valley/hero.png",
+    color: {
+      primary: "#10B981",
+      secondary: "#0a0a0c",
+    },
+    features: ["Bilingual", "Menu", "Gallery", "WhatsApp"],
+    status: "live",
+  },
 ];
 
 export const getLivedemos = () => DEMO_WEBSITES.filter((d) => d.status === "live");

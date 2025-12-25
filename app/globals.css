@@ -10,22 +10,33 @@
    =================================================================== */
 @layer base {
   :root {
-    /* ━━━ Core Colors - BRIGHT for Samsung Internet ━━━ */
-    --color-bg-primary: #121215;
-    --color-bg-secondary: #1c1c20;
-    --color-bg-tertiary: #252528;
-    --color-bg-elevated: #2e2e32;
+    /* ━━━ Core Colors - DEEP CINEMATIC BLACK ━━━ */
+    --color-bg-primary: #0a0a0c;
+    --color-bg-secondary: #12121a;
+    --color-bg-tertiary: #1a1a24;
+    --color-bg-elevated: #222230;
 
-    /* ━━━ Accent - Amber/Gold ━━━ */
-    --color-accent: #f59e0b;
-    --color-accent-light: #fbbf24;
-    --color-accent-dark: #d97706;
-    --color-accent-rgb: 245 158 11;
+    /* ━━━ Primary Accent - RICH DEEP GOLD ━━━ */
+    --color-accent: #d4a855;
+    --color-accent-light: #e8c878;
+    --color-accent-dark: #b8923f;
+    --color-accent-rgb: 212 168 85;
 
-    /* ━━━ Secondary Accent - Warm Gray ━━━ */
-    --color-secondary: #78716c;
-    --color-secondary-light: #a8a29e;
-    --color-secondary-dark: #57534e;
+    /* ━━━ Secondary Accent - WARM COPPER ━━━ */
+    --color-secondary: #cd7f32;
+    --color-secondary-light: #e8a958;
+    --color-secondary-dark: #b06a28;
+    --color-secondary-rgb: 205 127 50;
+
+    /* ━━━ Emotional Colors - CINEMATIC PALETTE ━━━ */
+    --color-emotion-warm: #8b4513;
+    /* Deep sienna - warmth */
+    --color-emotion-mystery: #2d1b4e;
+    /* Deep purple - mystery */
+    --color-emotion-depth: #1a0f0a;
+    /* Near black brown - depth */
+    --color-emotion-glow: #f5deb3;
+    /* Wheat - soft glow */
 
     /* ━━━ Additional Colors for HorizontalCinema ━━━ */
     --color-cyan: 34 211 238;
@@ -38,30 +49,31 @@
     --color-orange: 249 115 22;
     --color-red: 225 29 72;
 
-    /* ━━━ Text Colors ━━━ */
-    --color-text-primary: #f8fafc;
-    --color-text-secondary: #a1a1aa;
-    --color-text-tertiary: #71717a;
-    --color-text-muted: #52525b;
+    /* ━━━ Text Colors - HIGH CONTRAST ━━━ */
+    --color-text-primary: #faf8f5;
+    --color-text-secondary: #b8b5b0;
+    --color-text-tertiary: #8a8580;
+    --color-text-muted: #5a5550;
 
-    /* ━━━ Border Colors - SOLID for Samsung Internet ━━━ */
-    --color-border: #3a3a3f;
-    --color-border-hover: #4a4a50;
-    --color-border-accent: #c47d08;
-    --color-border-accent-hover: #f59e0b;
+    /* ━━━ Border Colors - CINEMATIC ━━━ */
+    --color-border: #2a2a35;
+    --color-border-hover: #3a3a48;
+    --color-border-accent: #b8923f;
+    --color-border-accent-hover: #d4a855;
 
-    /* ━━━ Glass Effect - SOLID fallback for Samsung ━━━ */
-    --color-glass-bg: #1a1a1e;
-    --color-glass-border: #3a3a3f;
-    --blur-glass: 20px;
+    /* ━━━ Glass Effect - PREMIUM ━━━ */
+    --color-glass-bg: #141420;
+    --color-glass-border: #2a2a38;
+    --blur-glass: 24px;
 
-    /* ━━━ Shadows ━━━ */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 30px 100px rgba(0, 0, 0, 0.6);
-    --shadow-glow: 0 0 60px rgba(245, 158, 11, 0.15);
-    --shadow-glow-strong: 0 0 100px rgba(245, 158, 11, 0.25);
+    /* ━━━ Shadows - DEEP & DRAMATIC ━━━ */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 25px 80px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 40px 120px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 80px rgba(212, 168, 85, 0.2);
+    --shadow-glow-strong: 0 0 120px rgba(212, 168, 85, 0.35);
+    --shadow-cinematic: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 1px rgba(212, 168, 85, 0.3);
 
     /* ━━━ Typography ━━━ */
     --font-display: "Inter", system-ui, sans-serif;
@@ -81,9 +93,11 @@
 
     /* ━━━ Transitions ━━━ */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
     --duration-fast: 150ms;
     --duration-normal: 300ms;
     --duration-slow: 500ms;
+    --duration-cinematic: 800ms;
   }
 }
 
