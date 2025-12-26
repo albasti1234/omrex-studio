@@ -1338,7 +1338,7 @@ function ShopByGenderSection() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden px-6 py-32 lg:px-8"
+      className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-28 lg:px-8"
       style={{ background: THEME.colors.bg.primary }}
     >
       <AmbientOrbs variant="purple" />
@@ -1349,7 +1349,7 @@ function ShopByGenderSection() {
           Discover Your <span style={{ fontStyle: "italic", color: THEME.colors.accent.gold }}>Match</span>
         </SectionTitle>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mt-8 sm:mt-16 grid gap-3 sm:gap-6 grid-cols-1 sm:grid-cols-3">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.id}
@@ -1372,7 +1372,7 @@ function GenderCard({ category }: { category: { id: string; label: string; subti
   return (
     <Link href={`/demos/velvet-perfumes/fragrances?gender=${category.id}`}>
       <motion.div
-        className="group relative aspect-[4/5] cursor-pointer overflow-hidden"
+        className="group relative aspect-[3/2] sm:aspect-[4/5] cursor-pointer overflow-hidden rounded-sm"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -1395,12 +1395,12 @@ function GenderCard({ category }: { category: { id: string; label: string; subti
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <motion.div animate={{ y: hovered ? -12 : 0 }} transition={{ duration: 0.4 }}>
             <h3
-              className="text-[2rem] font-extralight tracking-[0.05em] sm:text-[2.5rem]"
+              className="text-[1.4rem] sm:text-[2.5rem] font-extralight tracking-[0.05em]"
               style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
             >
               {category.label}
             </h3>
-            <p className="mt-1 text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
+            <p className="mt-0.5 sm:mt-1 text-[0.55rem] sm:text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
               {category.subtitle}
             </p>
 
