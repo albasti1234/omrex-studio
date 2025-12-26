@@ -910,30 +910,50 @@ function TestimonialsSection() {
           </AnimatePresence>
         </div>
 
-        {/* ✅ FIX: Larger touch targets for navigation dots */}
-        <div className="mt-6 flex items-center justify-center gap-1 sm:mt-8 sm:gap-2">
+        {/* Navigation dots with progress indicator */}
+        <div className="mt-6 flex items-center justify-center gap-2 sm:mt-8 sm:gap-3">
           {TESTIMONIALS.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className="group relative flex h-11 w-11 items-center justify-center"
+              className="group relative flex h-12 w-12 items-center justify-center"
               aria-label={`Go to testimonial ${index + 1}`}
             >
+              {/* Progress ring for active dot */}
+              {index === activeIndex && !shouldReduceMotion && (
+                <svg className="absolute w-8 h-8" viewBox="0 0 32 32">
+                  <circle
+                    cx="16"
+                    cy="16"
+                    r="14"
+                    fill="none"
+                    stroke="rgba(212,168,85,0.2)"
+                    strokeWidth="2"
+                  />
+                  <motion.circle
+                    cx="16"
+                    cy="16"
+                    r="14"
+                    fill="none"
+                    stroke="#d4a855"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray="88"
+                    initial={{ strokeDashoffset: 88 }}
+                    animate={{ strokeDashoffset: 0 }}
+                    transition={{ duration: 6, ease: "linear" }}
+                    style={{ transformOrigin: "center", transform: "rotate(-90deg)" }}
+                  />
+                </svg>
+              )}
               <span
-                className="h-2.5 w-2.5 rounded-full transition-all duration-300 sm:h-3 sm:w-3"
+                className="relative h-2.5 w-2.5 rounded-full transition-all duration-300 sm:h-3 sm:w-3"
                 style={{
-                  background: index === activeIndex ? THEME.primary : THEME.text.dark,
-                  transform: index === activeIndex ? "scale(1.2)" : "scale(1)",
+                  background: index === activeIndex ? '#d4a855' : 'rgba(255,255,255,0.2)',
+                  transform: index === activeIndex ? "scale(1.3)" : "scale(1)",
+                  boxShadow: index === activeIndex ? '0 0 10px rgba(212,168,85,0.5)' : 'none',
                 }}
               />
-              {index === activeIndex && !shouldReduceMotion && (
-                <motion.span
-                  className="absolute h-2.5 w-2.5 rounded-full sm:h-3 sm:w-3"
-                  style={{ background: THEME.primary }}
-                  animate={{ scale: [1, 2], opacity: [0.5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              )}
             </button>
           ))}
         </div>

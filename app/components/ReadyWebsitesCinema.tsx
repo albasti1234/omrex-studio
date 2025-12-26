@@ -325,11 +325,16 @@ const DemoCard = memo(function DemoCard({
 
   const CardContent = (
     <article
-      className={`group relative w-[280px] sm:w-[320px] md:w-[350px] h-[280px] sm:h-[320px] rounded-2xl overflow-hidden border transition-all duration-300 ${isActive
-        ? "border-white/30 shadow-xl"
-        : "border-white/10 hover:border-white/20"
+      className={`group relative w-[280px] sm:w-[320px] md:w-[350px] h-[280px] sm:h-[320px] rounded-2xl overflow-hidden border transition-all duration-500 ${isActive
+        ? "border-white/40 shadow-2xl"
+        : "border-white/10 hover:border-white/30"
         } ${isComingSoon ? "cursor-default" : "cursor-pointer"}`}
-      style={{ backgroundColor: demo.color.secondary }}
+      style={{
+        backgroundColor: demo.color.secondary,
+        boxShadow: isActive
+          ? `0 25px 80px -20px ${demo.color.primary}40, 0 0 0 1px ${demo.color.primary}30`
+          : 'none',
+      }}
     >
       {/* ✅ Optimized Image with lazy loading and blur placeholder */}
       <div className="absolute inset-0">

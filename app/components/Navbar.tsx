@@ -86,9 +86,12 @@ export default function Navbar(): React.ReactElement | null {
       <motion.header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          background: isScrolled ? `${THEME.bg}f0` : "transparent",
-          backdropFilter: isScrolled ? "blur(20px)" : "none",
-          borderBottom: isScrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+          background: isScrolled
+            ? 'linear-gradient(180deg, rgba(10,10,12,0.95) 0%, rgba(10,10,12,0.85) 100%)'
+            : 'transparent',
+          backdropFilter: isScrolled ? 'blur(24px) saturate(180%)' : 'none',
+          borderBottom: isScrolled ? '1px solid rgba(212,168,85,0.15)' : 'none',
+          boxShadow: isScrolled ? '0 10px 40px -10px rgba(0,0,0,0.5)' : 'none',
         }}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
