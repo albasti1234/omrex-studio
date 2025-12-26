@@ -1150,7 +1150,7 @@ const ProcessCard = memo(function ProcessCard({
 });
 
 // -----------------------------------------------------------------------------
-// CTA Section
+// CTA Section - PREMIUM CINEMATIC
 // -----------------------------------------------------------------------------
 
 function CTASection() {
@@ -1170,135 +1170,194 @@ function CTASection() {
   }, [isTouchDevice]);
 
   return (
-    <section ref={ref} className="relative px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl">
+    <section ref={ref} className="relative px-4 py-20 sm:py-28 sm:px-6 lg:px-8">
+      {/* Background Glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(212,168,85,0.06), transparent 50%)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-4xl relative z-10">
+        {/* Animated Border Container */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          onMouseMove={handleMouseMove}
-          className="relative overflow-hidden rounded-2xl border border-[#c47d08] bg-[#1c1c20] sm:rounded-[2.5rem]"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative"
         >
-          {/* Mouse follow gradient - Desktop only */}
-          {!isTouchDevice && (
+          {/* Animated Gradient Border */}
+          <motion.div
+            className="absolute -inset-[1px] rounded-2xl sm:rounded-[2.5rem] overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #d4a855 0%, #8b6914 25%, #d4a855 50%, #f5d485 75%, #d4a855 100%)',
+              backgroundSize: '200% 200%',
+            }}
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+
+          {/* Main Card */}
+          <div
+            className="relative overflow-hidden rounded-2xl sm:rounded-[2.5rem]"
+            style={{
+              background: 'linear-gradient(145deg, rgba(16,16,22,0.98) 0%, rgba(10,10,14,0.99) 100%)',
+            }}
+            onMouseMove={handleMouseMove}
+          >
+            {/* Mouse follow gradient - Desktop only */}
+            {!isTouchDevice && (
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(212,168,85,0.08), transparent 40%)`,
+                }}
+              />
+            )}
+
+            {/* Top Glow */}
             <div
-              className="pointer-events-none absolute inset-0"
+              className="absolute inset-0 pointer-events-none"
               style={{
-                background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(${THEME.primaryRgb}, 0.1), transparent 40%)`,
+                background: 'radial-gradient(ellipse at 50% 0%, rgba(212,168,85,0.08) 0%, transparent 50%)',
               }}
             />
-          )}
 
-          {/* Floating orbs - Desktop only, reduced motion respected */}
-          {!isMobile && !shouldReduceMotion && (
-            <>
-              <motion.div
-                className="pointer-events-none absolute -left-20 -top-20 h-32 w-32 rounded-full sm:h-40 sm:w-40"
-                style={{
-                  background: `rgba(${THEME.primaryRgb}, 0.15)`,
-                  filter: "blur(40px)",
-                }}
-                animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
-                transition={{ duration: 8, repeat: Infinity }}
-              />
-              <motion.div
-                className="pointer-events-none absolute -bottom-20 -right-20 h-32 w-32 rounded-full sm:h-40 sm:w-40"
-                style={{
-                  background: `rgba(${THEME.primaryRgb}, 0.1)`,
-                  filter: "blur(40px)",
-                }}
-                animate={{ x: [0, -20, 0], y: [0, -15, 0] }}
-                transition={{ duration: 10, repeat: Infinity }}
-              />
-            </>
-          )}
-
-          <div className="relative px-5 py-12 text-center sm:px-12 sm:py-16 lg:py-20">
-            {/* Decorative elements - Reduced on mobile */}
+            {/* Floating orbs - Desktop only */}
             {!isMobile && !shouldReduceMotion && (
               <>
                 <motion.div
-                  className="absolute left-6 top-6 text-xl sm:left-8 sm:top-8 sm:text-[2rem]"
-                  style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
-                  ✦
-                </motion.div>
+                  className="pointer-events-none absolute -left-20 -top-20 h-40 w-40 rounded-full"
+                  style={{
+                    background: 'rgba(212,168,85,0.1)',
+                    filter: 'blur(60px)',
+                  }}
+                  animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                />
                 <motion.div
-                  className="absolute bottom-6 right-6 text-xl sm:bottom-8 sm:right-8 sm:text-[2rem]"
-                  style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
-                  animate={{ rotate: [360, 0] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
-                  ✦
-                </motion.div>
+                  className="pointer-events-none absolute -bottom-20 -right-20 h-40 w-40 rounded-full"
+                  style={{
+                    background: 'rgba(212,168,85,0.08)',
+                    filter: 'blur(60px)',
+                  }}
+                  animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
+                  transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+                />
               </>
             )}
 
-            <motion.h2
-              className="text-[1.5rem] font-semibold sm:text-[1.8rem] lg:text-[2.5rem]"
-              style={{ color: THEME.text.primary }}
-              initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 }}
-            >
-              Ready to build something
-              <br />
-              <span className="text-gradient-gold">cinematic?</span>
-            </motion.h2>
+            <div className="relative px-6 py-14 text-center sm:px-14 sm:py-20 lg:py-24">
+              {/* Decorative Stars */}
+              {!isMobile && !shouldReduceMotion && (
+                <>
+                  <motion.div
+                    className="absolute left-8 top-8 text-2xl"
+                    style={{ color: 'rgba(212,168,85,0.3)' }}
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  >
+                    ✦
+                  </motion.div>
+                  <motion.div
+                    className="absolute bottom-8 right-8 text-2xl"
+                    style={{ color: 'rgba(212,168,85,0.3)' }}
+                    animate={{ rotate: [360, 0] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  >
+                    ✦
+                  </motion.div>
+                </>
+              )}
 
-            <motion.p
-              className="mx-auto mt-3 max-w-md text-[0.9rem] sm:mt-4 sm:text-[1rem]"
-              style={{ color: THEME.text.secondary }}
-              initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 }}
-            >
-              Let's create a web experience that stands out from the template crowd.
-            </motion.p>
-
-            <motion.div
-              className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4"
-              initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 }}
-            >
-              <MagneticButton href="/brief" variant="primary">
-                Start your brief
-                <span>✦</span>
-              </MagneticButton>
-
-              <MagneticButton href="/contact" variant="secondary">
-                Get in touch
-                <span>→</span>
-              </MagneticButton>
-            </motion.div>
-          </div>
-
-          {/* Animated border - Simplified on mobile */}
-          {!isMobile && (
-            <div className="absolute inset-0 rounded-[inherit]">
-              <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-                <rect
-                  className="h-full w-full fill-none"
-                  style={{ stroke: `rgba(${THEME.primaryRgb}, 0.2)` }}
-                  strokeWidth="1"
-                  rx="40"
-                  strokeDasharray="8 8"
+              <motion.h2
+                className="text-2xl font-bold sm:text-3xl lg:text-4xl text-white"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.2, duration: 0.6 }}
+              >
+                Ready to build something
+                <br />
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #f5d485 0%, #d4a855 50%, #b8923f 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
                 >
-                  {!shouldReduceMotion && (
-                    <animate
-                      attributeName="stroke-dashoffset"
-                      values="0;16"
-                      dur="2s"
-                      repeatCount="indefinite"
+                  cinematic?
+                </span>
+              </motion.h2>
+
+              <motion.p
+                className="mx-auto mt-4 max-w-md text-[#8a8580] text-sm sm:text-base"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
+                Let's create a web experience that stands out from the template crowd.
+              </motion.p>
+
+              <motion.div
+                className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.4, duration: 0.6 }}
+              >
+                {/* Primary CTA */}
+                <Link href="/brief">
+                  <motion.button
+                    className="group relative px-8 py-4 rounded-full overflow-hidden"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: 'linear-gradient(135deg, #d4a855, #f5d485, #d4a855, #8b6914, #d4a855)',
+                        backgroundSize: '200% 200%',
+                      }}
+                      animate={{
+                        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      }}
                     />
-                  )}
-                </rect>
-              </svg>
+                    <div className="absolute inset-[1px] rounded-full bg-[#0d0b08]" />
+                    <span className="relative z-10 flex items-center gap-2 text-[#d4a855] font-semibold text-sm uppercase tracking-widest">
+                      Start your brief <span className="group-hover:rotate-45 transition-transform">✦</span>
+                    </span>
+                  </motion.button>
+                </Link>
+
+                {/* Secondary CTA */}
+                <Link href="/contact">
+                  <motion.button
+                    className="px-8 py-4 rounded-full border border-[#d4a855]/30 hover:border-[#d4a855]/60 text-white/80 hover:text-white font-medium text-sm uppercase tracking-widest transition-all duration-300 hover:bg-[#d4a855]/5"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="flex items-center gap-2">
+                      Get in touch <span>→</span>
+                    </span>
+                  </motion.button>
+                </Link>
+              </motion.div>
             </div>
-          )}
+          </div>
         </motion.div>
       </div>
     </section>
