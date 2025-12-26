@@ -896,238 +896,511 @@ function HeroSection() {
 
 function FeaturedScentSection() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-15%" });
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
   const [activeNoteIndex, setActiveNoteIndex] = useState(0);
-  const allNotes = [...FEATURED_SCENT.notes.top, ...FEATURED_SCENT.notes.heart, ...FEATURED_SCENT.notes.base];
+  const [isHovered, setIsHovered] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
-  // ✅ Position tuning
-  const CENTER_X = 51; // جرّب 45/46 لو بدك أقل شمال
-  const CENTER_Y = 50;
-  const RADIUS = 30;   // جرّب 44/48 حسب الذوق
+  const allNotes = [...FEATURED_SCENT.notes.top, ...FEATURED_SCENT.notes.heart, ...FEATURED_SCENT.notes.base];
+  const noteCategories = [
+    { label: "TOP", notes: FEATURED_SCENT.notes.top, color: "#FFD700" },
+    { label: "HEART", notes: FEATURED_SCENT.notes.heart, color: "#FF69B4" },
+    { label: "BASE", notes: FEATURED_SCENT.notes.base, color: "#8B4513" },
+  ];
 
-  // ✅ Background change by active note (optional)
-  const NOTE_IMAGES: Record<string, string> = {
-    Saffron: "/images/velvet/notes/saffron.jpg",
-    Bergamot: "/images/velvet/notes/bergamot.jpg",
-    Rose: "/images/velvet/notes/rose.jpg",
-    Jasmine: "/images/velvet/notes/jasmine.jpg",
-    Oud: "/images/velvet/notes/oud.jpg",
-    Amber: "/images/velvet/notes/amber.jpg",
-    Sandalwood: "/images/velvet/notes/sandalwood.jpg",
-    Musk: "/images/velvet/notes/musk.jpg",
-  };
-
-  const activeNote = allNotes[activeNoteIndex];
-  const activeNoteImage = activeNote ? NOTE_IMAGES[activeNote] : undefined;
-
-
-
-
-
+  // Auto-rotate notes
   useEffect(() => {
-    if (shouldReduceMotion || !isInView || allNotes.length === 0) {
-      setActiveNoteIndex(0);
-      return;
-    }
-
+    if (shouldReduceMotion || !isInView || allNotes.length === 0) return;
     const interval = setInterval(() => {
       setActiveNoteIndex((prev) => (prev + 1) % allNotes.length);
-    }, 2500);
-
+    }, 2000);
     return () => clearInterval(interval);
   }, [shouldReduceMotion, isInView, allNotes.length]);
-
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden px-6 py-32 lg:px-8"
-      style={{ background: THEME.colors.bg.primary }}
+      className="relative min-h-screen overflow-hidden"
+      style={{ background: `linear-gradient(180deg, ${THEME.colors.bg.primary} 0%, #0a0812 50%, ${THEME.colors.bg.primary} 100%)` }}
     >
-      <AmbientOrbs variant="mixed" />
-      <GoldenParticles count={25} area="bottom" />
+      {/* ========== CINEMATIC BACKGROUND EFFECTS ========== */}
 
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <SectionLabel>✦ The Signature ✦</SectionLabel>
+      {/* Animated gradient background */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 60% at 20% 30%, rgba(${THEME.colors.accent.goldRgb}, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 80% at 80% 70%, rgba(139, 69, 19, 0.06) 0%, transparent 50%)
+          `,
+        }}
+        animate={{
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
 
-        <div className="mt-16 grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
-          {/* Product Image */}
+      {/* Floating light orbs - Desktop only */}
+      {!isMobile && !shouldReduceMotion && (
+        <>
           <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: -80 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1.2, ease: EASING.out }}
+            className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+            style={{
+              background: `radial-gradient(circle, rgba(${THEME.colors.accent.goldRgb}, 0.15) 0%, transparent 70%)`,
+              filter: "blur(80px)",
+              left: "10%",
+              top: "20%",
+            }}
+            animate={{
+              x: [0, 50, 0],
+              y: [0, -30, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+            style={{
+              background: `radial-gradient(circle, rgba(139, 69, 19, 0.12) 0%, transparent 70%)`,
+              filter: "blur(60px)",
+              right: "5%",
+              bottom: "30%",
+            }}
+            animate={{
+              x: [0, -40, 0],
+              y: [0, 40, 0],
+              scale: [1, 0.9, 1],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+        </>
+      )}
+
+      {/* Film grain overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Golden particles */}
+      <GoldenParticles count={isMobile ? 15 : 30} />
+
+      {/* ========== MAIN CONTENT ========== */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+
+        {/* Section Label - Cinematic */}
+        <motion.div
+          className="pt-16 sm:pt-20 lg:pt-24 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="inline-flex items-center gap-4">
+            <motion.span
+              className="h-px w-8 sm:w-16"
+              style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold})` }}
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : {}}
+              transition={{ duration: 1, delay: 0.3 }}
+            />
+            <span
+              className="text-[0.65rem] sm:text-[0.7rem] font-medium uppercase tracking-[0.4em] sm:tracking-[0.5em]"
+              style={{ color: THEME.colors.accent.gold }}
+            >
+              ✦ The Signature ✦
+            </span>
+            <motion.span
+              className="h-px w-8 sm:w-16"
+              style={{ background: `linear-gradient(90deg, ${THEME.colors.accent.gold}, transparent)` }}
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : {}}
+              transition={{ duration: 1, delay: 0.3 }}
+            />
+          </div>
+        </motion.div>
+
+        {/* ========== MOBILE-FIRST LAYOUT ========== */}
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-8 lg:py-0 gap-8 lg:gap-16">
+
+          {/* ===== PRODUCT SHOWCASE - Left Side ===== */}
+          <motion.div
+            className="relative w-full max-w-[320px] sm:max-w-[400px] lg:max-w-[480px] order-1"
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.2 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="relative mx-auto aspect-[3/4] w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[520px]">
-              {/* Glow (خلف الكل) */}
+            {/* Animated border frame */}
+            <div className="absolute -inset-3 sm:-inset-4 lg:-inset-6 rounded-3xl overflow-hidden">
+              <motion.div
+                className="absolute inset-0"
+                style={{
+                  background: `conic-gradient(from 0deg, ${THEME.colors.accent.gold}, transparent, ${THEME.colors.accent.gold}, transparent, ${THEME.colors.accent.gold})`,
+                  opacity: 0.3,
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+              <div
+                className="absolute inset-[1px] rounded-3xl"
+                style={{ background: THEME.colors.bg.primary }}
+              />
+            </div>
+
+            {/* Product container with glass effect */}
+            <div
+              className="relative aspect-[3/4] rounded-2xl overflow-hidden"
+              style={{
+                background: `linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
+                border: `1px solid ${THEME.colors.border.subtle}`,
+                boxShadow: `
+                  0 50px 100px -20px rgba(0,0,0,0.5),
+                  inset 0 1px 0 rgba(255,255,255,0.05),
+                  0 0 80px -20px rgba(${THEME.colors.accent.goldRgb}, 0.2)
+                `,
+              }}
+            >
+              {/* Glow behind bottle */}
               <motion.div
                 className="absolute inset-0 z-0"
                 style={{
-                  background: `radial-gradient(ellipse at 50% 70%, rgba(${THEME.colors.accent.goldRgb}, 0.18), transparent 60%)`,
-                  filter: "blur(60px)",
+                  background: `radial-gradient(ellipse 80% 100% at 50% 60%, rgba(${THEME.colors.accent.goldRgb}, 0.15) 0%, transparent 60%)`,
                 }}
-                animate={{ opacity: [0.35, 0.6, 0.35], scale: [0.98, 1.05, 0.98] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                animate={{
+                  opacity: isHovered ? 0.8 : 0.4,
+                  scale: isHovered ? 1.1 : 1,
+                }}
+                transition={{ duration: 0.5 }}
               />
-              {/* Note Image Overlay (مرة وحدة بس) */}
-              <AnimatePresence mode="wait">
-                {activeNoteImage && (
-                  <motion.div
-                    key={activeNoteImage}
-                    className="pointer-events-none absolute inset-0 z-10"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.12 }}   // ✅ هاي أهم نقطة للتعتيم (خفيف)
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.6 }}
-                    style={{ mixBlendMode: "soft-light" }} // جرّب "normal" لو بدك أوضح
-                  >
-                    <Image
-                      src={activeNoteImage}
-                      alt={activeNote}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 40vw"
-                      className="object-cover object-center"
-                    />
-                    {/* تعتيم خفيف جداً — قلله/شيله لو بدك */}
-                    <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.05)" }} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              {/* Bottle (ثابتة - The Signature) */}
+
+              {/* Bottle Image with float animation */}
               <motion.div
-                className="relative z-20 h-full w-full"
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10 h-full w-full"
+                animate={{
+                  y: shouldReduceMotion ? 0 : [0, -10, 0],
+                  rotateY: isHovered && !isMobile ? 5 : 0,
+                }}
+                transition={{
+                  y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                  rotateY: { duration: 0.5 }
+                }}
               >
                 <Image
                   src={FEATURED_SCENT.image}
                   alt={FEATURED_SCENT.name}
                   fill
-                  sizes="(max-width: 1024px) 90vw, 40vw"
-                  className="object-contain p-[6%]"
+                  sizes="(max-width: 640px) 320px, (max-width: 1024px) 400px, 480px"
+                  className="object-contain p-6 sm:p-8"
+                  priority
                 />
               </motion.div>
-              {/* Floating Notes */}
-              {allNotes.map((note, i) => {
-                const angle = (i / allNotes.length) * Math.PI * 2;
 
-                // ✅ صح: استخدم CENTER_X/Y/RADIUS بعد تعريفهم فوق
-                const x = CENTER_X + Math.cos(angle) * RADIUS;
-                const y = CENTER_Y + Math.sin(angle) * RADIUS;
+              {/* Shine effect */}
+              <motion.div
+                className="absolute inset-0 z-20 pointer-events-none"
+                style={{
+                  background: "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
+                }}
+                animate={{
+                  x: isHovered ? ["0%", "200%"] : "0%",
+                }}
+                transition={{ duration: 0.8 }}
+              />
+            </div>
+
+            {/* ===== FLOATING NOTES - Mobile Optimized ===== */}
+            <div className="absolute inset-0 pointer-events-none">
+              {allNotes.map((note, i) => {
+                // سلوك مختلف للموبايل والديسكتوب
+                const angle = (i / allNotes.length) * Math.PI * 2 - Math.PI / 2;
+                const radiusMobile = 42;
+                const radiusDesktop = 48;
+                const radius = isMobile ? radiusMobile : radiusDesktop;
+                const x = 50 + Math.cos(angle) * radius;
+                const y = 50 + Math.sin(angle) * radius;
+                const isActive = i === activeNoteIndex;
 
                 return (
                   <motion.div
                     key={note}
-                    className="absolute z-30 -translate-x-1/2 -translate-y-1/2 rounded-full px-4 py-2 backdrop-blur-md"
+                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto"
                     style={{
                       left: `${x}%`,
                       top: `${y}%`,
-                      background: i === activeNoteIndex ? `rgba(${THEME.colors.accent.goldRgb}, 0.15)` : THEME.colors.bg.glass,
-                      border: `1px solid ${i === activeNoteIndex ? THEME.colors.border.hover : THEME.colors.border.subtle}`,
                     }}
-                    animate={{
-                      scale: i === activeNoteIndex ? 1.15 : 1,
-                      opacity: i === activeNoteIndex ? 1 : 0.5,
-                    }}
-                    transition={{ duration: 0.5 }}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={isInView ? {
+                      opacity: isActive ? 1 : 0.4,
+                      scale: isActive ? 1 : 0.85,
+                    } : {}}
+                    transition={{ duration: 0.4, delay: 0.5 + i * 0.08 }}
+                    onClick={() => setActiveNoteIndex(i)}
                   >
-                    <span
-                      className="text-[0.6rem] uppercase tracking-[0.15em]"
-                      style={{ color: i === activeNoteIndex ? THEME.colors.accent.gold : THEME.colors.text.muted }}
+                    <motion.div
+                      className="relative px-3 py-1.5 sm:px-4 sm:py-2 rounded-full backdrop-blur-md cursor-pointer"
+                      style={{
+                        background: isActive
+                          ? `linear-gradient(135deg, rgba(${THEME.colors.accent.goldRgb}, 0.25) 0%, rgba(${THEME.colors.accent.goldRgb}, 0.1) 100%)`
+                          : `rgba(0,0,0,0.4)`,
+                        border: `1px solid ${isActive ? THEME.colors.accent.gold : 'rgba(255,255,255,0.1)'}`,
+                        boxShadow: isActive ? `0 0 20px rgba(${THEME.colors.accent.goldRgb}, 0.3)` : 'none',
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      {note}
-                    </span>
+                      <span
+                        className="text-[0.55rem] sm:text-[0.6rem] font-medium uppercase tracking-[0.1em] whitespace-nowrap"
+                        style={{
+                          color: isActive ? THEME.colors.accent.gold : THEME.colors.text.muted
+                        }}
+                      >
+                        {note}
+                      </span>
+                      {isActive && (
+                        <motion.span
+                          className="absolute -right-1 -top-1 w-2 h-2 rounded-full"
+                          style={{ background: THEME.colors.accent.gold }}
+                          animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        />
+                      )}
+                    </motion.div>
                   </motion.div>
                 );
               })}
             </div>
+
+            {/* Active Note Indicator - Mobile */}
+            {isMobile && (
+              <motion.div
+                className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-1.5"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: 1 }}
+              >
+                {allNotes.map((_, i) => (
+                  <motion.button
+                    key={i}
+                    className="w-8 h-8 flex items-center justify-center"
+                    onClick={() => setActiveNoteIndex(i)}
+                  >
+                    <motion.span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{
+                        background: i === activeNoteIndex ? THEME.colors.accent.gold : 'rgba(255,255,255,0.3)',
+                      }}
+                      animate={{
+                        scale: i === activeNoteIndex ? 1.3 : 1,
+                      }}
+                    />
+                  </motion.button>
+                ))}
+              </motion.div>
+            )}
           </motion.div>
 
-          {/* Product Info */}
+          {/* ===== PRODUCT INFO - Right Side ===== */}
           <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1.2, delay: 0.2, ease: EASING.out }}
+            className="w-full max-w-lg order-2 text-center lg:text-left mt-8 lg:mt-0"
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.4 }}
           >
             {/* New Badge */}
             {FEATURED_SCENT.isNew && (
-              <motion.span
-                className="mb-6 inline-block px-4 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.25em]"
-                style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.5 }}
+              <motion.div
+                className="mb-4 sm:mb-6"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: 0.6 }}
               >
-                New Arrival
-              </motion.span>
+                <span
+                  className="inline-block px-4 py-1.5 text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.2em]"
+                  style={{
+                    background: `linear-gradient(135deg, ${THEME.colors.accent.gold}, #8b6914)`,
+                    color: THEME.colors.bg.primary,
+                  }}
+                >
+                  ★ New Arrival
+                </span>
+              </motion.div>
             )}
 
-            {/* Collection */}
-            <p className="mb-3 text-[0.7rem] uppercase tracking-[0.3em]" style={{ color: THEME.colors.text.muted }}>
+            {/* Collection Tag */}
+            <p
+              className="mb-2 sm:mb-3 text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.3em]"
+              style={{ color: THEME.colors.text.muted }}
+            >
               {FEATURED_SCENT.collection}
             </p>
 
-            {/* Name */}
+            {/* Product Name - Cinematic Typography */}
             <h2
-              className="mb-6 text-[2.8rem] font-extralight leading-[1.1] sm:text-[3.5rem]"
-              style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
+              className="mb-4 sm:mb-6"
+              style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              {FEATURED_SCENT.name}
+              <span
+                className="block text-[2.2rem] sm:text-[3rem] lg:text-[3.5rem] font-extralight leading-[1] tracking-[0.02em]"
+                style={{ color: THEME.colors.text.primary }}
+              >
+                {FEATURED_SCENT.name.split(' ')[0]}
+              </span>
+              <span
+                className="block text-[1.8rem] sm:text-[2.5rem] lg:text-[3rem] font-extralight italic tracking-[0.05em] mt-1"
+                style={{
+                  background: `linear-gradient(135deg, ${THEME.colors.accent.gold}, #f5d870)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                {FEATURED_SCENT.name.split(' ').slice(1).join(' ')}
+              </span>
             </h2>
 
             {/* Description */}
-            <p className="mb-10 max-w-md text-[1rem] leading-relaxed" style={{ color: THEME.colors.text.secondary }}>
+            <p
+              className="mb-8 sm:mb-10 text-[0.9rem] sm:text-[1rem] leading-relaxed max-w-md mx-auto lg:mx-0"
+              style={{ color: THEME.colors.text.secondary }}
+            >
               {FEATURED_SCENT.description}
             </p>
 
-            {/* Notes Pyramid */}
-            <div className="mb-10 space-y-5">
-              {[
-                { label: "Top Notes", notes: FEATURED_SCENT.notes.top },
-                { label: "Heart Notes", notes: FEATURED_SCENT.notes.heart },
-                { label: "Base Notes", notes: FEATURED_SCENT.notes.base },
-              ].map((tier, i) => (
+            {/* ===== NOTES PYRAMID - Premium Glass Cards ===== */}
+            <div className="mb-8 sm:mb-10 space-y-3">
+              {noteCategories.map((category, catIndex) => (
                 <motion.div
-                  key={tier.label}
-                  className="flex items-center gap-6"
-                  initial={{ opacity: 0, x: 20 }}
+                  key={category.label}
+                  className="relative group"
+                  initial={{ opacity: 0, x: 30 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.6 + i * 0.15 }}
+                  transition={{ delay: 0.8 + catIndex * 0.15 }}
                 >
-                  <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.dim }}>
-                    {tier.label}
-                  </span>
-                  <span className="text-[0.9rem]" style={{ color: THEME.colors.text.primary }}>
-                    {tier.notes.join(" · ")}
-                  </span>
+                  <div
+                    className="flex items-center gap-4 sm:gap-6 px-4 sm:px-5 py-3 sm:py-4 rounded-xl"
+                    style={{
+                      background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
+                      border: `1px solid ${THEME.colors.border.subtle}`,
+                    }}
+                  >
+                    {/* Category indicator */}
+                    <div className="flex items-center gap-2 min-w-[70px] sm:min-w-[80px]">
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ background: category.color }}
+                      />
+                      <span
+                        className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.15em]"
+                        style={{ color: THEME.colors.text.dim }}
+                      >
+                        {category.label}
+                      </span>
+                    </div>
+
+                    {/* Notes list */}
+                    <div className="flex flex-wrap gap-2">
+                      {category.notes.map((note, noteIndex) => {
+                        const globalIndex = noteCategories
+                          .slice(0, catIndex)
+                          .reduce((acc, c) => acc + c.notes.length, 0) + noteIndex;
+                        const isActive = globalIndex === activeNoteIndex;
+
+                        return (
+                          <motion.span
+                            key={note}
+                            className="text-[0.8rem] sm:text-[0.9rem] transition-colors duration-300"
+                            style={{
+                              color: isActive ? THEME.colors.accent.gold : THEME.colors.text.primary,
+                              textShadow: isActive ? `0 0 10px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
+                            }}
+                          >
+                            {note}{noteIndex < category.notes.length - 1 && " · "}
+                          </motion.span>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Price & CTA */}
-            <div className="flex flex-wrap items-center gap-8">
-              <div>
+            {/* ===== PRICE & CTA ===== */}
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 1.2 }}
+            >
+              {/* Price display */}
+              <div className="text-center sm:text-left">
                 <span
-                  className="block text-[2.5rem] font-extralight"
-                  style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}
+                  className="block text-[2.5rem] sm:text-[3rem] font-extralight leading-none"
+                  style={{
+                    color: THEME.colors.accent.gold,
+                    fontFamily: "'Playfair Display', serif",
+                  }}
                 >
                   ${FEATURED_SCENT.price}
                 </span>
-                <span className="text-[0.65rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.muted }}>
+                <span
+                  className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.15em]"
+                  style={{ color: THEME.colors.text.muted }}
+                >
                   {FEATURED_SCENT.size} / Eau de Parfum
                 </span>
               </div>
 
-              <MagneticButton href={`/demos/velvet-perfumes/fragrances/${FEATURED_SCENT.id}`} variant="primary">
-                Discover Now
-                <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                  →
-                </motion.span>
+              {/* CTA Button */}
+              <MagneticButton
+                href={`/demos/velvet-perfumes/fragrances/${FEATURED_SCENT.id}`}
+                variant="primary"
+                className="w-full sm:w-auto"
+              >
+                <span className="flex items-center gap-2">
+                  Discover Now
+                  <motion.span
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.span>
+                </span>
               </MagneticButton>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
+
+        {/* ===== SCROLL INDICATOR ===== */}
+        <motion.div
+          className="pb-8 sm:pb-12 flex flex-col items-center"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 1.5 }}
+        >
+          <motion.div
+            className="flex flex-col items-center gap-2"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <span
+              className="text-[0.55rem] uppercase tracking-[0.3em]"
+              style={{ color: THEME.colors.text.dim }}
+            >
+              Discover More
+            </span>
+            <motion.div
+              className="w-px h-8 sm:h-12"
+              style={{
+                background: `linear-gradient(to bottom, ${THEME.colors.accent.gold}, transparent)`
+              }}
+              animate={{ scaleY: [0.5, 1, 0.5], opacity: [0.3, 0.8, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
