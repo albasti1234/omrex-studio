@@ -83,14 +83,44 @@ export default function Footer(): React.ReactElement {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Logo */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-[#d4a855]/50 bg-[#0a0a0c]">
-                  <span className="text-lg font-bold text-[#d4a855]">O</span>
+              {/* Logo - Same as Navbar */}
+              <div className="flex items-center gap-2 sm:gap-3 mb-6">
+                {/* Logo Icon - matches Navbar */}
+                <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center">
+                  {/* Glow */}
+                  <div
+                    className="absolute inset-0 rounded-lg"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(212,168,85,0.3), transparent 70%)',
+                      filter: 'blur(8px)',
+                    }}
+                  />
+                  {/* Border gradient */}
+                  <div
+                    className="absolute inset-0 rounded-lg"
+                    style={{
+                      background: 'linear-gradient(135deg, #d4a855, #b8923f)',
+                      padding: '1px',
+                    }}
+                  >
+                    <div className="h-full w-full rounded-lg bg-[#0a0a0c]" />
+                  </div>
+                  {/* Letter */}
+                  <span className="relative text-sm sm:text-base font-bold text-[#d4a855]">
+                    O
+                  </span>
+                  {/* Corner accents */}
+                  <span className="absolute top-0 right-0 h-2 w-2 border-t border-r rounded-tr-lg opacity-60 border-[#d4a855]" />
+                  <span className="absolute bottom-0 left-0 h-2 w-2 border-b border-l rounded-bl-lg opacity-60 border-[#d4a855]" />
                 </div>
-                <div>
-                  <span className="text-xl font-bold text-white tracking-wide">OMREX</span>
-                  <span className="text-xl font-light text-[#d4a855]">.STUDIO</span>
+                {/* Logo text - Stacked like Navbar */}
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[0.9rem] sm:text-[1rem] font-semibold tracking-[0.08em] text-white">
+                    OMREX
+                  </span>
+                  <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-[#8a8580]">
+                    studio
+                  </span>
                 </div>
               </div>
 
@@ -165,9 +195,9 @@ export default function Footer(): React.ReactElement {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Watermark - smaller to prevent clipping */}
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none opacity-[0.015]">
-                <span className="text-[8vw] font-bold text-white select-none tracking-widest">OMREX</span>
+              {/* Watermark - bigger on mobile, smaller on desktop */}
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none opacity-[0.02]">
+                <span className="text-[18vw] sm:text-[10vw] lg:text-[8vw] font-bold text-white select-none tracking-widest">OMREX</span>
               </div>
 
               <div className="relative grid grid-cols-2 gap-8 sm:grid-cols-3">
