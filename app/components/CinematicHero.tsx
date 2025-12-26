@@ -961,7 +961,7 @@ export default function CinematicHeroPro(): React.ReactElement {
         transition={{ duration: 2.2, ease: EASING_SMOOTH }}
       >
         <Image
-          src="/images/hero/hero-bg.jpg"
+          src="/images/hero/hero-v2.png"
           alt="Cinematic hero background"
           fill
           priority
