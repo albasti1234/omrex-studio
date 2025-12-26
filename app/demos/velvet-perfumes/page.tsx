@@ -1252,14 +1252,12 @@ function CollectionCard({ collection, index }: { collection: (typeof COLLECTIONS
           />
         </motion.div>
 
-        {/* Gradient Overlay - Much lighter */}
-        <motion.div
+        {/* Gradient Overlay - Very light, only at bottom for text */}
+        <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(to top, ${THEME.colors.bg.primary}dd 0%, ${THEME.colors.bg.primary}30 35%, transparent 70%)`
+            background: `linear-gradient(to top, ${THEME.colors.bg.primary}e0 0%, ${THEME.colors.bg.primary}40 25%, transparent 50%)`
           }}
-          animate={{ opacity: isActive ? 0.9 : 0.75 }}
-          transition={{ duration: 0.3 }}
         />
 
         {/* Accent Line */}
