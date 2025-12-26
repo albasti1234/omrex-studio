@@ -561,8 +561,8 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
     const rect = buttonRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.2);
-    y.set((e.clientY - centerY) * 0.2);
+    x.set((e.clientX - centerX) * 0.15);
+    y.set((e.clientY - centerY) * 0.15);
   };
 
   const handleMouseLeave = () => {
@@ -574,58 +574,122 @@ function MagneticButton({ children, href, variant, isVisible, delay }: MagneticB
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={isVisible ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: EASING }}
+      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link href={href}>
         <motion.div
           ref={buttonRef}
-          className="relative"
+          className="relative group"
           style={{ x: springX, y: springY }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <motion.button
-            className={`group relative overflow-hidden rounded-full px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.12em] transition-all duration-500 sm:px-8 sm:py-4 sm:text-[0.7rem] md:px-10 md:py-5 md:text-[0.75rem] cursor-pointer ${isPrimary
-              ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_50px_rgba(245,158,11,0.4)]"
-              : "border border-[#f59e0b]/40 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/80 hover:bg-[#f59e0b]/10"
-              }`}
-            whileHover={{
-              boxShadow: isPrimary
-                ? "0 0 80px rgba(245,158,11,0.6), 0 0 120px rgba(245,158,11,0.3)"
-                : "0 0 40px rgba(245,158,11,0.2)",
+          {/* Outer Glow Ring - Animated */}
+          <motion.div
+            className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            style={{
+              background: isPrimary
+                ? 'radial-gradient(circle, rgba(212,168,85,0.4) 0%, transparent 70%)'
+                : 'radial-gradient(circle, rgba(212,168,85,0.2) 0%, transparent 70%)',
+              filter: 'blur(20px)',
             }}
+          />
+
+          {/* Premium Animated Border */}
+          <motion.div
+            className="absolute -inset-[1px] rounded-full overflow-hidden"
+            style={{
+              background: isPrimary
+                ? 'linear-gradient(135deg, #d4a855 0%, #f5d485 25%, #d4a855 50%, #8b6914 75%, #d4a855 100%)'
+                : 'linear-gradient(135deg, rgba(212,168,85,0.5) 0%, rgba(212,168,85,0.2) 50%, rgba(212,168,85,0.5) 100%)',
+              backgroundSize: '200% 200%',
+            }}
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+
+          {/* Main Button */}
+          <motion.button
+            className={`relative overflow-hidden rounded-full cursor-pointer transition-all duration-500
+              px-7 py-3.5 sm:px-10 sm:py-4 md:px-12 md:py-5
+              text-[0.7rem] sm:text-[0.75rem] md:text-[0.8rem]
+              font-semibold uppercase tracking-[0.2em]
+              ${isPrimary
+                ? 'bg-gradient-to-br from-[#1a1815] via-[#0d0b08] to-[#1a1815] text-[#d4a855]'
+                : 'bg-[#0a0908]/90 backdrop-blur-sm text-[#f8fafc]/90'
+              }`}
           >
-            <span className="relative z-10 flex items-center gap-2">
+            {/* Inner Glow Layer */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background: isPrimary
+                  ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,85,0.15) 0%, transparent 60%)'
+                  : 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 60%)',
+              }}
+            />
+
+            {/* Animated Shine Sweep */}
+            <motion.div
+              className="absolute inset-0 z-0"
+              style={{
+                background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%)',
+              }}
+              initial={{ x: '-100%' }}
+              whileHover={{ x: '100%' }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            />
+
+            {/* Content */}
+            <span className="relative z-10 flex items-center gap-3">
               {children}
             </span>
 
-            {/* Animated shine effect */}
-            {isPrimary && (
-              <motion.div
-                className="absolute inset-0 z-0"
-                style={{
-                  background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
-                }}
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              />
-            )}
-
-            {/* Border glow for secondary */}
-            {!isPrimary && (
-              <motion.div
-                className="absolute inset-0 -z-10 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                style={{
-                  background: "radial-gradient(circle at center, rgba(245,158,11,0.15), transparent 70%)",
-                }}
-              />
-            )}
+            {/* Bottom Accent Line */}
+            <motion.div
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#d4a855] to-transparent opacity-0 group-hover:opacity-60 transition-all duration-500"
+              initial={{ width: '0%' }}
+              whileHover={{ width: '80%' }}
+              transition={{ duration: 0.5 }}
+            />
           </motion.button>
+
+          {/* Floating Particles on Hover (Primary only) */}
+          {isPrimary && (
+            <>
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 rounded-full bg-[#d4a855] opacity-0 group-hover:opacity-80"
+                  style={{
+                    left: `${30 + i * 20}%`,
+                    top: '50%',
+                  }}
+                  animate={{
+                    y: [0, -30, 0],
+                    opacity: [0, 0.8, 0],
+                    scale: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 2,
+                    delay: i * 0.3,
+                    repeat: Infinity,
+                    ease: 'easeOut',
+                  }}
+                />
+              ))}
+            </>
+          )}
         </motion.div>
       </Link>
     </motion.div>
