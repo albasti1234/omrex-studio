@@ -1309,7 +1309,7 @@ function CTASection() {
               </motion.p>
 
               <motion.div
-                className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+                className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row relative z-20"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.4, duration: 0.6 }}
