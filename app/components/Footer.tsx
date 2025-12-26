@@ -182,9 +182,9 @@ export default function Footer(): React.ReactElement {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Watermark */}
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none opacity-[0.02]">
-                <span className="text-[15vw] font-bold text-white select-none">OMREX</span>
+              {/* Watermark - smaller to prevent clipping */}
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none opacity-[0.015]">
+                <span className="text-[8vw] font-bold text-white select-none tracking-widest">OMREX</span>
               </div>
 
               <div className="relative grid grid-cols-2 gap-8 sm:grid-cols-3">
