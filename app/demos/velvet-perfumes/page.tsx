@@ -1189,10 +1189,10 @@ function CollectionsSection() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden px-6 py-32 lg:px-8"
+      className="relative overflow-hidden px-4 py-16 sm:py-24 lg:py-32 sm:px-6 lg:px-8"
       style={{ background: THEME.colors.bg.secondary }}
     >
-      <GoldenParticles count={20} />
+      <GoldenParticles count={15} />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionLabel>✦ Collections ✦</SectionLabel>
@@ -1200,16 +1200,16 @@ function CollectionsSection() {
           Find Your <span style={{ fontStyle: "italic", color: THEME.colors.accent.gold }}>Essence</span>
         </SectionTitle>
 
-        {/* Collections Grid */}
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Collections Grid - 2 cols on mobile */}
+        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
           {COLLECTIONS.map((collection, i) => (
             <motion.div
               key={collection.id}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
             >
-              <CollectionCard collection={collection} />
+              <CollectionCard collection={collection} index={i} />
             </motion.div>
           ))}
         </div>
@@ -1218,23 +1218,30 @@ function CollectionsSection() {
   );
 }
 
-function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0] }) {
+function CollectionCard({ collection, index }: { collection: (typeof COLLECTIONS)[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: false, margin: "-30% 0px -30% 0px" });
   const [hovered, setHovered] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  // Auto-hover on mobile when in view
+  const isActive = isMobile ? isInView : hovered;
 
   return (
     <Link href={`/demos/velvet-perfumes/collections/${collection.id}`}>
       <motion.div
-        className="group relative aspect-[3/4] cursor-pointer overflow-hidden"
+        ref={ref}
+        className="group relative aspect-[3/4] sm:aspect-[3/4] cursor-pointer overflow-hidden rounded-lg sm:rounded-xl"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        whileHover={{ y: -8 }}
-        transition={{ duration: 0.4 }}
+        whileHover={!isMobile ? { y: -6 } : {}}
+        transition={{ duration: 0.3 }}
       >
-        {/* Image */}
+        {/* Image - brighter */}
         <motion.div
           className="absolute inset-0"
-          animate={{ scale: hovered ? 1.1 : 1 }}
-          transition={{ duration: 0.8 }}
+          animate={{ scale: isActive ? 1.08 : 1 }}
+          transition={{ duration: 0.6 }}
         >
           <Image
             src={collection.image}
@@ -1245,62 +1252,70 @@ function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0] })
           />
         </motion.div>
 
-        {/* Gradient Overlay - Reduced for better visibility */}
+        {/* Gradient Overlay - Much lighter */}
         <motion.div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to top, ${THEME.colors.bg.primary}cc 0%, ${THEME.colors.bg.primary}40 40%, transparent 100%)` }}
-          animate={{ opacity: hovered ? 0.85 : 0.7 }}
-          transition={{ duration: 0.4 }}
+          style={{
+            background: `linear-gradient(to top, ${THEME.colors.bg.primary}dd 0%, ${THEME.colors.bg.primary}30 35%, transparent 70%)`
+          }}
+          animate={{ opacity: isActive ? 0.9 : 0.75 }}
+          transition={{ duration: 0.3 }}
         />
 
         {/* Accent Line */}
         <motion.div
           className="absolute bottom-0 left-0 h-[2px]"
           style={{ background: collection.accent }}
-          initial={{ width: "25%" }}
-          animate={{ width: hovered ? "100%" : "25%" }}
-          transition={{ duration: 0.5 }}
+          initial={{ width: "20%" }}
+          animate={{ width: isActive ? "100%" : "20%" }}
+          transition={{ duration: 0.4 }}
         />
 
-        {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-end p-5">
+        {/* Content - Compact for mobile */}
+        <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4">
           <motion.p
-            className="mb-1 text-[0.55rem] uppercase tracking-[0.2em]"
+            className="mb-0.5 sm:mb-1 text-[0.5rem] sm:text-[0.55rem] uppercase tracking-[0.15em]"
             style={{ color: THEME.colors.text.dim }}
-            animate={{ opacity: hovered ? 1 : 0.7 }}
+            animate={{ opacity: isActive ? 1 : 0.6 }}
           >
             {collection.count} Fragrances
           </motion.p>
 
           <h3
-            className="mb-1 text-[1.15rem] font-light leading-tight"
+            className="mb-0.5 sm:mb-1 text-[0.85rem] sm:text-[1.05rem] font-light leading-tight"
             style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
           >
             {collection.name}
           </h3>
 
-          <p className="text-[0.7rem]" style={{ color: THEME.colors.text.muted }}>
+          <p
+            className="text-[0.55rem] sm:text-[0.65rem] hidden sm:block"
+            style={{ color: THEME.colors.text.muted }}
+          >
             {collection.tagline}
           </p>
 
-          {/* Arrow */}
+          {/* Arrow - shows on active */}
           <motion.div
-            className="mt-4 flex items-center gap-2"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -10 }}
-            transition={{ duration: 0.3 }}
+            className="mt-2 sm:mt-3 flex items-center gap-1.5"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -8 }}
+            transition={{ duration: 0.25 }}
           >
-            <span className="text-[0.6rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.accent.gold }}>
+            <span
+              className="text-[0.5rem] sm:text-[0.55rem] uppercase tracking-[0.15em]"
+              style={{ color: THEME.colors.accent.gold }}
+            >
               Explore
             </span>
-            <span style={{ color: THEME.colors.accent.gold }}>→</span>
+            <span style={{ color: THEME.colors.accent.gold }} className="text-[0.7rem]">→</span>
           </motion.div>
         </div>
 
         {/* Border */}
         <motion.div
-          className="absolute inset-0"
-          style={{ border: `1px solid ${hovered ? THEME.colors.border.hover : THEME.colors.border.subtle}` }}
+          className="absolute inset-0 rounded-lg sm:rounded-xl"
+          style={{ border: `1px solid ${isActive ? THEME.colors.border.hover : THEME.colors.border.subtle}` }}
           transition={{ duration: 0.3 }}
         />
       </motion.div>
