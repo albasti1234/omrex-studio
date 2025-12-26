@@ -966,8 +966,8 @@ export default function CinematicHeroPro(): React.ReactElement {
           fill
           priority
           sizes="100vw"
-          className="object-cover"
-          style={{ filter: 'brightness(0.9)', objectPosition: 'center 30%' }}
+          className="object-fill"
+          style={{ filter: 'brightness(0.9)' }}
         />
 
         {/* ONE light overlay only - for text readability */}
