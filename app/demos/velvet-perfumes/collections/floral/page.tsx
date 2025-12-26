@@ -4,8 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FRAGRANCES } from "../../_data/fragrances";
-import { getAllBrands } from "../../_data/brands";
 
 // =============================================================================
 // THEME - Romantic Floral
@@ -26,16 +24,161 @@ const THEME = {
     },
 } as const;
 
-// Get Floral fragrances
-const FLORAL_FRAGRANCES = FRAGRANCES.filter(f =>
-    f.ingredients.some(i =>
-        i.name.toLowerCase().includes("rose") ||
-        i.name.toLowerCase().includes("jasmine") ||
-        i.name.toLowerCase().includes("floral") ||
-        i.name.toLowerCase().includes("peony") ||
-        i.name.toLowerCase().includes("lily")
-    ) || f.gender === "women"
-).slice(0, 8);
+// Curated Floral Fragrances with matching images
+const FLORAL_FRAGRANCES = [
+    {
+        id: "rosa-elegance",
+        slug: "rosa-elegance",
+        name: "Rosa Elegance",
+        brandId: "dior",
+        price: 185,
+        image: "/images/velvet/floral-fragrances/rosa-elegance.png",
+        description: "A timeless rose composition with Bulgarian rose absolute and May rose.",
+        gender: "women" as const,
+        rating: 4.8,
+        reviews: 1234,
+        isNew: true,
+        isBestseller: true,
+        ingredients: [
+            { name: "Bulgarian Rose", percentage: 90, category: "heart" as const },
+            { name: "May Rose", percentage: 85, category: "heart" as const },
+            { name: "Peony", percentage: 70, category: "top" as const },
+        ],
+    },
+    {
+        id: "jasmine-dream",
+        slug: "jasmine-dream",
+        name: "Jasmine Dream",
+        brandId: "chanel",
+        price: 220,
+        image: "/images/velvet/floral-fragrances/jasmine-dream.png",
+        description: "Intoxicating jasmine from Grasse, wrapped in soft white musk.",
+        gender: "women" as const,
+        rating: 4.9,
+        reviews: 2156,
+        isNew: false,
+        isBestseller: true,
+        ingredients: [
+            { name: "Jasmine", percentage: 95, category: "heart" as const },
+            { name: "White Musk", percentage: 60, category: "base" as const },
+            { name: "Orange Blossom", percentage: 50, category: "top" as const },
+        ],
+    },
+    {
+        id: "peony-blush",
+        slug: "peony-blush",
+        name: "Peony Blush",
+        brandId: "dior",
+        price: 165,
+        image: "/images/velvet/floral-fragrances/peony-blush.png",
+        description: "Fresh peony petals kissed by morning dew in a romantic garden.",
+        gender: "women" as const,
+        rating: 4.7,
+        reviews: 987,
+        isNew: true,
+        isBestseller: false,
+        ingredients: [
+            { name: "Peony", percentage: 90, category: "heart" as const },
+            { name: "Rose", percentage: 70, category: "heart" as const },
+            { name: "Bergamot", percentage: 55, category: "top" as const },
+        ],
+    },
+    {
+        id: "lilac-garden",
+        slug: "lilac-garden",
+        name: "Lilac Garden",
+        brandId: "jo-malone",
+        price: 145,
+        image: "/images/velvet/floral-fragrances/lilac-garden.png",
+        description: "Purple lilacs blooming in an English garden at springtime.",
+        gender: "women" as const,
+        rating: 4.6,
+        reviews: 654,
+        isNew: false,
+        isBestseller: false,
+        ingredients: [
+            { name: "Lilac", percentage: 85, category: "heart" as const },
+            { name: "Violet Leaf", percentage: 60, category: "top" as const },
+            { name: "Sandalwood", percentage: 50, category: "base" as const },
+        ],
+    },
+    {
+        id: "magnolia-white",
+        slug: "magnolia-white",
+        name: "Magnolia Blanc",
+        brandId: "guerlain",
+        price: 195,
+        image: "/images/velvet/floral-fragrances/magnolia-white.png",
+        description: "Pure white magnolia in its most elegant form, creamy and refined.",
+        gender: "women" as const,
+        rating: 4.8,
+        reviews: 1123,
+        isNew: false,
+        isBestseller: true,
+        ingredients: [
+            { name: "Magnolia", percentage: 95, category: "heart" as const },
+            { name: "Tuberose", percentage: 65, category: "heart" as const },
+            { name: "Musk", percentage: 50, category: "base" as const },
+        ],
+    },
+    {
+        id: "orchid-luxury",
+        slug: "orchid-luxury",
+        name: "Orchid Luxe",
+        brandId: "tom-ford",
+        price: 285,
+        image: "/images/velvet/floral-fragrances/orchid-luxury.png",
+        description: "Exotic orchid petals wrapped in sensual vanilla and amber.",
+        gender: "women" as const,
+        rating: 4.9,
+        reviews: 1876,
+        isNew: true,
+        isBestseller: true,
+        ingredients: [
+            { name: "Black Orchid", percentage: 90, category: "heart" as const },
+            { name: "Vanilla", percentage: 75, category: "base" as const },
+            { name: "Amber", percentage: 60, category: "base" as const },
+        ],
+    },
+    {
+        id: "tuberose-night",
+        slug: "tuberose-night",
+        name: "Tuberose Nuit",
+        brandId: "byredo",
+        price: 210,
+        image: "/images/velvet/floral-fragrances/tuberose-night.png",
+        description: "Heady tuberose that blooms at midnight, mysterious and seductive.",
+        gender: "women" as const,
+        rating: 4.7,
+        reviews: 765,
+        isNew: false,
+        isBestseller: false,
+        ingredients: [
+            { name: "Tuberose", percentage: 95, category: "heart" as const },
+            { name: "Jasmine", percentage: 70, category: "heart" as const },
+            { name: "Musk", percentage: 55, category: "base" as const },
+        ],
+    },
+    {
+        id: "lily-fresh",
+        slug: "lily-fresh",
+        name: "Lily Valley",
+        brandId: "dior",
+        price: 155,
+        image: "/images/velvet/floral-fragrances/lily-fresh.png",
+        description: "Fresh lily of the valley, the fragrance of spring mornings.",
+        gender: "women" as const,
+        rating: 4.5,
+        reviews: 543,
+        isNew: false,
+        isBestseller: false,
+        ingredients: [
+            { name: "Lily of the Valley", percentage: 90, category: "heart" as const },
+            { name: "Green Leaves", percentage: 65, category: "top" as const },
+            { name: "White Cedar", percentage: 45, category: "base" as const },
+        ],
+    },
+];
 
 // =============================================================================
 // FLOATING PETALS
@@ -324,118 +467,177 @@ function StorySection() {
 }
 
 // =============================================================================
-// FRAGRANCE CARD
+// FRAGRANCE CARD - Premium Floral Design
 // =============================================================================
 
+// Brand name mapping
+const BRAND_NAMES: Record<string, string> = {
+    "dior": "Dior",
+    "chanel": "Chanel",
+    "tom-ford": "Tom Ford",
+    "jo-malone": "Jo Malone",
+    "guerlain": "Guerlain",
+    "byredo": "Byredo",
+};
+
 function FragranceCard({ fragrance, index }: { fragrance: typeof FLORAL_FRAGRANCES[0]; index: number }) {
-    const brand = getAllBrands().find(b => b.id === fragrance.brandId);
     const [hovered, setHovered] = useState(false);
+    const brandName = BRAND_NAMES[fragrance.brandId] || fragrance.brandId;
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            transition={{ duration: 0.6, delay: index * 0.08 }}
         >
             <Link href={`/demos/velvet-perfumes/fragrances/${fragrance.slug}`}>
                 <motion.div
-                    className="group relative overflow-hidden"
-                    style={{ background: THEME.colors.bg.tertiary, border: `1px solid ${THEME.colors.border.subtle}` }}
+                    className="group relative overflow-hidden rounded-xl"
+                    style={{
+                        background: `linear-gradient(145deg, ${THEME.colors.bg.tertiary}, ${THEME.colors.bg.secondary})`,
+                        border: `1px solid ${THEME.colors.border.subtle}`
+                    }}
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
-                    whileHover={{ y: -8 }}
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
                 >
-                    {/* Image */}
-                    <div className="relative aspect-square overflow-hidden" style={{ background: THEME.colors.bg.secondary }}>
-                        <motion.div
-                            className="absolute inset-0 flex items-center justify-center"
-                            animate={{ scale: hovered ? 1.05 : 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {fragrance.image.endsWith(".png") ? (
-                                <Image
-                                    src={fragrance.image}
-                                    alt={fragrance.name}
-                                    fill
-                                    className="object-contain p-6"
-                                />
-                            ) : (
-                                <span
-                                    className="text-[6rem] font-light opacity-20"
-                                    style={{ fontFamily: "'Playfair Display', serif", color: THEME.colors.accent.rose }}
-                                >
-                                    {fragrance.name.charAt(0)}
-                                </span>
-                            )}
-                        </motion.div>
-
-                        {/* Rose Glow */}
+                    {/* Image Container */}
+                    <div
+                        className="relative aspect-square overflow-hidden"
+                        style={{
+                            background: `radial-gradient(circle at 50% 50%, rgba(${THEME.colors.accent.roseRgb}, 0.08), ${THEME.colors.bg.secondary})`
+                        }}
+                    >
+                        {/* Product Image */}
                         <motion.div
                             className="absolute inset-0"
-                            style={{ background: `radial-gradient(circle at center, rgba(${THEME.colors.accent.roseRgb}, 0.12), transparent 60%)` }}
+                            animate={{ scale: hovered ? 1.08 : 1 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <Image
+                                src={fragrance.image}
+                                alt={fragrance.name}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            />
+                            {/* Light overlay for text readability */}
+                            <div
+                                className="absolute inset-0"
+                                style={{
+                                    background: `linear-gradient(to top, ${THEME.colors.bg.primary}80 0%, transparent 50%)`
+                                }}
+                            />
+                        </motion.div>
+
+                        {/* Rose Glow on Hover */}
+                        <motion.div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                                background: `radial-gradient(ellipse at center, rgba(${THEME.colors.accent.roseRgb}, 0.2), transparent 70%)`
+                            }}
                             animate={{ opacity: hovered ? 1 : 0 }}
                             transition={{ duration: 0.3 }}
                         />
 
                         {/* Badges */}
-                        <div className="absolute left-3 top-3 flex flex-col gap-2">
+                        <div className="absolute left-3 top-3 flex gap-2">
                             {fragrance.isNew && (
                                 <span
-                                    className="px-2 py-1 text-[0.5rem] font-semibold uppercase tracking-wider"
-                                    style={{ background: THEME.colors.accent.rose, color: "white" }}
+                                    className="px-2.5 py-1 text-[0.5rem] font-bold uppercase tracking-wider rounded-full"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${THEME.colors.accent.rose}, ${THEME.colors.accent.petal})`,
+                                        color: THEME.colors.bg.primary
+                                    }}
                                 >
-                                    New
+                                    ✦ New
+                                </span>
+                            )}
+                            {fragrance.isBestseller && !fragrance.isNew && (
+                                <span
+                                    className="px-2.5 py-1 text-[0.5rem] font-bold uppercase tracking-wider rounded-full"
+                                    style={{
+                                        background: THEME.colors.accent.gold,
+                                        color: THEME.colors.bg.primary
+                                    }}
+                                >
+                                    ★ Best
                                 </span>
                             )}
                         </div>
+
+                        {/* Floating Info on Hover */}
+                        <motion.div
+                            className="absolute bottom-3 left-3 right-3"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="flex flex-wrap gap-1">
+                                {fragrance.ingredients.slice(0, 2).map(ing => (
+                                    <span
+                                        key={ing.name}
+                                        className="px-2 py-0.5 text-[0.45rem] uppercase tracking-wider backdrop-blur-sm rounded-full"
+                                        style={{
+                                            background: 'rgba(255,255,255,0.1)',
+                                            color: THEME.colors.accent.petal,
+                                            border: `1px solid rgba(${THEME.colors.accent.roseRgb}, 0.3)`
+                                        }}
+                                    >
+                                        {ing.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </motion.div>
                     </div>
 
-                    {/* Info */}
-                    <div className="p-5">
-                        <span className="text-[0.55rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.accent.blush }}>
-                            {brand?.name}
+                    {/* Info Section */}
+                    <div className="p-4">
+                        {/* Brand */}
+                        <span
+                            className="text-[0.5rem] font-medium uppercase tracking-[0.2em]"
+                            style={{ color: THEME.colors.accent.blush }}
+                        >
+                            {brandName}
                         </span>
+
+                        {/* Name */}
                         <h3
-                            className="mt-1 text-lg font-light"
+                            className="mt-1 text-base font-light leading-tight"
                             style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
                         >
                             {fragrance.name}
                         </h3>
 
-                        {/* Key Notes */}
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            {fragrance.ingredients.slice(0, 3).map(ing => (
-                                <span
-                                    key={ing.name}
-                                    className="px-2 py-0.5 text-[0.5rem] uppercase tracking-wider"
-                                    style={{ background: THEME.colors.bg.secondary, color: THEME.colors.text.muted }}
-                                >
-                                    {ing.name}
-                                </span>
-                            ))}
-                        </div>
-
-                        {/* Price & Rating */}
-                        <div className="mt-4 flex items-center justify-between">
-                            <span className="text-xl font-light" style={{ color: THEME.colors.accent.rose }}>
+                        {/* Price & Rating Row */}
+                        <div className="mt-3 flex items-center justify-between">
+                            <span
+                                className="text-lg font-light"
+                                style={{ color: THEME.colors.accent.rose, fontFamily: "'Playfair Display', serif" }}
+                            >
                                 ${fragrance.price}
                             </span>
                             <div className="flex items-center gap-1">
                                 <span style={{ color: THEME.colors.accent.petal }}>★</span>
-                                <span className="text-sm" style={{ color: THEME.colors.text.muted }}>
+                                <span className="text-xs" style={{ color: THEME.colors.text.muted }}>
                                     {fragrance.rating}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Hover Border */}
+                    {/* Hover Border Glow */}
                     <motion.div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{ border: `1px solid ${THEME.colors.border.hover}` }}
+                        className="absolute inset-0 pointer-events-none rounded-xl"
+                        style={{
+                            border: `1px solid ${THEME.colors.accent.rose}`,
+                            boxShadow: `0 0 20px rgba(${THEME.colors.accent.roseRgb}, 0.3)`
+                        }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: hovered ? 1 : 0 }}
+                        transition={{ duration: 0.3 }}
                     />
                 </motion.div>
             </Link>
