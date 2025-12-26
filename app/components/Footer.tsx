@@ -85,25 +85,8 @@ export default function Footer(): React.ReactElement {
             >
               {/* Logo */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="relative flex h-12 w-12 items-center justify-center">
-                  {/* Outer Ring */}
-                  <motion.div
-                    className="absolute inset-0 rounded-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, #d4a855, #8b6914, #d4a855)',
-                      backgroundSize: '200% 200%',
-                    }}
-                    animate={{
-                      backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: 'linear',
-                    }}
-                  />
-                  <div className="absolute inset-[2px] rounded-[10px] bg-[#0a0a0c]" />
-                  <span className="relative text-xl font-bold text-[#d4a855]">O</span>
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-[#d4a855]/50 bg-[#0a0a0c]">
+                  <span className="text-lg font-bold text-[#d4a855]">O</span>
                 </div>
                 <div>
                   <span className="text-xl font-bold text-white tracking-wide">OMREX</span>
