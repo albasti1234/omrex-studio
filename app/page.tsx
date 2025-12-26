@@ -96,21 +96,21 @@ const TESTIMONIALS = [
     quote: "OMREX transformed our vision into a cinematic experience. The attention to detail made our product stand out completely.",
     author: "Sarah Chen",
     role: "CEO, TechVentures",
-    avatar: "/images/avatars/avatar-1.jpg",
+    avatar: "/images/avatars/sarah-chen.png",
   },
   {
     id: "t2",
     quote: "Working with OMREX was a game-changer. They understood exactly what we needed and delivered beyond expectations.",
     author: "Michael Torres",
     role: "Founder, Velox",
-    avatar: "/images/avatars/avatar-2.jpg",
+    avatar: "/images/avatars/michael-torres.png",
   },
   {
     id: "t3",
     quote: "The best investment we made for our brand. Our website now truly reflects the premium quality of our services.",
     author: "Dr. Emily Watson",
     role: "Director, Meridian Health",
-    avatar: "/images/avatars/avatar-3.jpg",
+    avatar: "/images/avatars/emily-watson.png",
   },
 ] as const;
 
@@ -379,36 +379,50 @@ const CursorGlow = memo(function CursorGlow({
 // =============================================================================
 
 // -----------------------------------------------------------------------------
-// Stats Section
+// Stats Section - PREMIUM CINEMATIC
 // -----------------------------------------------------------------------------
+
+const STATS_ICONS = ['◈', '◎', '◇', '✦'] as const;
 
 function StatsSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const { isMobile } = useDeviceDetection();
 
   return (
-    <section ref={ref} className="relative px-4 py-16 sm:py-20 sm:px-6 lg:px-8">
-      {/* Background accent - Desktop only */}
-      {!isMobile && (
-        <div className="pointer-events-none absolute inset-0">
-          <div
-            className="absolute left-1/2 top-1/2 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2"
-            style={{
-              background: `radial-gradient(ellipse at center, rgba(${THEME.primaryRgb}, 0.03), transparent 60%)`,
-            }}
-          />
-        </div>
-      )}
+    <section ref={ref} className="relative px-4 py-20 sm:py-28 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Cinematic Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute left-1/2 top-1/2 h-[600px] w-[1000px] -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(212,168,85,0.06), transparent 50%)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
 
-      <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:gap-12">
+      <div className="mx-auto max-w-6xl relative z-10">
+        {/* Section Header */}
+        <motion.div
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-[11px] uppercase tracking-[0.4em] text-[#d4a855] font-medium">
+            ✦ Our Impact ✦
+          </span>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6 lg:gap-8">
           {STATS.map((stat, index) => (
             <StatItem
               key={stat.label}
               value={stat.value}
               suffix={stat.suffix}
               label={stat.label}
+              icon={STATS_ICONS[index]}
               index={index}
               isInView={isInView}
             />
@@ -423,12 +437,14 @@ const StatItem = memo(function StatItem({
   value,
   suffix,
   label,
+  icon,
   index,
   isInView,
 }: {
   readonly value: number;
   readonly suffix: string;
   readonly label: string;
+  readonly icon: string;
   readonly index: number;
   readonly isInView: boolean;
 }) {
@@ -444,34 +460,83 @@ const StatItem = memo(function StatItem({
 
   return (
     <motion.div
-      className="group relative text-center"
-      initial={{ opacity: 0, y: 20 }}
+      className="group relative"
+      initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: shouldReduceMotion ? 0 : index * 0.1 }}
+      transition={{ duration: 0.6, delay: shouldReduceMotion ? 0 : index * 0.15, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="relative">
-        <span
-          className="block text-[2rem] font-semibold tabular-nums sm:text-[2.5rem] lg:text-[3rem]"
-          style={{ color: THEME.text.primary }}
-        >
-          {Math.round(count)}
-          {suffix}
-        </span>
-        <span
-          className="mt-1 block text-[0.65rem] uppercase tracking-[0.15em] sm:text-[0.7rem] sm:tracking-[0.2em]"
-          style={{ color: THEME.text.muted }}
-        >
-          {label}
-        </span>
-      </div>
-
-      {/* Underline - shows on tap/hover */}
+      {/* Glass Card */}
       <div
-        className="mx-auto mt-3 h-[2px] w-0 transition-all duration-300 group-hover:w-16 sm:mt-4 sm:group-hover:w-20"
+        className="relative p-6 sm:p-8 rounded-2xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]"
         style={{
-          background: `linear-gradient(90deg, transparent, ${THEME.primary}, transparent)`,
+          background: 'linear-gradient(145deg, rgba(20,20,30,0.8) 0%, rgba(10,10,15,0.9) 100%)',
+          boxShadow: '0 20px 60px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)',
+          border: '1px solid rgba(212,168,85,0.1)',
         }}
-      />
+      >
+        {/* Hover Glow */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 0%, rgba(212,168,85,0.1) 0%, transparent 60%)',
+          }}
+        />
+
+        {/* Animated Border on Hover */}
+        <div
+          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            border: '1px solid rgba(212,168,85,0.3)',
+          }}
+        />
+
+        {/* Icon */}
+        <motion.div
+          className="text-center mb-4"
+          animate={isInView ? { rotate: [0, 10, -10, 0] } : {}}
+          transition={{ duration: 2, delay: index * 0.2 + 0.5, repeat: 0 }}
+        >
+          <span
+            className="text-2xl sm:text-3xl transition-all duration-300 group-hover:scale-110 inline-block"
+            style={{
+              color: '#d4a855',
+              filter: 'drop-shadow(0 0 15px rgba(212,168,85,0.4))'
+            }}
+          >
+            {icon}
+          </span>
+        </motion.div>
+
+        {/* Number */}
+        <div className="text-center">
+          <span
+            className="block text-[2.5rem] sm:text-[3rem] lg:text-[3.5rem] font-bold tabular-nums leading-none"
+            style={{
+              background: 'linear-gradient(135deg, #f5d485 0%, #d4a855 50%, #b8923f 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              filter: 'drop-shadow(0 2px 10px rgba(212,168,85,0.2))'
+            }}
+          >
+            {Math.round(count)}{suffix}
+          </span>
+
+          {/* Label */}
+          <span
+            className="mt-2 block text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.2em] text-[#8a8580]"
+          >
+            {label}
+          </span>
+        </div>
+
+        {/* Bottom Accent Line */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-0 group-hover:w-3/4 transition-all duration-500"
+          style={{
+            background: 'linear-gradient(90deg, transparent, #d4a855, transparent)',
+          }}
+        />
+      </div>
     </motion.div>
   );
 });
@@ -757,54 +822,88 @@ function TestimonialsSection() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <SpotlightCard className="h-full rounded-2xl border border-[#c47d08] bg-[#1c1c20] p-6 sm:rounded-3xl sm:p-8 lg:p-12">
-                    <div className="flex h-full flex-col items-center justify-center text-center">
+                  {/* Premium Card */}
+                  <div
+                    className="h-full rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 relative overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(145deg, rgba(20,20,30,0.9) 0%, rgba(10,10,15,0.95) 100%)',
+                      border: '1px solid rgba(212,168,85,0.2)',
+                      boxShadow: '0 30px 80px -20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
+                    }}
+                  >
+                    {/* Glow Effect */}
+                    <div
+                      className="absolute inset-0 opacity-30"
+                      style={{
+                        background: 'radial-gradient(ellipse at 50% 0%, rgba(212,168,85,0.1) 0%, transparent 50%)',
+                      }}
+                    />
+
+                    <div className="flex h-full flex-col items-center justify-center text-center relative z-10">
                       {/* Quote icon */}
                       <div
-                        className="mb-4 text-[2.5rem] leading-none sm:mb-6 sm:text-[4rem]"
-                        style={{ color: `rgba(${THEME.primaryRgb}, 0.2)` }}
+                        className="mb-4 text-[3rem] leading-none sm:mb-6 sm:text-[5rem] font-serif"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(212,168,85,0.4), rgba(212,168,85,0.1))',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}
                       >
                         "
                       </div>
 
                       <blockquote
-                        className="text-[0.95rem] leading-relaxed sm:text-[1.1rem] lg:text-[1.25rem]"
-                        style={{ color: THEME.text.primary }}
+                        className="text-[0.95rem] leading-relaxed sm:text-[1.15rem] lg:text-[1.3rem] text-[#e5e5e5] max-w-2xl"
                       >
                         {testimonial.quote}
                       </blockquote>
 
-                      <div className="mt-6 flex items-center gap-3 sm:mt-8 sm:gap-4">
-                        <div
-                          className="relative h-11 w-11 overflow-hidden rounded-full border-2 sm:h-14 sm:w-14"
-                          style={{ borderColor: `rgba(${THEME.primaryRgb}, 0.3)` }}
-                        >
-                          <Image
-                            src={testimonial.avatar}
-                            alt={testimonial.author}
-                            fill
-                            className="object-cover"
+                      <div className="mt-8 flex items-center gap-4 sm:mt-10">
+                        {/* Avatar with animated border */}
+                        <div className="relative">
+                          <motion.div
+                            className="absolute -inset-1 rounded-full"
+                            style={{
+                              background: 'linear-gradient(135deg, #d4a855, #8b6914, #d4a855)',
+                              backgroundSize: '200% 200%',
+                            }}
+                            animate={{
+                              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                            }}
+                            transition={{
+                              duration: 3,
+                              repeat: Infinity,
+                              ease: 'linear',
+                            }}
                           />
+                          <div
+                            className="relative h-14 w-14 overflow-hidden rounded-full sm:h-16 sm:w-16"
+                          >
+                            <Image
+                              src={testimonial.avatar}
+                              alt={testimonial.author}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         </div>
                         <div className="text-left">
                           <div
-                            className="text-[0.9rem] font-semibold sm:text-base"
-                            style={{ color: THEME.text.primary }}
+                            className="text-[0.95rem] font-semibold sm:text-base text-white"
                           >
                             {testimonial.author}
                           </div>
                           <div
-                            className="text-[0.75rem] sm:text-[0.8rem]"
-                            style={{ color: THEME.text.muted }}
+                            className="text-[0.75rem] sm:text-[0.8rem] text-[#d4a855]"
                           >
                             {testimonial.role}
                           </div>
                         </div>
                       </div>
                     </div>
-                  </SpotlightCard>
+                  </div>
                 </motion.div>
               );
             })}
