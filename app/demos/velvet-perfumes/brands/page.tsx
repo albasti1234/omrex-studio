@@ -37,7 +37,7 @@ export default function BrandsPage() {
                     <nav className="hidden items-center gap-10 lg:flex">
                         <Link href="/demos/velvet-perfumes/brands" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.accent.gold }}>Brands</Link>
                         <Link href="/demos/velvet-perfumes/fragrances" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>All Fragrances</Link>
-                        <Link href="/demos/velvet-perfumes/shop" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>Shop</Link>
+                        <Link href="/demos/velvet-perfumes/cart" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>Cart</Link>
                     </nav>
                 </div>
             </header>

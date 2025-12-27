@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "./_lib/cart-context";
 
 // =============================================================================
 // THEME - Dark Mysterious Luxury
@@ -585,6 +586,34 @@ function MagneticButton({
 
 
 
+
+
+// =============================================================================
+// CART ICON
+// =============================================================================
+
+function CartIcon() {
+  const { totalItems } = useCart();
+
+  return (
+    <Link href="/demos/velvet-perfumes/cart" className="relative" aria-label="Cart">
+      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} style={{ color: THEME.colors.text.secondary }}>
+        <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        {totalItems > 0 && (
+          <span
+            className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full text-[0.55rem] font-semibold"
+            style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
+          >
+            {totalItems}
+          </span>
+        )}
+      </motion.div>
+    </Link>
+  );
+}
+
 // =============================================================================
 // NAVBAR
 // =============================================================================
@@ -687,25 +716,12 @@ function Navbar() {
             </motion.button>
 
             {/* Cart */}
-            <Link href="/demos/velvet-perfumes/shop" className="relative" aria-label="Cart">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} style={{ color: THEME.colors.text.secondary }}>
-                <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                <span
-                  className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full text-[0.55rem] font-semibold"
-                  style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
-                >
-                  2
-                </span>
-              </motion.div>
-            </Link>
+            <CartIcon />
 
             {/* Mobile Toggle */}
             <motion.button
               className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 lg:hidden"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-
               onClick={() => setMobileOpen(!mobileOpen)}
               whileTap={{ scale: 0.95 }}
             >
@@ -731,37 +747,39 @@ function Navbar() {
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex flex-col items-center justify-center lg:hidden"
-            style={{ background: THEME.colors.bg.primary }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <nav className="flex flex-col items-center gap-8">
-              {navLinks.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-[1.5rem] font-light tracking-[0.1em]"
-                    style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
+        {
+          mobileOpen && (
+            <motion.div
+              className="fixed inset-0 z-[60] flex flex-col items-center justify-center lg:hidden"
+              style={{ background: THEME.colors.bg.primary }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <nav className="flex flex-col items-center gap-8">
+                {navLinks.map((item, i) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ delay: i * 0.1 }}
                   >
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="text-[1.5rem] font-light tracking-[0.1em]"
+                      style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+            </motion.div>
+          )
+        }
+      </AnimatePresence >
     </>
   );
 }
@@ -1722,7 +1740,7 @@ function Footer() {
         { name: "Dior", href: "/demos/velvet-perfumes/brands/dior" },
         { name: "Chanel", href: "/demos/velvet-perfumes/brands/chanel" },
         { name: "Tom Ford", href: "/demos/velvet-perfumes/brands/tom-ford" },
-        { name: "Gift Sets", href: "/demos/velvet-perfumes/shop" },
+        { name: "Gift Sets", href: "/demos/velvet-perfumes/fragrances" },
       ]
     },
     {

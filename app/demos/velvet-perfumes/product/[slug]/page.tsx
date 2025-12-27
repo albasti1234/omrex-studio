@@ -111,7 +111,7 @@ export default function ProductPage({
                     <nav className="flex items-center gap-2 text-xs" style={{ color: THEME.colors.text.muted }}>
                         <Link href="/demos/velvet-perfumes" className="hover:text-white">Home</Link>
                         <span>/</span>
-                        <Link href="/demos/velvet-perfumes/shop" className="hover:text-white">Shop</Link>
+                        <Link href="/demos/velvet-perfumes/fragrances" className="hover:text-white">Shop</Link>
                         <span>/</span>
                         <span style={{ color: THEME.colors.text.secondary }}>{product.name}</span>
                     </nav>

@@ -31,7 +31,7 @@ export default function BoutiquesPage() {
                     </Link>
                     <nav className="hidden items-center gap-10 lg:flex">
                         <Link href="/demos/velvet-perfumes/collections" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>Collections</Link>
-                        <Link href="/demos/velvet-perfumes/shop" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>Shop</Link>
+                        <Link href="/demos/velvet-perfumes/cart" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.text.secondary }}>Cart</Link>
                         <Link href="/demos/velvet-perfumes/boutiques" className="text-[0.7rem] uppercase tracking-[0.2em]" style={{ color: THEME.colors.accent.gold }}>Boutiques</Link>
                     </nav>
                 </div>
