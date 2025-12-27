@@ -109,21 +109,55 @@ const COLLECTIONS = [
   },
 ];
 
-const FEATURED_SCENT = {
-  id: "midnight-oud",
-  name: "Midnight Oud",
-  collection: "Oud Collection",
-  price: 320,
-  size: "100ml",
-  image: "/images/velvet/products/midnight-oud.jpg",
-  description: "An intoxicating journey through ancient Cambodian forests, where precious oud meets warm amber and creamy sandalwood.",
-  notes: {
-    top: ["Saffron", "Bergamot"],
-    heart: ["Oud", "Rose", "Jasmine"],
-    base: ["Amber", "Sandalwood", "Musk"],
+// Signature Fragrances - Multiple fragrances for carousel rotation
+const SIGNATURE_FRAGRANCES = [
+  {
+    id: "midnight-oud",
+    name: "Midnight Oud",
+    collection: "Oud Collection",
+    price: 320,
+    size: "100ml",
+    image: "/images/velvet/products/midnight-oud.jpg",
+    description: "An intoxicating journey through ancient Cambodian forests, where precious oud meets warm amber and creamy sandalwood.",
+    notes: { top: ["Saffron", "Bergamot"], heart: ["Oud", "Rose", "Jasmine"], base: ["Amber", "Sandalwood", "Musk"] },
+    isNew: true,
   },
-  isNew: true,
-};
+  {
+    id: "velvet-rose",
+    name: "Velvet Rose",
+    collection: "Floral Collection",
+    price: 280,
+    size: "100ml",
+    image: "/images/velvet/products/velvet-rose.jpg",
+    description: "A romantic bouquet of Bulgarian roses kissed by morning dew, enveloped in velvet petals and soft musk.",
+    notes: { top: ["Pink Pepper", "Lychee"], heart: ["Bulgarian Rose", "Peony", "Magnolia"], base: ["White Musk", "Cedarwood", "Cashmeran"] },
+    isNew: false,
+  },
+  {
+    id: "noir-intense",
+    name: "Noir Intense",
+    collection: "Oriental Collection",
+    price: 350,
+    size: "100ml",
+    image: "/images/velvet/products/noir-intense.jpg",
+    description: "A bold and mysterious blend of dark spices and precious woods, for those who dare to stand out.",
+    notes: { top: ["Black Pepper", "Cardamom"], heart: ["Leather", "Incense", "Saffron"], base: ["Oud", "Vetiver", "Benzoin"] },
+    isNew: true,
+  },
+  {
+    id: "ocean-breeze",
+    name: "Ocean Breeze",
+    collection: "Fresh Collection",
+    price: 220,
+    size: "100ml",
+    image: "/images/velvet/products/ocean-breeze.jpg",
+    description: "Crisp sea air mingles with citrus zest and driftwood, capturing the essence of Mediterranean shores.",
+    notes: { top: ["Bergamot", "Sea Salt", "Lemon"], heart: ["Marine Accord", "Jasmine", "Lily"], base: ["Driftwood", "Ambergris", "Musk"] },
+    isNew: false,
+  },
+];
+
+const FEATURED_SCENT = SIGNATURE_FRAGRANCES[0];
 
 const PRODUCTS = [
   {
@@ -897,40 +931,26 @@ function HeroSection() {
 function FeaturedScentSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
-  const [activeNoteIndex, setActiveNoteIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const allNotes = [...FEATURED_SCENT.notes.top, ...FEATURED_SCENT.notes.heart, ...FEATURED_SCENT.notes.base];
+  // Current fragrance from the carousel
+  const currentFragrance = SIGNATURE_FRAGRANCES[activeIndex];
   const noteCategories = [
-    { label: "TOP", notes: FEATURED_SCENT.notes.top, color: "#FFD700" },
-    { label: "HEART", notes: FEATURED_SCENT.notes.heart, color: "#FF69B4" },
-    { label: "BASE", notes: FEATURED_SCENT.notes.base, color: "#8B4513" },
+    { label: "TOP", notes: currentFragrance.notes.top, color: "#FFD700" },
+    { label: "HEART", notes: currentFragrance.notes.heart, color: "#FF69B4" },
+    { label: "BASE", notes: currentFragrance.notes.base, color: "#8B4513" },
   ];
 
-  // Note images mapping - beautiful images for each note
-  const NOTE_IMAGES: Record<string, string> = {
-    Saffron: "/images/velvet/notes/saffron.jpg",
-    Bergamot: "/images/velvet/notes/bergamot.jpg",
-    Rose: "/images/velvet/notes/rose.jpg",
-    Jasmine: "/images/velvet/notes/jasmine.jpg",
-    Oud: "/images/velvet/notes/oud.jpg",
-    Amber: "/images/velvet/notes/amber.jpg",
-    Sandalwood: "/images/velvet/notes/sandalwood.jpg",
-    Musk: "/images/velvet/notes/musk.jpg",
-  };
-
-  const activeNote = allNotes[activeNoteIndex];
-  const activeNoteImage = activeNote ? NOTE_IMAGES[activeNote] : undefined;
-
-  // Auto-rotate notes every 8 seconds
+  // Auto-rotate fragrances every 8 seconds
   useEffect(() => {
-    if (shouldReduceMotion || !isInView || allNotes.length === 0) return;
+    if (shouldReduceMotion || !isInView) return;
     const interval = setInterval(() => {
-      setActiveNoteIndex((prev) => (prev + 1) % allNotes.length);
+      setActiveIndex((prev) => (prev + 1) % SIGNATURE_FRAGRANCES.length);
     }, 8000);
     return () => clearInterval(interval);
-  }, [shouldReduceMotion, isInView, allNotes.length]);
+  }, [shouldReduceMotion, isInView]);
 
   return (
     <section
@@ -1064,189 +1084,131 @@ function FeaturedScentSection() {
                   boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
                 }}
               >
-                {/* Note Image Background - changes with active note */}
+                {/* Rotating Fragrance Image */}
                 <AnimatePresence mode="wait">
-                  {activeNoteImage && (
+                  <motion.div
+                    key={currentFragrance.id}
+                    className="absolute inset-0 z-10"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                  >
                     <motion.div
-                      key={activeNoteImage}
-                      className="absolute inset-0 z-0"
-                      initial={{ opacity: 0, scale: 1.1 }}
-                      animate={{ opacity: 0.25, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 1.2, ease: "easeInOut" }}
+                      className="h-full w-full"
+                      animate={{ y: shouldReduceMotion ? 0 : [0, -10, 0] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                     >
                       <Image
-                        src={activeNoteImage}
-                        alt={activeNote || ""}
+                        src={currentFragrance.image}
+                        alt={currentFragrance.name}
                         fill
-                        sizes="420px"
-                        className="object-cover"
-                      />
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          background: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)`
-                        }}
+                        sizes="(max-width: 768px) 300px, 420px"
+                        className="object-contain p-6 sm:p-10"
+                        priority
                       />
                     </motion.div>
-                  )}
+                  </motion.div>
                 </AnimatePresence>
 
-                {/* Inner Glow */}
-                <div
-                  className="absolute inset-0 z-1"
+                {/* Subtle glow at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 z-5 pointer-events-none" style={{ background: `linear-gradient(to top, rgba(${THEME.colors.accent.goldRgb}, 0.1), transparent)` }} />
+              </div>
+            </div>
+
+            {/* Navigation Dots */}
+            <div className="flex justify-center gap-3 mt-6">
+              {SIGNATURE_FRAGRANCES.map((frag, i) => (
+                <button
+                  key={frag.id}
+                  onClick={() => setActiveIndex(i)}
+                  className="relative w-3 h-3 rounded-full transition-all duration-300"
                   style={{
-                    background: `radial-gradient(ellipse 60% 70% at 50% 60%, rgba(${THEME.colors.accent.goldRgb}, 0.1) 0%, transparent 60%)`,
+                    background: i === activeIndex ? THEME.colors.accent.gold : THEME.colors.border.subtle,
+                    boxShadow: i === activeIndex ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
                   }}
                 />
-
-                {/* Bottle Image */}
-                <motion.div
-                  className="relative z-10 h-full w-full"
-                  animate={{ y: shouldReduceMotion ? 0 : [0, -8, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Image
-                    src={FEATURED_SCENT.image}
-                    alt={FEATURED_SCENT.name}
-                    fill
-                    sizes="(max-width: 768px) 280px, 420px"
-                    className="object-contain p-6 sm:p-8"
-                    priority
-                  />
-                </motion.div>
-              </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Product Info */}
+          {/* Product Info - Changes with fragrance */}
           <motion.div
             className="text-center lg:text-left order-1 lg:order-2"
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {/* New Badge */}
-            {FEATURED_SCENT.isNew && (
-              <span
-                className="inline-block mb-4 px-4 py-1.5 text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em]"
-                style={{
-                  background: THEME.colors.accent.gold,
-                  color: THEME.colors.bg.primary,
-                }}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentFragrance.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.6 }}
               >
-                ★ New Arrival
-              </span>
-            )}
+                {/* New Badge */}
+                {currentFragrance.isNew && (
+                  <span className="inline-block mb-4 px-4 py-1.5 text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em]" style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}>
+                    ★ New Arrival
+                  </span>
+                )}
 
-            {/* Collection */}
-            <p
-              className="mb-2 text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.25em]"
-              style={{ color: THEME.colors.text.muted }}
-            >
-              {FEATURED_SCENT.collection}
-            </p>
+                {/* Collection */}
+                <p className="mb-2 text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
+                  {currentFragrance.collection}
+                </p>
 
-            {/* Product Name */}
-            <h2
-              className="mb-5 sm:mb-6"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              <span
-                className="block text-[2.2rem] sm:text-[2.8rem] lg:text-[3.5rem] font-extralight leading-[1.1]"
-                style={{ color: THEME.colors.text.primary }}
-              >
-                {FEATURED_SCENT.name.split(' ')[0]}
-              </span>
-              <span
-                className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[2.8rem] font-extralight italic mt-1"
-                style={{ color: THEME.colors.accent.gold }}
-              >
-                {FEATURED_SCENT.name.split(' ').slice(1).join(' ')}
-              </span>
-            </h2>
+                {/* Product Name */}
+                <h2 className="mb-5 sm:mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <span className="block text-[2.2rem] sm:text-[2.8rem] lg:text-[3.5rem] font-extralight leading-[1.1]" style={{ color: THEME.colors.text.primary }}>
+                    {currentFragrance.name.split(' ')[0]}
+                  </span>
+                  <span className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[2.8rem] font-extralight italic mt-1" style={{ color: THEME.colors.accent.gold }}>
+                    {currentFragrance.name.split(' ').slice(1).join(' ')}
+                  </span>
+                </h2>
 
-            {/* Description */}
-            <p
-              className="mb-8 text-[0.9rem] sm:text-[1rem] lg:text-[1.05rem] leading-relaxed max-w-lg mx-auto lg:mx-0"
-              style={{ color: THEME.colors.text.secondary }}
-            >
-              {FEATURED_SCENT.description}
-            </p>
+                {/* Description */}
+                <p className="mb-8 text-[0.9rem] sm:text-[1rem] lg:text-[1.05rem] leading-relaxed max-w-lg mx-auto lg:mx-0" style={{ color: THEME.colors.text.secondary }}>
+                  {currentFragrance.description}
+                </p>
 
-            {/* Notes Pyramid - Larger */}
-            <div className="mb-8 space-y-3">
-              {noteCategories.map((category, catIndex) => (
-                <div
-                  key={category.label}
-                  className="flex items-center gap-4 sm:gap-5 justify-center lg:justify-start"
-                >
-                  <div className="flex items-center gap-2 min-w-[70px] sm:min-w-[80px]">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ background: category.color }}
-                    />
-                    <span
-                      className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.1em]"
-                      style={{ color: THEME.colors.text.dim }}
-                    >
-                      {category.label}
+                {/* Notes Pyramid */}
+                <div className="mb-8 space-y-3">
+                  {noteCategories.map((category) => (
+                    <div key={category.label} className="flex items-center gap-4 sm:gap-5 justify-center lg:justify-start">
+                      <div className="flex items-center gap-2 min-w-[70px] sm:min-w-[80px]">
+                        <span className="w-2 h-2 rounded-full" style={{ background: category.color }} />
+                        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.1em]" style={{ color: THEME.colors.text.dim }}>{category.label}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {category.notes.map((note, idx) => (
+                          <span key={note} className="text-[0.85rem] sm:text-[0.9rem]" style={{ color: THEME.colors.text.primary }}>
+                            {note}{idx < category.notes.length - 1 && " · "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Price & CTA */}
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-8">
+                  <div className="text-center sm:text-left">
+                    <span className="block text-[2.5rem] sm:text-[2.8rem] lg:text-[3rem] font-extralight leading-none" style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}>
+                      ${currentFragrance.price}
+                    </span>
+                    <span className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: THEME.colors.text.muted }}>
+                      {currentFragrance.size} / Eau de Parfum
                     </span>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {category.notes.map((note, noteIndex) => {
-                      const globalIndex = noteCategories
-                        .slice(0, catIndex)
-                        .reduce((acc, c) => acc + c.notes.length, 0) + noteIndex;
-                      const isActive = globalIndex === activeNoteIndex;
-
-                      return (
-                        <span
-                          key={note}
-                          className="text-[0.85rem] sm:text-[0.9rem] cursor-pointer transition-all duration-300"
-                          style={{
-                            color: isActive ? THEME.colors.accent.gold : THEME.colors.text.primary,
-                            textShadow: isActive ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
-                          }}
-                          onClick={() => setActiveNoteIndex(globalIndex)}
-                        >
-                          {note}{noteIndex < category.notes.length - 1 && " · "}
-                        </span>
-                      );
-                    })}
-                  </div>
+                  <MagneticButton href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`} variant="primary" className="text-base sm:text-lg px-8 py-4">
+                    Discover →
+                  </MagneticButton>
                 </div>
-              ))}
-            </div>
-
-            {/* Price & CTA - Larger */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-8">
-              <div className="text-center sm:text-left">
-                <span
-                  className="block text-[2.5rem] sm:text-[2.8rem] lg:text-[3rem] font-extralight leading-none"
-                  style={{
-                    color: THEME.colors.accent.gold,
-                    fontFamily: "'Playfair Display', serif",
-                  }}
-                >
-                  ${FEATURED_SCENT.price}
-                </span>
-                <span
-                  className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.1em]"
-                  style={{ color: THEME.colors.text.muted }}
-                >
-                  {FEATURED_SCENT.size} / Eau de Parfum
-                </span>
-              </div>
-
-              <MagneticButton
-                href={`/demos/velvet-perfumes/fragrances/${FEATURED_SCENT.id}`}
-                variant="primary"
-                className="text-base sm:text-lg px-8 py-4"
-              >
-                Discover →
-              </MagneticButton>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>
