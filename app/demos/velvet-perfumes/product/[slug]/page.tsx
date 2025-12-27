@@ -89,7 +89,7 @@ export default function ProductPage({
                             VELVET
                         </span>
                     </Link>
-                    <button onClick={toggleCart} className="relative">
+                    <Link href="/demos/velvet-perfumes/cart" className="relative">
                         <svg className="h-5 w-5" fill="none" stroke={THEME.colors.text.secondary} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                         </svg>
@@ -101,7 +101,7 @@ export default function ProductPage({
                                 {totalItems}
                             </span>
                         )}
-                    </button>
+                    </Link>
                 </div>
             </header>
 
