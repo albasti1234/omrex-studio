@@ -908,12 +908,27 @@ function FeaturedScentSection() {
     { label: "BASE", notes: FEATURED_SCENT.notes.base, color: "#8B4513" },
   ];
 
-  // Auto-rotate notes
+  // Note images mapping - beautiful images for each note
+  const NOTE_IMAGES: Record<string, string> = {
+    Saffron: "/images/velvet/notes/saffron.jpg",
+    Bergamot: "/images/velvet/notes/bergamot.jpg",
+    Rose: "/images/velvet/notes/rose.jpg",
+    Jasmine: "/images/velvet/notes/jasmine.jpg",
+    Oud: "/images/velvet/notes/oud.jpg",
+    Amber: "/images/velvet/notes/amber.jpg",
+    Sandalwood: "/images/velvet/notes/sandalwood.jpg",
+    Musk: "/images/velvet/notes/musk.jpg",
+  };
+
+  const activeNote = allNotes[activeNoteIndex];
+  const activeNoteImage = activeNote ? NOTE_IMAGES[activeNote] : undefined;
+
+  // Auto-rotate notes every 8 seconds
   useEffect(() => {
     if (shouldReduceMotion || !isInView || allNotes.length === 0) return;
     const interval = setInterval(() => {
       setActiveNoteIndex((prev) => (prev + 1) % allNotes.length);
-    }, 2500);
+    }, 8000);
     return () => clearInterval(interval);
   }, [shouldReduceMotion, isInView, allNotes.length]);
 
@@ -1049,6 +1064,34 @@ function FeaturedScentSection() {
                   boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
                 }}
               >
+                {/* Note Image Background - changes with active note */}
+                <AnimatePresence mode="wait">
+                  {activeNoteImage && (
+                    <motion.div
+                      key={activeNoteImage}
+                      className="absolute inset-0 z-0"
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 0.25, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 1.2, ease: "easeInOut" }}
+                    >
+                      <Image
+                        src={activeNoteImage}
+                        alt={activeNote || ""}
+                        fill
+                        sizes="420px"
+                        className="object-cover"
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: `linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)`
+                        }}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 {/* Inner Glow */}
                 <div
                   className="absolute inset-0 z-1"
