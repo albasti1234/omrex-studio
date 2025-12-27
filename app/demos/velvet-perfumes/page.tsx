@@ -908,21 +908,6 @@ function FeaturedScentSection() {
     { label: "BASE", notes: FEATURED_SCENT.notes.base, color: "#8B4513" },
   ];
 
-  // Note images mapping
-  const NOTE_IMAGES: Record<string, string> = {
-    Saffron: "/images/velvet/notes/saffron.jpg",
-    Bergamot: "/images/velvet/notes/bergamot.jpg",
-    Rose: "/images/velvet/notes/rose.jpg",
-    Jasmine: "/images/velvet/notes/jasmine.jpg",
-    Oud: "/images/velvet/notes/oud.jpg",
-    Amber: "/images/velvet/notes/amber.jpg",
-    Sandalwood: "/images/velvet/notes/sandalwood.jpg",
-    Musk: "/images/velvet/notes/musk.jpg",
-  };
-
-  const activeNote = allNotes[activeNoteIndex];
-  const activeNoteImage = activeNote ? NOTE_IMAGES[activeNote] : undefined;
-
   // Auto-rotate notes
   useEffect(() => {
     if (shouldReduceMotion || !isInView || allNotes.length === 0) return;
@@ -935,118 +920,165 @@ function FeaturedScentSection() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
+      className="relative overflow-hidden py-20 sm:py-28 lg:py-36"
       style={{ background: THEME.colors.bg.primary }}
     >
       {/* Background gradient */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.05) 0%, transparent 60%)`,
+          background: `radial-gradient(ellipse 80% 60% at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.06) 0%, transparent 60%)`,
         }}
       />
 
-      {/* Golden particles - reduced */}
-      <GoldenParticles count={isMobile ? 8 : 15} />
+      {/* Golden particles */}
+      <GoldenParticles count={isMobile ? 10 : 20} />
 
       {/* Main Content */}
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Section Label */}
         <motion.div
-          className="text-center mb-10 sm:mb-12"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           <div className="inline-flex items-center gap-3">
             <span
-              className="h-px w-6 sm:w-10"
+              className="h-px w-8 sm:w-12"
               style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold})` }}
             />
             <span
-              className="text-[0.6rem] sm:text-[0.65rem] font-medium uppercase tracking-[0.35em]"
+              className="text-[0.65rem] sm:text-[0.7rem] font-medium uppercase tracking-[0.35em]"
               style={{ color: THEME.colors.accent.gold }}
             >
               ✦ The Signature ✦
             </span>
             <span
-              className="h-px w-6 sm:w-10"
+              className="h-px w-8 sm:w-12"
               style={{ background: `linear-gradient(90deg, ${THEME.colors.accent.gold}, transparent)` }}
             />
           </div>
         </motion.div>
 
-        {/* Grid Layout */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        {/* Grid Layout - Mobile: row-reverse (info right, image left), Desktop: normal */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-          {/* Product Image - Smaller */}
+          {/* Product Image with Animated Frame */}
           <motion.div
-            className="relative mx-auto w-full max-w-[240px] sm:max-w-[280px] lg:max-w-[320px]"
+            className="relative mx-auto w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[420px] order-2 lg:order-1"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
+            {/* Outer Glow */}
             <div
-              className="relative aspect-[3/4] rounded-xl overflow-hidden"
+              className="absolute -inset-4 sm:-inset-6 rounded-2xl opacity-40"
               style={{
-                background: `linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%)`,
-                border: `1px solid ${THEME.colors.border.subtle}`,
-                boxShadow: `0 20px 60px -15px rgba(0,0,0,0.4), 0 0 40px -10px rgba(${THEME.colors.accent.goldRgb}, 0.15)`,
+                background: `radial-gradient(ellipse at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.15), transparent 70%)`,
               }}
-            >
-              {/* Note Image Background - changes with active note */}
-              <AnimatePresence mode="wait">
-                {activeNoteImage && (
-                  <motion.div
-                    key={activeNoteImage}
-                    className="absolute inset-0 z-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.15 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Image
-                      src={activeNoteImage}
-                      alt={activeNote}
-                      fill
-                      sizes="320px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/60" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            />
 
-              {/* Glow */}
-              <div
-                className="absolute inset-0 z-1"
-                style={{
-                  background: `radial-gradient(ellipse 70% 80% at 50% 60%, rgba(${THEME.colors.accent.goldRgb}, 0.12) 0%, transparent 60%)`,
+            {/* Animated Border Container */}
+            <div className="relative">
+              {/* Animated Moving Border - Top */}
+              <motion.div
+                className="absolute -top-[2px] left-0 h-[2px] rounded-full"
+                style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                animate={{
+                  left: ['0%', '100%', '100%', '0%', '0%'],
+                  width: ['30%', '30%', '0%', '0%', '30%'],
                 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              />
+              {/* Animated Moving Border - Right */}
+              <motion.div
+                className="absolute -right-[2px] top-0 w-[2px] rounded-full"
+                style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                animate={{
+                  top: ['0%', '0%', '0%', '100%', '100%'],
+                  height: ['0%', '30%', '30%', '30%', '0%'],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 1 }}
+              />
+              {/* Animated Moving Border - Bottom */}
+              <motion.div
+                className="absolute -bottom-[2px] right-0 h-[2px] rounded-full"
+                style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                animate={{
+                  right: ['0%', '0%', '100%', '100%', '0%'],
+                  width: ['0%', '0%', '30%', '30%', '0%'],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2 }}
+              />
+              {/* Animated Moving Border - Left */}
+              <motion.div
+                className="absolute -left-[2px] bottom-0 w-[2px] rounded-full"
+                style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                animate={{
+                  bottom: ['0%', '100%', '100%', '0%', '0%'],
+                  height: ['30%', '30%', '0%', '0%', '30%'],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 3 }}
               />
 
-              {/* Bottle Image */}
-              <motion.div
-                className="relative z-10 h-full w-full"
-                animate={{ y: shouldReduceMotion ? 0 : [0, -6, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              {/* Static Corner Accents */}
+              <div className="absolute -top-1 -left-1 w-6 h-6 sm:w-8 sm:h-8">
+                <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
+                <div className="absolute top-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
+              </div>
+              <div className="absolute -top-1 -right-1 w-6 h-6 sm:w-8 sm:h-8">
+                <div className="absolute top-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
+                <div className="absolute top-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
+              </div>
+              <div className="absolute -bottom-1 -left-1 w-6 h-6 sm:w-8 sm:h-8">
+                <div className="absolute bottom-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
+                <div className="absolute bottom-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8">
+                <div className="absolute bottom-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
+                <div className="absolute bottom-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
+              </div>
+
+              {/* Main Image Container */}
+              <div
+                className="relative aspect-[3/4] rounded-lg overflow-hidden"
+                style={{
+                  background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
+                  boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
+                }}
               >
-                <Image
-                  src={FEATURED_SCENT.image}
-                  alt={FEATURED_SCENT.name}
-                  fill
-                  sizes="320px"
-                  className="object-contain p-4 sm:p-5"
-                  priority
+                {/* Inner Glow */}
+                <div
+                  className="absolute inset-0 z-1"
+                  style={{
+                    background: `radial-gradient(ellipse 60% 70% at 50% 60%, rgba(${THEME.colors.accent.goldRgb}, 0.1) 0%, transparent 60%)`,
+                  }}
                 />
-              </motion.div>
+
+                {/* Bottle Image */}
+                <motion.div
+                  className="relative z-10 h-full w-full"
+                  animate={{ y: shouldReduceMotion ? 0 : [0, -8, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Image
+                    src={FEATURED_SCENT.image}
+                    alt={FEATURED_SCENT.name}
+                    fill
+                    sizes="(max-width: 768px) 280px, 420px"
+                    className="object-contain p-6 sm:p-8"
+                    priority
+                  />
+                </motion.div>
+              </div>
             </div>
           </motion.div>
 
           {/* Product Info */}
           <motion.div
-            className="text-center lg:text-left"
+            className="text-center lg:text-left order-1 lg:order-2"
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -1054,19 +1086,19 @@ function FeaturedScentSection() {
             {/* New Badge */}
             {FEATURED_SCENT.isNew && (
               <span
-                className="inline-block mb-3 px-3 py-1 text-[0.5rem] sm:text-[0.55rem] font-bold uppercase tracking-[0.15em]"
+                className="inline-block mb-4 px-4 py-1.5 text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em]"
                 style={{
                   background: THEME.colors.accent.gold,
                   color: THEME.colors.bg.primary,
                 }}
               >
-                ★ New
+                ★ New Arrival
               </span>
             )}
 
             {/* Collection */}
             <p
-              className="mb-2 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.25em]"
+              className="mb-2 text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.25em]"
               style={{ color: THEME.colors.text.muted }}
             >
               {FEATURED_SCENT.collection}
@@ -1074,17 +1106,17 @@ function FeaturedScentSection() {
 
             {/* Product Name */}
             <h2
-              className="mb-4"
+              className="mb-5 sm:mb-6"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               <span
-                className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[2.5rem] font-extralight leading-[1.1]"
+                className="block text-[2.2rem] sm:text-[2.8rem] lg:text-[3.5rem] font-extralight leading-[1.1]"
                 style={{ color: THEME.colors.text.primary }}
               >
                 {FEATURED_SCENT.name.split(' ')[0]}
               </span>
               <span
-                className="block text-[1.5rem] sm:text-[1.8rem] lg:text-[2rem] font-extralight italic mt-1"
+                className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[2.8rem] font-extralight italic mt-1"
                 style={{ color: THEME.colors.accent.gold }}
               >
                 {FEATURED_SCENT.name.split(' ').slice(1).join(' ')}
@@ -1093,32 +1125,32 @@ function FeaturedScentSection() {
 
             {/* Description */}
             <p
-              className="mb-6 text-[0.85rem] sm:text-[0.9rem] leading-relaxed max-w-md mx-auto lg:mx-0"
+              className="mb-8 text-[0.9rem] sm:text-[1rem] lg:text-[1.05rem] leading-relaxed max-w-lg mx-auto lg:mx-0"
               style={{ color: THEME.colors.text.secondary }}
             >
               {FEATURED_SCENT.description}
             </p>
 
-            {/* Notes Pyramid - Compact */}
-            <div className="mb-6 space-y-2">
+            {/* Notes Pyramid - Larger */}
+            <div className="mb-8 space-y-3">
               {noteCategories.map((category, catIndex) => (
                 <div
                   key={category.label}
-                  className="flex items-center gap-3 sm:gap-4 justify-center lg:justify-start"
+                  className="flex items-center gap-4 sm:gap-5 justify-center lg:justify-start"
                 >
-                  <div className="flex items-center gap-1.5 min-w-[55px] sm:min-w-[65px]">
+                  <div className="flex items-center gap-2 min-w-[70px] sm:min-w-[80px]">
                     <span
-                      className="w-1.5 h-1.5 rounded-full"
+                      className="w-2 h-2 rounded-full"
                       style={{ background: category.color }}
                     />
                     <span
-                      className="text-[0.5rem] sm:text-[0.55rem] uppercase tracking-[0.1em]"
+                      className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.1em]"
                       style={{ color: THEME.colors.text.dim }}
                     >
                       {category.label}
                     </span>
                   </div>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {category.notes.map((note, noteIndex) => {
                       const globalIndex = noteCategories
                         .slice(0, catIndex)
@@ -1128,10 +1160,10 @@ function FeaturedScentSection() {
                       return (
                         <span
                           key={note}
-                          className="text-[0.75rem] sm:text-[0.8rem] cursor-pointer transition-all duration-300"
+                          className="text-[0.85rem] sm:text-[0.9rem] cursor-pointer transition-all duration-300"
                           style={{
                             color: isActive ? THEME.colors.accent.gold : THEME.colors.text.primary,
-                            textShadow: isActive ? `0 0 8px rgba(${THEME.colors.accent.goldRgb}, 0.4)` : 'none',
+                            textShadow: isActive ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
                           }}
                           onClick={() => setActiveNoteIndex(globalIndex)}
                         >
@@ -1144,11 +1176,11 @@ function FeaturedScentSection() {
               ))}
             </div>
 
-            {/* Price & CTA */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6">
+            {/* Price & CTA - Larger */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-8">
               <div className="text-center sm:text-left">
                 <span
-                  className="block text-[2rem] sm:text-[2.2rem] font-extralight leading-none"
+                  className="block text-[2.5rem] sm:text-[2.8rem] lg:text-[3rem] font-extralight leading-none"
                   style={{
                     color: THEME.colors.accent.gold,
                     fontFamily: "'Playfair Display', serif",
@@ -1157,16 +1189,17 @@ function FeaturedScentSection() {
                   ${FEATURED_SCENT.price}
                 </span>
                 <span
-                  className="text-[0.55rem] uppercase tracking-[0.1em]"
+                  className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.1em]"
                   style={{ color: THEME.colors.text.muted }}
                 >
-                  {FEATURED_SCENT.size} / EDP
+                  {FEATURED_SCENT.size} / Eau de Parfum
                 </span>
               </div>
 
               <MagneticButton
                 href={`/demos/velvet-perfumes/fragrances/${FEATURED_SCENT.id}`}
                 variant="primary"
+                className="text-base sm:text-lg px-8 py-4"
               >
                 Discover →
               </MagneticButton>
@@ -1177,6 +1210,7 @@ function FeaturedScentSection() {
     </section>
   );
 }
+
 
 // =============================================================================
 // COLLECTIONS SECTION
