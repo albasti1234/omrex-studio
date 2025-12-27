@@ -111,104 +111,124 @@ export default function GreenValleyPage() {
 }
 
 // ============================================================================
-// HERO SECTION - CINEMATIC
+// HERO SECTION - CINEMATIC REDESIGN
 // ============================================================================
 
 function HeroSection() {
     const t = useTranslations('hero');
+    const locale = useLocale();
+    const isRTL = locale === 'ar';
 
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-            {/* Background Image */}
-            <div className="absolute inset-0 z-0">
-                <Image
-                    src="/images/green-valley/hero.png"
-                    alt="Green Valley Restaurant"
-                    fill
-                    priority
-                    className="object-cover"
-                    style={{ objectPosition: 'center 40%' }}
+        <section className="relative h-screen w-full overflow-hidden bg-[#050507]">
+            {/* Background Image - Cinematic Scale */}
+            <div className="absolute inset-0 z-0 select-none">
+                <motion.div
+                    initial={{ scale: 1.15 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 12, ease: "easeOut" }}
+                    className="relative w-full h-full"
+                >
+                    <Image
+                        src="/images/green-valley/hero.png"
+                        alt="Green Valley Restaurant"
+                        fill
+                        priority
+                        className="object-cover"
+                        style={{ objectPosition: 'center 35%' }}
+                        draggable={false}
+                    />
+                </motion.div>
+
+                {/* Professional Gradients for Contrast */}
+                {/* Base darkening for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/50 to-transparent opacity-90" />
+
+                {/* Side gradient based on direction */}
+                <div
+                    className={`absolute inset-0 bg-gradient-to-r from-[#0a0a0c]/90 via-[#0a0a0c]/40 to-transparent z-1`}
+                    style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }}
                 />
-                {/* Cinematic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/60 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c]/40 to-transparent" />
-                {/* Green Glow Effect */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_70%)]" />
             </div>
 
-            {/* Content */}
-            <motion.div
-                className="relative z-10 text-center px-6 max-w-3xl mx-auto"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                    hidden: {},
-                    visible: { transition: { staggerChildren: 0.2 } },
-                }}
-            >
-                {/* Decorative Line */}
-                <motion.div
-                    variants={fadeIn}
-                    className="w-16 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent mx-auto mb-6"
-                />
+            {/* Content Container */}
+            <div className="absolute inset-0 z-20 flex items-center md:items-end pb-24 md:pb-32">
+                <div className={`w-full px-6 md:px-20 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <div className="max-w-4xl mx-auto md:mx-0">
 
-                {/* Restaurant Name */}
-                <motion.h1
-                    variants={fadeIn}
-                    className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl"
-                    style={{ textShadow: '0 0 60px rgba(16,185,129,0.3)' }}
-                >
-                    {t('name')}
-                </motion.h1>
+                        {/* Decorative Line */}
+                        <motion.div
+                            initial={{ width: 0, opacity: 0 }}
+                            animate={{ width: 80, opacity: 1 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            className={`h-[4px] bg-emerald-500 rounded-full mb-8 ${isRTL ? 'ml-auto' : 'mr-auto'}`}
+                        />
 
-                {/* Tagline */}
-                <motion.p
-                    variants={fadeIn}
-                    className="text-lg sm:text-xl text-emerald-100/80 mb-10 font-light tracking-wide"
-                >
-                    {t('tagline')}
-                </motion.p>
+                        {/* Restaurant Name */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6, duration: 0.8 }}
+                            className="text-5xl sm:text-7xl lg:text-8xl font-bold text-white mb-6 leading-[1.1] drop-shadow-lg tracking-tight"
+                        >
+                            {t('name')}
+                        </motion.h1>
 
-                {/* CTA Buttons */}
-                <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <motion.a
-                        href="tel:+97126000000"
-                        className="group relative bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-bold py-4 px-10 rounded-full text-lg overflow-hidden shadow-xl shadow-emerald-900/40"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label={t('callBtn')}
-                    >
-                        <span className="relative z-10 flex items-center justify-center gap-3">
-                            📞 {t('callBtn')}
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </motion.a>
+                        {/* Tagline */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7, duration: 0.8 }}
+                            className="text-lg sm:text-2xl text-gray-300 mb-12 max-w-2xl font-light leading-relaxed"
+                        >
+                            {t('tagline')}
+                        </motion.p>
 
-                    <motion.a
-                        href="https://wa.me/97150000000"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group bg-[#25D366] text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl shadow-[#25D366]/30 hover:shadow-[#25D366]/50 transition-all duration-300"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        aria-label={t('whatsappBtn')}
-                    >
-                        💬 {t('whatsappBtn')}
-                    </motion.a>
-                </motion.div>
-            </motion.div>
+                        {/* CTA Buttons */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8 }}
+                            className={`flex flex-col sm:flex-row gap-5 ${isRTL ? 'justify-start' : 'justify-start'}`}
+                        >
+                            <a
+                                href="tel:+97126000000"
+                                className="group relative px-8 py-4 bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-700 opacity-100 group-hover:opacity-0 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-lg">
+                                    <span className="text-xl">📞</span> {t('callBtn')}
+                                </span>
+                            </a>
+
+                            <a
+                                href="https://wa.me/97150000000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group relative px-8 py-4 bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
+                            >
+                                <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-lg">
+                                    <span className="text-xl transition-transform group-hover:scale-110">💬</span> {t('whatsappBtn')}
+                                </span>
+                            </a>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
 
             {/* Scroll Indicator */}
             <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:block"
             >
-                <div className="w-6 h-10 border-2 border-emerald-500/30 rounded-full flex justify-center pt-2">
+                <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-white/10 to-transparent relative overflow-hidden">
                     <motion.div
-                        className="w-1.5 h-3 bg-emerald-500 rounded-full"
-                        animate={{ opacity: [1, 0.3, 1], y: [0, 8, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                        animate={{ y: [-30, 100] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-transparent via-emerald-500 to-transparent"
                     />
                 </div>
             </motion.div>
