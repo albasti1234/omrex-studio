@@ -172,7 +172,7 @@ function HeroSection() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.7, duration: 0.8 }}
-                            className="text-sm sm:text-2xl text-gray-300 mb-6 md:mb-12 max-w-2xl font-light leading-relaxed"
+                            className="text-sm sm:text-2xl text-white/80 mb-6 md:mb-12 max-w-2xl font-light leading-relaxed"
                         >
                             {t('tagline')}
                         </motion.p>
@@ -186,7 +186,7 @@ function HeroSection() {
                         >
                             <a
                                 href="tel:+97126000000"
-                                className="group relative px-5 py-2.5 md:px-8 md:py-4 bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
+                                className="group relative px-6 py-3.5 md:px-8 md:py-4 min-h-[48px] bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-700 opacity-100 group-hover:opacity-0 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -199,7 +199,7 @@ function HeroSection() {
                                 href="https://wa.me/97150000000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative px-5 py-2.5 md:px-8 md:py-4 bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
+                                className="group relative px-6 py-3.5 md:px-8 md:py-4 min-h-[48px] bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
                             >
                                 <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-bold text-sm md:text-lg">
                                     <span className="text-base md:text-xl transition-transform group-hover:scale-110">💬</span> {t('whatsappBtn')}
@@ -264,7 +264,7 @@ function GallerySection() {
                 </motion.div>
 
                 {/* Photo Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
                     {galleryImages.map((image, index) => (
                         <motion.div
                             key={image.src}
@@ -359,10 +359,10 @@ function MenuSection({ locale }: { locale: string }) {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.05 }}
-                                    className={`group flex items-center gap-3 py-2 px-3 bg-[#111118] rounded-xl border border-white/5 hover:border-emerald-500/30 transition-all duration-300 ${isRTL ? 'flex-row' : 'flex-row'}`}
+                                    className={`group flex items-center gap-3 py-3.5 px-4 bg-[#141418] rounded-xl border border-white/5 hover:border-emerald-500/30 transition-all duration-300 ${isRTL ? 'flex-row' : 'flex-row'}`}
                                 >
                                     {/* Image */}
-                                    <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-[#1a1a22]">
+                                    <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-[#1a1a22]">
                                         <Image
                                             src={categoryImages[category]}
                                             alt={itemNames[category][index]}
@@ -426,7 +426,7 @@ function WhyUsSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.15 }}
-                            className="bg-[#111118] rounded-2xl p-8 border border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 group"
+                            className="bg-[#151518] rounded-2xl p-8 border border-white/10 hover:border-emerald-500/30 hover:border-emerald-500/30 transition-all duration-300 group"
                         >
                             <span className="text-5xl mb-4 block group-hover:scale-110 transition-transform duration-300">
                                 {point.icon}
@@ -472,7 +472,7 @@ function LocationSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-[#111118] rounded-2xl p-8 border border-emerald-500/10"
+                    className="bg-[#151518] rounded-2xl p-8 border border-white/10"
                 >
                     <p className="text-xl font-medium text-white mb-3 flex items-center justify-center gap-2">
                         📍 {t('address')}
