@@ -241,14 +241,14 @@ function HeroSection() {
 // ============================================================================
 
 const galleryImages = [
-    { src: 'https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=800&q=80', alt: { ar: 'وجبة كاملة', en: 'Full Meal' } }, // Middle Eastern Spread
-    { src: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80', alt: { ar: 'أرز مع دجاج', en: 'Rice with Chicken' } }, // Chicken Rice
-    { src: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=800&q=80', alt: { ar: 'كباب مشوي', en: 'Grilled Kebab' } }, // BBQ Meat
-    { src: 'https://images.unsplash.com/photo-1603064752734-4c48eff53d05?auto=format&fit=crop&w=800&q=80', alt: { ar: 'أرز مع لحم', en: 'Rice with Meat' } }, // Burger/Meat dish (swap for variety)
-    { src: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80', alt: { ar: 'برجر وبطاطس', en: 'Burger & Fries' } }, // Gourmet Burger
-    { src: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80', alt: { ar: 'لحم مقلي', en: 'Fried Meat' } }, // Fried Chicken/Meat
-    { src: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80', alt: { ar: 'خضار طازجة', en: 'Fresh Vegetables' } }, // Fresh Salad
-    { src: 'https://images.unsplash.com/photo-1606756817349-41f4d96c414d?auto=format&fit=crop&w=800&q=80', alt: { ar: 'بصل مقرمش', en: 'Crispy Onions' } }, // Side dish / Fry texture
+    { src: '/images/green-valley/full-meal.png', alt: { ar: 'وجبة كاملة', en: 'Full Meal' } },
+    { src: '/images/green-valley/rice-chicken.png', alt: { ar: 'أرز مع دجاج', en: 'Rice with Chicken' } },
+    { src: '/images/green-valley/grilled-kebab.png', alt: { ar: 'كباب مشوي', en: 'Grilled Kebab' } },
+    { src: '/images/green-valley/rice-meat.png', alt: { ar: 'أرز مع لحم', en: 'Rice with Meat' } },
+    { src: '/images/green-valley/burger-fries.png', alt: { ar: 'برجر وبطاطس', en: 'Burger & Fries' } },
+    { src: '/images/green-valley/fried-meat.png', alt: { ar: 'لحم مقلي', en: 'Fried Meat' } },
+    { src: '/images/green-valley/vegetables.png', alt: { ar: 'خضار طازجة', en: 'Fresh Vegetables' } },
+    { src: '/images/green-valley/crispy-onions.png', alt: { ar: 'بصل مقرمش', en: 'Crispy Onions' } },
 ];
 
 function GallerySection() {
