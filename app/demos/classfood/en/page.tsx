@@ -326,7 +326,7 @@ function MenuHub() {
     }, [activeCategory, activeFilters, searchQuery]);
 
     return (
-        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-50 to-orange-50/30">
+        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-100 to-gray-50">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
@@ -549,7 +549,7 @@ function FoodGallery() {
     ];
 
     return (
-        <section className="py-16 overflow-hidden bg-gradient-to-b from-orange-50/50 to-yellow-50/30">
+        <section className="py-16 overflow-hidden bg-gradient-to-br from-orange-100 via-amber-50 to-yellow-100">
             <div className="text-center mb-10 px-6">
                 <h2 className="cf-heading-lg text-gray-900 mb-2">📸 From Our Kitchen</h2>
                 <p className="text-gray-500">Fresh dishes prepared daily</p>
