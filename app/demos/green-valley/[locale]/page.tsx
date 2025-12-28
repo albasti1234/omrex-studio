@@ -124,7 +124,7 @@ function HeroSection() {
             {/* Background Image - Cinematic Scale */}
             <div className="absolute inset-0 z-0 select-none">
                 <motion.div
-                    initial={{ scale: 1.05 }}
+                    initial={{ scale: 0.7 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 12, ease: "easeOut" }}
                     className="relative w-full h-full"
