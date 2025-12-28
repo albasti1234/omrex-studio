@@ -291,9 +291,9 @@ function DealOfDay() {
                         <p className="text-white/80 text-lg mb-6 max-w-md">
                             {dealItem.descAr}
                         </p>
-                        <div className="flex items-center justify-center md:justify-end gap-4 mb-6">
-                            <span className="text-white/60 line-through text-2xl">{dealItem.price} {t.menu.currency}</span>
+                        <div className="flex items-center justify-center md:justify-end gap-4 mb-6 flex-row-reverse">
                             <span className="text-5xl font-black">{discountPrice} {t.menu.currency}</span>
+                            <span className="text-white/60 line-through text-2xl">{dealItem.price} {t.menu.currency}</span>
                         </div>
                         <button
                             onClick={() => cart.addItem({ ...dealItem, price: Number(discountPrice) })}
@@ -326,89 +326,91 @@ function MenuHub() {
     }, [activeCategory, activeFilters, searchQuery]);
 
     return (
-        <section id="menu" className="py-16 px-6 max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-12">
-                <h2 className="cf-heading-lg text-gray-900 mb-4">{t.menu.title}</h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto rounded-full" />
-            </div>
-
-            {/* Search */}
-            <div className="max-w-lg mx-auto mb-8">
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder={t.menu.search}
-                        value={searchQuery}
-                        onChange={e => setSearchQuery(e.target.value)}
-                        className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 pr-14 text-gray-900 placeholder:text-gray-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 outline-none transition-all shadow-sm"
-                    />
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 text-xl">🔍</span>
+        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-50 to-orange-50/30">
+            <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-12">
+                    <h2 className="cf-heading-lg text-gray-900 mb-4">{t.menu.title}</h2>
+                    <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto rounded-full" />
                 </div>
-            </div>
 
-            {/* Category Chips */}
-            <div className="overflow-x-auto pb-4 mb-6 cf-hide-scrollbar">
-                <div className="flex gap-3 min-w-max justify-center">
-                    <button
-                        onClick={() => setActiveCategory(null)}
-                        className={`px-6 py-3 rounded-full font-bold text-sm transition-all ${activeCategory === null
-                            ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg'
-                            : 'bg-white text-gray-700 shadow-md hover:shadow-lg'
-                            }`}
-                    >
-                        ⭐ {t.menu.topPicks}
-                    </button>
-                    {categories.map(cat => (
+                {/* Search */}
+                <div className="max-w-lg mx-auto mb-8">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder={t.menu.search}
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                            className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 pr-14 text-gray-900 placeholder:text-gray-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 outline-none transition-all shadow-sm"
+                        />
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 text-xl">🔍</span>
+                    </div>
+                </div>
+
+                {/* Category Chips */}
+                <div className="overflow-x-auto pb-4 mb-6 cf-hide-scrollbar">
+                    <div className="flex gap-3 min-w-max justify-center">
                         <button
-                            key={cat.id}
-                            onClick={() => setActiveCategory(cat.id)}
-                            className={`px-6 py-3 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === cat.id
+                            onClick={() => setActiveCategory(null)}
+                            className={`px-6 py-3 rounded-full font-bold text-sm transition-all ${activeCategory === null
                                 ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg'
                                 : 'bg-white text-gray-700 shadow-md hover:shadow-lg'
                                 }`}
                         >
-                            {cat.nameAr}
+                            ⭐ {t.menu.topPicks}
+                        </button>
+                        {categories.map(cat => (
+                            <button
+                                key={cat.id}
+                                onClick={() => setActiveCategory(cat.id)}
+                                className={`px-6 py-3 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === cat.id
+                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg'
+                                    : 'bg-white text-gray-700 shadow-md hover:shadow-lg'
+                                    }`}
+                            >
+                                {cat.nameAr}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Filters */}
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                    {[
+                        { key: 'under20', label: t.menu.filters.under20, icon: '💰' },
+                        { key: 'spicy', label: t.menu.filters.spicy, icon: '🌶️' },
+                        { key: 'veg', label: t.menu.filters.veg, icon: '🥬' },
+                        { key: 'sweet', label: t.menu.filters.sweet, icon: '🍰' },
+                        { key: 'drink', label: t.menu.filters.drinks, icon: '🥤' },
+                    ].map(f => (
+                        <button
+                            key={f.key}
+                            onClick={() => toggleFilter(f.key)}
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeFilters[f.key]
+                                ? 'bg-orange-500 text-white shadow-md'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                }`}
+                        >
+                            {f.icon} {f.label}
                         </button>
                     ))}
                 </div>
-            </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-                {[
-                    { key: 'under20', label: t.menu.filters.under20, icon: '💰' },
-                    { key: 'spicy', label: t.menu.filters.spicy, icon: '🌶️' },
-                    { key: 'veg', label: t.menu.filters.veg, icon: '🥬' },
-                    { key: 'sweet', label: t.menu.filters.sweet, icon: '🍰' },
-                    { key: 'drink', label: t.menu.filters.drinks, icon: '🥤' },
-                ].map(f => (
-                    <button
-                        key={f.key}
-                        onClick={() => toggleFilter(f.key)}
-                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${activeFilters[f.key]
-                            ? 'bg-orange-500 text-white shadow-md'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                            }`}
-                    >
-                        {f.icon} {f.label}
-                    </button>
-                ))}
-            </div>
-
-            {/* Menu Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {displayItems.map((item, i) => (
-                    <MenuCard key={item.id} item={item} index={i} onAdd={() => cart.addItem(item)} />
-                ))}
-            </div>
-
-            {displayItems.length === 0 && (
-                <div className="text-center py-16 text-gray-400">
-                    <span className="text-6xl mb-4 block">🍽️</span>
-                    <p className="text-xl">لا توجد نتائج</p>
+                {/* Menu Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {displayItems.map((item, i) => (
+                        <MenuCard key={item.id} item={item} index={i} onAdd={() => cart.addItem(item)} />
+                    ))}
                 </div>
-            )}
+
+                {displayItems.length === 0 && (
+                    <div className="text-center py-16 text-gray-400">
+                        <span className="text-6xl mb-4 block">🍽️</span>
+                        <p className="text-xl">لا توجد نتائج</p>
+                    </div>
+                )}
+            </div>
         </section>
     );
 }
@@ -547,12 +549,12 @@ function FoodGallery() {
     ];
 
     return (
-        <section className="py-16 overflow-hidden">
+        <section className="py-16 overflow-hidden bg-gradient-to-b from-orange-50/50 to-yellow-50/30">
             <div className="text-center mb-10 px-6">
                 <h2 className="cf-heading-lg text-gray-900 mb-2">📸 من مطبخنا</h2>
                 <p className="text-gray-500">أطباق طازجة كل يوم</p>
             </div>
-            <div className="flex gap-4 animate-scroll cf-hide-scrollbar">
+            <div className="flex gap-4 animate-scroll-rtl cf-hide-scrollbar" dir="ltr">
                 {[...images, ...images].map((src, i) => (
                     <div key={i} className="flex-shrink-0 w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden shadow-lg">
                         <Image src={src} alt={`Food ${i}`} width={320} height={320} className="object-cover w-full h-full hover:scale-110 transition-transform duration-500" />

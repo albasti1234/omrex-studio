@@ -628,3 +628,7 @@
 .animate-scroll {
     animation: scroll 30s linear infinite;
 }
+
+.animate-scroll-rtl {
+    animation: scroll 30s linear infinite;
+}
