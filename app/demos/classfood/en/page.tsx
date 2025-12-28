@@ -644,7 +644,7 @@ function Location() {
                         href="https://maps.google.com/?q=Classfood+Restaurant+Food+Court+coop+2nd+floor+Bani+Yas+Abu+Dhabi"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="cf-btn-primary inline-block"
+                        className="bg-orange-500 text-white font-bold py-3 px-6 rounded-full"
                     >
                         🗺️ {t.location.mapsBtn}
                     </a>
