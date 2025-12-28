@@ -326,7 +326,7 @@ function MenuHub() {
     }, [activeCategory, activeFilters, searchQuery]);
 
     return (
-        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-100 to-gray-50">
+        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-200 to-gray-100">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
