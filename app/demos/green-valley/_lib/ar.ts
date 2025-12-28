@@ -88,7 +88,7 @@ export const ar = {
 
     // Footer
     footer: {
-        copyright: '© 2024 مطعم قصر الوادي الأخضر',
+        copyright: '© 2025 مطعم قصر الوادي الأخضر',
         builtBy: 'صنع بواسطة OMREX.STUDIO',
     },
 };

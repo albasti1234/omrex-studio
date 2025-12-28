@@ -90,7 +90,7 @@ export const en: Translations = {
 
     // Footer
     footer: {
-        copyright: '© 2024 Green Valley Restaurant',
+        copyright: '© 2025 Green Valley Restaurant',
         builtBy: 'Built by OMREX.STUDIO',
     },
 };
