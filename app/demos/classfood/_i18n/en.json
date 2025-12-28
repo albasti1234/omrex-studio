@@ -1,0 +1,137 @@
+{
+    "meta": {
+        "title": "Classfood Restaurant",
+        "description": "Order delicious Indian, Arabic & fast casual food online"
+    },
+    "hero": {
+        "tagline": "Great Food • Fast Delivery • Fair Prices",
+        "rating": "4.9",
+        "reviews": "104 reviews",
+        "orderBtn": "Order Online",
+        "callBtn": "Call",
+        "locationBtn": "Location",
+        "services": {
+            "delivery": "Delivery",
+            "takeaway": "Takeaway",
+            "dinein": "Dine-in",
+            "halal": "Halal"
+        }
+    },
+    "menu": {
+        "title": "Menu",
+        "topPicks": "Top Picks",
+        "search": "Search for a dish...",
+        "filters": {
+            "under20": "Under 20 AED",
+            "spicy": "Spicy 🌶️",
+            "veg": "Vegetarian 🥬",
+            "sweet": "Desserts 🍰",
+            "drinks": "Drinks 🥤"
+        },
+        "addBtn": "Add",
+        "detailsBtn": "Details",
+        "currency": "AED",
+        "categories": {
+            "mojito": "Mojito",
+            "chaat": "Chaat",
+            "drinks": "Drinks",
+            "burger": "Burger",
+            "pasta": "Pasta",
+            "salad": "Salad",
+            "dosa": "Dosa",
+            "biriyani": "Biriyani",
+            "crepe": "Crepe",
+            "desserts": "Desserts",
+            "juice": "Juice",
+            "curry": "Curry"
+        }
+    },
+    "cart": {
+        "title": "Your Cart",
+        "empty": "Cart is empty",
+        "subtotal": "Subtotal",
+        "checkout": "Checkout",
+        "remove": "Remove"
+    },
+    "checkout": {
+        "title": "Checkout",
+        "name": "Name",
+        "phone": "Phone",
+        "orderType": "Order Type",
+        "pickup": "Pickup",
+        "delivery": "Delivery",
+        "notes": "Notes (optional)",
+        "submit": "Place Order",
+        "success": "Order Received!",
+        "orderNumber": "Order #",
+        "whatsapp": "Send via WhatsApp"
+    },
+    "experience": {
+        "title": "Why Classfood?",
+        "items": [
+            {
+                "icon": "⚡",
+                "title": "Fast Service",
+                "desc": "Your order ready in no time"
+            },
+            {
+                "icon": "🍽️",
+                "title": "Great Variety",
+                "desc": "Indian, Arabic & more"
+            },
+            {
+                "icon": "✅",
+                "title": "100% Halal",
+                "desc": "All our food is halal"
+            },
+            {
+                "icon": "💰",
+                "title": "Fair Prices",
+                "desc": "Quality at great value"
+            },
+            {
+                "icon": "👨‍👩‍👧‍👦",
+                "title": "Family Friendly",
+                "desc": "Comfortable for everyone"
+            },
+            {
+                "icon": "🅿️",
+                "title": "Free Parking",
+                "desc": "Plenty of parking space"
+            }
+        ]
+    },
+    "reviews": {
+        "title": "Customer Reviews",
+        "disclaimer": "(sample quotes)",
+        "items": [
+            {
+                "name": "Ahmed M.",
+                "text": "Best biriyani in the area! Great taste and generous portions."
+            },
+            {
+                "name": "Sara A.",
+                "text": "Love their dosa, always fresh and quick service."
+            },
+            {
+                "name": "Mohammed R.",
+                "text": "Excellent service and very reasonable prices."
+            }
+        ]
+    },
+    "location": {
+        "title": "Location & Hours",
+        "address": "Madinat Zayed Shopping Center, Abu Dhabi",
+        "floor": "2nd Floor - Food Court",
+        "hours": "Daily 10 AM - 11 PM",
+        "mapsBtn": "Open in Google Maps"
+    },
+    "footer": {
+        "phone": "02 622 7669",
+        "disclaimer": "This is a demo concept for presentation only",
+        "copyright": "© 2025 Classfood Restaurant"
+    },
+    "lang": {
+        "switch": "العربية"
+    }
+}

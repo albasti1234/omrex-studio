@@ -1,0 +1,82 @@
+/* Classfood Restaurant - Self-contained styles */
+/* Primary: Orange (#F97316), Secondary: Charcoal (#1F2937), Accent: Warm Yellow (#FBBF24) */
+
+.classfood-page {
+    --cf-orange: #F97316;
+    --cf-orange-dark: #EA580C;
+    --cf-orange-light: #FB923C;
+    --cf-charcoal: #1F2937;
+    --cf-gray: #6B7280;
+    --cf-light: #F9FAFB;
+    --cf-white: #FFFFFF;
+    --cf-yellow: #FBBF24;
+    --cf-green: #22C55E;
+    --cf-red: #EF4444;
+}
+
+/* Smooth scrolling */
+.classfood-page {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for menu */
+.cf-scrollbar::-webkit-scrollbar {
+    height: 4px;
+}
+
+.cf-scrollbar::-webkit-scrollbar-track {
+    background: #E5E7EB;
+    border-radius: 4px;
+}
+
+.cf-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--cf-orange);
+    border-radius: 4px;
+}
+
+/* Category chip active state */
+.cf-chip-active {
+    background: var(--cf-orange) !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+/* Gradient placeholder for missing images */
+.cf-img-placeholder {
+    background: linear-gradient(135deg, #FDBA74 0%, #F97316 50%, #EA580C 100%);
+}
+
+/* Button hover glow */
+.cf-btn-glow:hover {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+}
+
+/* Bottom sheet animation */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.cf-sheet-enter {
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.cf-fade-in {
+    animation: fadeIn 0.2s ease-out forwards;
+}
