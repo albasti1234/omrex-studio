@@ -56,7 +56,7 @@ const t = {
             { name: 'محمد ر.', text: 'خدمة ممتازة والأسعار معقولة جداً.' }
         ]
     },
-    location: { title: 'الموقع وأوقات العمل', address: 'جمعية بني ياس التعاونية، أبوظبي', floor: '7JQR+27 Abu Dhabi', hours: 'يومياً من 10 صباحاً - 11 مساءً', mapsBtn: 'افتح في خرائط قوقل' },
+    location: { title: 'الموقع وأوقات العمل', address: 'جمعية بني ياس التعاونية', floor: 'Food Court - 2nd Floor - Bani Yas - EB9 - Abu Dhabi', hours: 'يومياً من 10 صباحاً - 11 مساءً', mapsBtn: 'افتح في خرائط قوقل' },
     footer: { phone: '02 622 7669', disclaimer: 'هذا نموذج تجريبي للعرض فقط', copyright: '© 2025 مطعم كلاس فود' },
     lang: { switch: 'English' }
 };
@@ -641,7 +641,7 @@ function Location() {
                     <p className="text-gray-600 mb-2 font-mono text-lg">{t.location.floor}</p>
                     <p className="text-gray-600 mb-8">🕐 {t.location.hours}</p>
                     <a
-                        href="https://maps.google.com/?q=7JQR%2B27+Abu+Dhabi"
+                        href="https://maps.google.com/?q=Classfood+Restaurant+Food+Court+coop+2nd+floor+Bani+Yas+Abu+Dhabi"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cf-btn-primary inline-block"
@@ -674,7 +674,7 @@ function Footer() {
                         <p className="text-gray-400 text-sm mb-2">اتصل بنا</p>
                         <a href="tel:026227669" className="text-2xl font-bold text-white hover:text-orange-400 transition-colors block mb-4">📞 {t.footer.phone}</a>
                         <a
-                            href="https://maps.google.com/?q=7JQR%2B27+Abu+Dhabi"
+                            href="https://maps.google.com/?q=Classfood+Restaurant+Food+Court+coop+2nd+floor+Bani+Yas+Abu+Dhabi"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg hover:shadow-xl"
