@@ -123,22 +123,15 @@ function HeroSection() {
         <section className="relative h-screen w-full overflow-hidden bg-[#050507]">
             {/* Background Image - Cinematic Scale */}
             <div className="absolute inset-0 z-0 select-none">
-                <motion.div
-                    initial={{ scale: 0.7 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 12, ease: "easeOut" }}
-                    className="relative w-full h-full"
-                >
-                    <Image
-                        src="/images/green-valley/hero.png"
-                        alt="Green Valley Restaurant"
-                        fill
-                        priority
-                        className="object-cover"
-                        style={{ objectPosition: 'center 35%' }}
-                        draggable={false}
-                    />
-                </motion.div>
+                <Image
+                    src="/images/green-valley/hero.png"
+                    alt="Green Valley Restaurant"
+                    fill
+                    priority
+                    className="object-cover"
+                    style={{ objectPosition: 'center 35%' }}
+                    draggable={false}
+                />
 
                 {/* Professional Gradients for Contrast */}
                 {/* Base darkening for text legibility */}
@@ -161,7 +154,7 @@ function HeroSection() {
                             initial={{ width: 0, opacity: 0 }}
                             animate={{ width: 80, opacity: 1 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
-                            className={`h-[4px] bg-emerald-500 rounded-full mb-6 md:mb-8 ${isRTL ? 'ml-auto' : 'mr-auto'}`}
+                            className={`h-[4px] bg-emerald-500 rounded-full mb-4 md:mb-8 ${isRTL ? 'ml-auto' : 'mr-auto'}`}
                         />
 
                         {/* Restaurant Name */}
@@ -169,7 +162,7 @@ function HeroSection() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6, duration: 0.8 }}
-                            className="text-4xl sm:text-7xl lg:text-8xl font-bold text-white mb-4 md:mb-6 leading-[1.1] drop-shadow-lg tracking-tight"
+                            className="text-4xl sm:text-7xl lg:text-8xl font-bold text-white mb-2 md:mb-6 leading-[1.1] drop-shadow-lg tracking-tight"
                         >
                             {t('name')}
                         </motion.h1>
@@ -179,26 +172,26 @@ function HeroSection() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.7, duration: 0.8 }}
-                            className="text-base sm:text-2xl text-gray-300 mb-8 md:mb-12 max-w-2xl font-light leading-relaxed"
+                            className="text-sm sm:text-2xl text-gray-300 mb-6 md:mb-12 max-w-2xl font-light leading-relaxed"
                         >
                             {t('tagline')}
                         </motion.p>
 
-                        {/* CTA Buttons */}
+                        {/* CTA Buttons - Compact Mobile */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8 }}
-                            className={`flex flex-col sm:flex-row gap-3 sm:gap-5 ${isRTL ? 'justify-start' : 'justify-start'}`}
+                            className={`flex flex-row gap-3 sm:gap-5 ${isRTL ? 'justify-start' : 'justify-start'}`}
                         >
                             <a
                                 href="tel:+97126000000"
-                                className="group relative px-6 py-3 md:px-8 md:py-4 bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
+                                className="group relative px-5 py-2.5 md:px-8 md:py-4 bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-700 opacity-100 group-hover:opacity-0 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-base md:text-lg">
-                                    <span className="text-lg md:text-xl">📞</span> {t('callBtn')}
+                                <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-bold text-sm md:text-lg">
+                                    <span className="text-base md:text-xl">📞</span> {t('callBtn')}
                                 </span>
                             </a>
 
@@ -206,10 +199,10 @@ function HeroSection() {
                                 href="https://wa.me/97150000000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative px-6 py-3 md:px-8 md:py-4 bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
+                                className="group relative px-5 py-2.5 md:px-8 md:py-4 bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
                             >
-                                <span className="relative z-10 flex items-center justify-center gap-3 font-bold text-base md:text-lg">
-                                    <span className="text-lg md:text-xl transition-transform group-hover:scale-110">💬</span> {t('whatsappBtn')}
+                                <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-bold text-sm md:text-lg">
+                                    <span className="text-base md:text-xl transition-transform group-hover:scale-110">💬</span> {t('whatsappBtn')}
                                 </span>
                             </a>
                         </motion.div>
