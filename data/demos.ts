@@ -124,6 +124,21 @@ export const DEMO_WEBSITES: DemoWebsite[] = [
     features: ["Bilingual", "Menu", "Gallery", "WhatsApp"],
     status: "live",
   },
+  {
+    id: "classfood",
+    title: "Classfood",
+    subtitle: "Casual Dining Restaurant",
+    description: "Bilingual food ordering demo (AR/EN) with cart & WhatsApp integration",
+    category: "Restaurant",
+    route: "/demos/classfood/ar",
+    thumbnail: "/images/classfood/hero.png",
+    color: {
+      primary: "#F97316",
+      secondary: "#1F2937",
+    },
+    features: ["Bilingual", "Menu", "Cart", "WhatsApp"],
+    status: "live",
+  },
 ];
 
 export const getLivedemos = () => DEMO_WEBSITES.filter((d) => d.status === "live");
