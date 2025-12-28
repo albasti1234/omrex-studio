@@ -362,6 +362,31 @@
     transform: translateY(-2px);
 }
 
+/* ============================================================================
+   Form Inputs
+   ============================================================================ */
+
+.cf-input {
+    width: 100%;
+    padding: 14px 18px;
+    background: #FFFFFF;
+    border: 2px solid #E5E7EB;
+    border-radius: 14px;
+    font-size: 16px;
+    color: #1F2937;
+    transition: all 0.2s ease;
+}
+
+.cf-input::placeholder {
+    color: #9CA3AF;
+}
+
+.cf-input:focus {
+    outline: none;
+    border-color: var(--cf-orange);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
 /* Add Button */
 .cf-btn-add {
     position: relative;

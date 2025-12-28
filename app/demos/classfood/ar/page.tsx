@@ -961,6 +961,27 @@ function CheckoutSheet({ onClose }: { onClose: () => void }) {
                                     </div>
                                 </div>
 
+                                {/* Card Details - Only show when card is selected */}
+                                {formData.paymentMethod === 'card' && (
+                                    <div className="bg-blue-50 rounded-2xl p-4 space-y-4 border-2 border-blue-200">
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">💳 رقم البطاقة</label>
+                                            <input type="text" placeholder="1234 5678 9012 3456" className="cf-input text-center tracking-widest" maxLength={19} />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block text-sm font-bold text-gray-700 mb-2">📅 تاريخ الانتهاء</label>
+                                                <input type="text" placeholder="MM/YY" className="cf-input text-center" maxLength={5} />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-bold text-gray-700 mb-2">🔒 CVV</label>
+                                                <input type="text" placeholder="123" className="cf-input text-center" maxLength={4} />
+                                            </div>
+                                        </div>
+                                        <p className="text-xs text-gray-500 text-center">🔐 بياناتك مشفرة وآمنة 100%</p>
+                                    </div>
+                                )}
+
                                 {/* Notes */}
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">📝 {t.checkout.notes}</label>
