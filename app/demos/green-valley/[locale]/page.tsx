@@ -426,7 +426,7 @@ function WhyUsSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.15 }}
-                            className="bg-[#151518] rounded-2xl p-8 border border-white/10 hover:border-emerald-500/30 hover:border-emerald-500/30 transition-all duration-300 group"
+                            className="bg-[#151518] rounded-2xl p-8 border border-white/10 hover:border-emerald-500/30 transition-all duration-300 group"
                         >
                             <span className="text-5xl mb-4 block group-hover:scale-110 transition-transform duration-300">
                                 {point.icon}
