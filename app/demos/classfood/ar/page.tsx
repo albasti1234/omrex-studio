@@ -419,15 +419,21 @@ function MenuHub() {
 // MENU CARD - PREMIUM
 // ============================================================================
 const imageMap: Record<string, string> = {
-    'bi1': '/images/classfood/biriyani.png',
+    // Top Picks - Unique cinematic images
+    'm1': '/images/classfood/lemon_mojito.png',        // Lemon Mojito
+    'c1': '/images/classfood/papdi_chaat.png',         // Papdi Chaat
+    'c5': '/images/classfood/pani_puri.png',           // Pani Puri (unique)
+    'b1': '/images/classfood/nashville_burger.png',    // Nashville Hot Chicken
+    'do2': '/images/classfood/masala_dosa.png',        // Masala Dosa
+    'bi1': '/images/classfood/grilled_chicken_biriyani.png', // Grilled Chicken Biriyani
+    'cr2': '/images/classfood/chicken_shawarma_crepe.png',   // Chicken Shawarma Crepe
+    'de1': '/images/classfood/nutella_kunafa.png',     // Nutella Kunafa
+    'j2': '/images/classfood/oreo_milkshake.png',      // Oreo Milkshake
+    'cu1': '/images/classfood/butter_chicken.png',     // Butter Chicken
+    'p3': '/images/classfood/negresco_pasta.png',      // Negresco Pasta
+    // Other items can use existing images
     'bi2': '/images/classfood/biriyani.png',
-    'do2': '/images/classfood/dosa.png',
     'do3': '/images/classfood/dosa.png',
-    'b1': '/images/classfood/burger.png',
-    'de1': '/images/classfood/kunafa.png',
-    'm1': '/images/classfood/mojito.png',
-    'c1': '/images/classfood/chaat.png',
-    'c5': '/images/classfood/chaat.png',
 };
 
 function MenuCard({ item, index, onAdd }: { item: MenuItem; index: number; onAdd: () => void }) {
