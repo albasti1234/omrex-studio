@@ -1,72 +1,193 @@
-/* Classfood Restaurant - Self-contained styles */
-/* Primary: Orange (#F97316), Secondary: Charcoal (#1F2937), Accent: Warm Yellow (#FBBF24) */
+/* ============================================================================
+   CLASSFOOD RESTAURANT - Premium Design System
+   ============================================================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
+
+/* ============================================================================
+   CSS Variables
+   ============================================================================ */
 
 .classfood-page {
+    /* Primary Palette */
     --cf-orange: #F97316;
     --cf-orange-dark: #EA580C;
     --cf-orange-light: #FB923C;
+    --cf-orange-glow: rgba(249, 115, 22, 0.4);
+
+    /* Neutrals */
+    --cf-black: #0A0A0A;
     --cf-charcoal: #1F2937;
     --cf-gray: #6B7280;
     --cf-light: #F9FAFB;
     --cf-white: #FFFFFF;
+
+    /* Accents */
     --cf-yellow: #FBBF24;
     --cf-green: #22C55E;
     --cf-red: #EF4444;
+
+    /* Typography */
+    --font-ar: 'Tajawal', sans-serif;
+    --font-en: 'Inter', sans-serif;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.16);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 40px var(--cf-orange-glow);
+
+    /* Transitions */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Smooth scrolling */
+/* Base Styles */
 .classfood-page {
+    font-family: var(--font-en);
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar for menu */
-.cf-scrollbar::-webkit-scrollbar {
-    height: 4px;
+.classfood-page[dir="rtl"] {
+    font-family: var(--font-ar);
 }
 
-.cf-scrollbar::-webkit-scrollbar-track {
-    background: #E5E7EB;
-    border-radius: 4px;
+/* ============================================================================
+   Premium Animations
+   ============================================================================ */
+
+/* Steam Effect */
+@keyframes steam {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(1.5);
+    }
 }
 
-.cf-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--cf-orange);
-    border-radius: 4px;
+.cf-steam {
+    position: absolute;
+    width: 8px;
+    height: 20px;
+    background: linear-gradient(to top, transparent, rgba(255, 255, 255, 0.3));
+    border-radius: 50%;
+    filter: blur(4px);
+    animation: steam 2s ease-out infinite;
 }
 
-/* Category chip active state */
-.cf-chip-active {
-    background: var(--cf-orange) !important;
-    color: white !important;
-    font-weight: 600;
+.cf-steam:nth-child(2) {
+    animation-delay: 0.5s;
+    left: 30%;
 }
 
-/* Gradient placeholder for missing images */
-.cf-img-placeholder {
-    background: linear-gradient(135deg, #FDBA74 0%, #F97316 50%, #EA580C 100%);
+.cf-steam:nth-child(3) {
+    animation-delay: 1s;
+    left: 60%;
 }
 
-/* Button hover glow */
-.cf-btn-glow:hover {
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+/* Sparkle Effect */
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
 }
 
-/* Bottom sheet animation */
+.cf-sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--cf-yellow);
+    border-radius: 50%;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.cf-sparkle::before,
+.cf-sparkle::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 12px;
+    background: var(--cf-yellow);
+    left: 2px;
+    top: -3px;
+}
+
+.cf-sparkle::after {
+    transform: rotate(90deg);
+}
+
+/* Pulse Glow */
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 var(--cf-orange-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 30px 10px var(--cf-orange-glow);
+    }
+}
+
+.cf-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Float Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.cf-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Slide Up */
 @keyframes slideUp {
     from {
-        transform: translateY(100%);
+        opacity: 0;
+        transform: translateY(30px);
     }
 
     to {
+        opacity: 1;
         transform: translateY(0);
     }
 }
 
-.cf-sheet-enter {
-    animation: slideUp 0.3s ease-out forwards;
+.cf-slide-up {
+    animation: slideUp 0.6s var(--ease-out) forwards;
 }
 
-/* Fade in animation */
+/* Fade In */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -78,5 +199,389 @@
 }
 
 .cf-fade-in {
-    animation: fadeIn 0.2s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.cf-scale-in {
+    animation: scaleIn 0.4s var(--ease-bounce) forwards;
+}
+
+/* Sheet Enter */
+@keyframes sheetEnter {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.cf-sheet-enter {
+    animation: sheetEnter 0.4s var(--ease-out) forwards;
+}
+
+/* ============================================================================
+   Glass Morphism
+   ============================================================================ */
+
+.cf-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cf-glass-dark {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cf-glass-light {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================================================
+   Premium Cards
+   ============================================================================ */
+
+.cf-card {
+    position: relative;
+    background: var(--cf-white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s var(--ease-out);
+}
+
+.cf-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-xl);
+}
+
+.cf-card-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.cf-card-image img {
+    transition: transform 0.6s var(--ease-out);
+}
+
+.cf-card:hover .cf-card-image img {
+    transform: scale(1.08);
+}
+
+/* Image Gradient Overlay */
+.cf-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.cf-card:hover .cf-card-overlay {
+    opacity: 1;
+}
+
+/* ============================================================================
+   Premium Buttons
+   ============================================================================ */
+
+.cf-btn-primary {
+    position: relative;
+    background: linear-gradient(135deg, var(--cf-orange) 0%, var(--cf-orange-dark) 100%);
+    color: white;
+    font-weight: 700;
+    padding: 16px 32px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s var(--ease-out);
+    box-shadow: 0 4px 20px var(--cf-orange-glow);
+}
+
+.cf-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--cf-orange-light) 0%, var(--cf-orange) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cf-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--cf-orange-glow);
+}
+
+.cf-btn-primary:hover::before {
+    opacity: 1;
+}
+
+.cf-btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Secondary Button */
+.cf-btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    color: white;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+}
+
+.cf-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Add Button */
+.cf-btn-add {
+    position: relative;
+    background: var(--cf-orange);
+    color: white;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s var(--ease-out);
+}
+
+.cf-btn-add:hover {
+    background: var(--cf-orange-dark);
+    transform: scale(1.05);
+}
+
+.cf-btn-add:active {
+    transform: scale(0.95);
+}
+
+/* ============================================================================
+   Premium Badges
+   ============================================================================ */
+
+.cf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cf-badge-popular {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    color: white;
+    box-shadow: 0 2px 10px rgba(255, 107, 107, 0.4);
+}
+
+.cf-badge-new {
+    background: linear-gradient(135deg, #22C55E 0%, #10B981 100%);
+    color: white;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.4);
+}
+
+.cf-badge-spicy {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    color: white;
+}
+
+.cf-badge-veg {
+    background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+    color: white;
+}
+
+.cf-badge-deal {
+    background: linear-gradient(135deg, var(--cf-yellow) 0%, #F59E0B 100%);
+    color: #78350F;
+    box-shadow: 0 2px 10px rgba(251, 191, 36, 0.4);
+}
+
+/* ============================================================================
+   Custom Scrollbar
+   ============================================================================ */
+
+.cf-scrollbar::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+}
+
+.cf-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.cf-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--cf-orange);
+    border-radius: 4px;
+}
+
+.cf-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--cf-orange-dark);
+}
+
+/* ============================================================================
+   Premium Input
+   ============================================================================ */
+
+.cf-input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    font-size: 16px;
+    background: var(--cf-white);
+    transition: all 0.3s var(--ease-out);
+}
+
+.cf-input:focus {
+    outline: none;
+    border-color: var(--cf-orange);
+    box-shadow: 0 0 0 4px var(--cf-orange-glow);
+}
+
+.cf-input::placeholder {
+    color: var(--cf-gray);
+}
+
+/* ============================================================================
+   Image Placeholder with Gradient
+   ============================================================================ */
+
+.cf-img-placeholder {
+    background: linear-gradient(135deg, #FDBA74 0%, #F97316 50%, #EA580C 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================================================
+   Parallax Container
+   ============================================================================ */
+
+.cf-parallax {
+    position: relative;
+    overflow: hidden;
+}
+
+.cf-parallax-bg {
+    position: absolute;
+    inset: -20%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+
+/* ============================================================================
+   Hide Scrollbar
+   ============================================================================ */
+
+.cf-hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.cf-hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* ============================================================================
+   Responsive Typography
+   ============================================================================ */
+
+.cf-heading-xl {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.cf-heading-lg {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cf-heading-md {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* ============================================================================
+   Cart Animation
+   ============================================================================ */
+
+@keyframes cartBounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    75% {
+        transform: scale(1.1);
+    }
+}
+
+.cf-cart-bounce {
+    animation: cartBounce 0.5s var(--ease-bounce);
+}
+
+/* Success Check Animation */
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 100;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.cf-checkmark {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: checkmark 0.6s var(--ease-out) forwards;
+    animation-delay: 0.2s;
 }
