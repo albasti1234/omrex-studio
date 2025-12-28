@@ -326,11 +326,11 @@ function MenuHub() {
     }, [activeCategory, activeFilters, searchQuery]);
 
     return (
-        <section id="menu" className="py-16 px-6 bg-gradient-to-b from-gray-200 to-gray-100">
+        <section id="menu" className="py-16 px-6 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-950">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h2 className="cf-heading-lg text-gray-900 mb-4">{t.menu.title}</h2>
+                    <h2 className="cf-heading-lg text-white mb-4">{t.menu.title}</h2>
                     <div className="w-24 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mx-auto rounded-full" />
                 </div>
 
@@ -549,10 +549,10 @@ function FoodGallery() {
     ];
 
     return (
-        <section className="py-16 overflow-hidden bg-gradient-to-br from-orange-100 via-amber-50 to-yellow-100">
+        <section className="py-16 overflow-hidden bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-950">
             <div className="text-center mb-10 px-6">
-                <h2 className="cf-heading-lg text-gray-900 mb-2">📸 From Our Kitchen</h2>
-                <p className="text-gray-500">Fresh dishes prepared daily</p>
+                <h2 className="cf-heading-lg text-white mb-2">📸 From Our Kitchen</h2>
+                <p className="text-zinc-400">Fresh dishes prepared daily</p>
             </div>
             <div className="flex gap-4 animate-scroll cf-hide-scrollbar">
                 {[...images, ...images].map((src, i) => (
