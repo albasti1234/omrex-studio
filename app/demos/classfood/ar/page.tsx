@@ -152,7 +152,7 @@ function Hero() {
     }, []);
 
     return (
-        <section className="relative h-[90vh] min-h-[600px] overflow-hidden bg-black">
+        <section className="relative h-[100vh] min-h-[600px] overflow-hidden bg-black">
             {/* Parallax Background Image */}
             <div
                 className="absolute inset-0 scale-110"
