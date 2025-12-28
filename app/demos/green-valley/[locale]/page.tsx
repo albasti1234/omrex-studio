@@ -121,109 +121,108 @@ function HeroSection() {
 
     return (
         <section className="relative h-screen w-full overflow-hidden bg-[#050507]">
-            {/* Background Image - Cinematic Scale */}
-            <div className="absolute inset-0 z-0 select-none">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
                 <Image
                     src="/images/green-valley/hero.png"
                     alt="Green Valley Restaurant"
                     fill
                     priority
                     className="object-cover"
-                    style={{ objectPosition: 'center 35%' }}
-                    draggable={false}
+                    style={{ objectPosition: 'center 40%' }}
                 />
 
-                {/* Professional Gradients for Contrast */}
-                {/* Base darkening for text legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/50 to-transparent opacity-90" />
+                {/* Gradient Overlays - Optimized for both mobile & desktop */}
+                {/* Bottom gradient for text area */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-                {/* Side gradient based on direction */}
-                <div
-                    className={`absolute inset-0 bg-gradient-to-r from-[#0a0a0c]/90 via-[#0a0a0c]/40 to-transparent z-1`}
-                    style={{ transform: isRTL ? 'scaleX(-1)' : 'none' }}
-                />
+                {/* Top subtle vignette */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
             </div>
 
-            {/* Content Container */}
-            <div className="absolute inset-0 z-20 flex items-end pb-16 md:pb-32">
-                <div className={`w-full px-6 md:px-20 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <div className="max-w-4xl mx-auto md:mx-0">
+            {/* Content - Centered on mobile, bottom-left on desktop */}
+            <div className="relative z-10 h-full flex flex-col justify-end">
+                <div className={`w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pb-20 sm:pb-24 md:pb-28 ${isRTL ? 'text-right' : 'text-left'}`}>
 
-                        {/* Decorative Line */}
-                        <motion.div
-                            initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: 80, opacity: 1 }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                            className={`h-[4px] bg-emerald-500 rounded-full mb-4 md:mb-8 ${isRTL ? 'ml-auto' : 'mr-auto'}`}
-                        />
+                    {/* Badge/Label */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                        className={`mb-4 md:mb-6 ${isRTL ? 'mr-auto' : 'ml-0'}`}
+                    >
+                        <span className="inline-block px-4 py-1.5 bg-emerald-600/90 text-white text-xs md:text-sm font-semibold rounded-full backdrop-blur-sm">
+                            {locale === 'ar' ? '🍽️ مطبخ عربي أصيل' : '🍽️ Authentic Arabic Cuisine'}
+                        </span>
+                    </motion.div>
 
-                        {/* Restaurant Name */}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6, duration: 0.8 }}
-                            className="text-4xl sm:text-7xl lg:text-8xl font-bold text-white mb-2 md:mb-6 leading-[1.1] drop-shadow-lg tracking-tight"
+                    {/* Restaurant Name */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.7 }}
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-3 md:mb-5 leading-[1.05] tracking-tight"
+                    >
+                        {t('name')}
+                    </motion.h1>
+
+                    {/* Tagline */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.7 }}
+                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/85 mb-8 md:mb-10 max-w-xl font-light"
+                    >
+                        {t('tagline')}
+                    </motion.p>
+
+                    {/* CTA Buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.7 }}
+                        className="flex flex-row flex-wrap gap-3 md:gap-4"
+                    >
+                        {/* Call Button */}
+                        <a
+                            href="tel:+97126000000"
+                            className="inline-flex items-center gap-2.5 px-6 py-3 md:px-8 md:py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-full transition-all duration-300 hover:shadow-xl hover:shadow-emerald-600/30 hover:-translate-y-0.5"
                         >
-                            {t('name')}
-                        </motion.h1>
+                            <span className="text-lg">📞</span>
+                            <span className="text-sm md:text-base">{t('callBtn')}</span>
+                        </a>
 
-                        {/* Tagline */}
-                        <motion.p
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7, duration: 0.8 }}
-                            className="text-sm sm:text-2xl text-white/80 mb-6 md:mb-12 max-w-2xl font-light leading-relaxed"
+                        {/* WhatsApp Button */}
+                        <a
+                            href="https://wa.me/97150000000"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2.5 px-6 py-3 md:px-8 md:py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5"
                         >
-                            {t('tagline')}
-                        </motion.p>
-
-                        {/* CTA Buttons - Compact Mobile */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8 }}
-                            className={`flex flex-row gap-3 sm:gap-5 ${isRTL ? 'justify-start' : 'justify-start'}`}
-                        >
-                            <a
-                                href="tel:+97126000000"
-                                className="group relative px-6 py-3.5 md:px-8 md:py-4 min-h-[48px] bg-emerald-600 text-white rounded-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-900/40 hover:-translate-y-1 active:translate-y-0"
-                            >
-                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-emerald-700 opacity-100 group-hover:opacity-0 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-bold text-sm md:text-lg">
-                                    <span className="text-base md:text-xl">📞</span> {t('callBtn')}
-                                </span>
-                            </a>
-
-                            <a
-                                href="https://wa.me/97150000000"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group relative px-6 py-3.5 md:px-8 md:py-4 min-h-[48px] bg-white/5 border border-white/10 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-emerald-500/30 backdrop-blur-md hover:-translate-y-1 active:translate-y-0"
-                            >
-                                <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3 font-bold text-sm md:text-lg">
-                                    <span className="text-base md:text-xl transition-transform group-hover:scale-110">💬</span> {t('whatsappBtn')}
-                                </span>
-                            </a>
-                        </motion.div>
-                    </div>
+                            <span className="text-lg">💬</span>
+                            <span className="text-sm md:text-base">{t('whatsappBtn')}</span>
+                        </a>
+                    </motion.div>
                 </div>
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Scroll Indicator - Desktop only */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:block"
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden lg:flex flex-col items-center gap-2"
             >
-                <div className="w-[1px] h-24 bg-gradient-to-b from-transparent via-white/10 to-transparent relative overflow-hidden">
-                    <motion.div
-                        animate={{ y: [-30, 100] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-transparent via-emerald-500 to-transparent"
-                    />
-                </div>
+                <span className="text-white/50 text-xs tracking-widest uppercase">
+                    {locale === 'ar' ? 'تصفح' : 'Scroll'}
+                </span>
+                <motion.div
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-5 h-8 border-2 border-white/30 rounded-full flex justify-center pt-1.5"
+                >
+                    <div className="w-1 h-2 bg-white/60 rounded-full" />
+                </motion.div>
             </motion.div>
         </section>
     );
