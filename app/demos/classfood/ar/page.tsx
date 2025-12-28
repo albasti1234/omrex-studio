@@ -120,21 +120,19 @@ function useCart() {
 export default function ClassfoodArabicPage() {
     return (
         <CartProvider>
-            <html lang="ar" dir="rtl">
-                <body className="classfood-page bg-[#FAFAFA] text-gray-900">
-                    <main className="min-h-screen overflow-x-hidden">
-                        <Hero />
-                        <DealOfDay />
-                        <MenuHub />
-                        <FoodGallery />
-                        <Experience />
-                        <Reviews />
-                        <Location />
-                        <Footer />
-                    </main>
-                    <FloatingCart />
-                </body>
-            </html>
+            <div lang="ar" dir="rtl" className="classfood-page bg-[#FAFAFA] text-gray-900">
+                <main className="min-h-screen overflow-x-hidden">
+                    <Hero />
+                    <DealOfDay />
+                    <MenuHub />
+                    <FoodGallery />
+                    <Experience />
+                    <Reviews />
+                    <Location />
+                    <Footer />
+                </main>
+                <FloatingCart />
+            </div>
         </CartProvider>
     );
 }

@@ -120,21 +120,19 @@ function useCart() {
 export default function ClassfoodEnglishPage() {
     return (
         <CartProvider>
-            <html lang="en" dir="ltr">
-                <body className="classfood-page bg-[#FAFAFA] text-gray-900">
-                    <main className="min-h-screen overflow-x-hidden">
-                        <Hero />
-                        <DealOfDay />
-                        <MenuHub />
-                        <FoodGallery />
-                        <Experience />
-                        <Reviews />
-                        <Location />
-                        <Footer />
-                    </main>
-                    <FloatingCart />
-                </body>
-            </html>
+            <div lang="en" dir="ltr" className="classfood-page bg-[#FAFAFA] text-gray-900">
+                <main className="min-h-screen overflow-x-hidden">
+                    <Hero />
+                    <DealOfDay />
+                    <MenuHub />
+                    <FoodGallery />
+                    <Experience />
+                    <Reviews />
+                    <Location />
+                    <Footer />
+                </main>
+                <FloatingCart />
+            </div>
         </CartProvider>
     );
 }
