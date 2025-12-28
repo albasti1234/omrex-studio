@@ -261,9 +261,6 @@ function GallerySection() {
                     <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                         {locale === 'ar' ? 'أطباقنا' : 'Our Dishes'}
                     </h2>
-                    <p className="text-gray-400 text-sm">
-                        {locale === 'ar' ? 'صور حقيقية من مطعمنا' : 'Real photos from our restaurant'}
-                    </p>
                 </motion.div>
 
                 {/* Photo Grid */}
