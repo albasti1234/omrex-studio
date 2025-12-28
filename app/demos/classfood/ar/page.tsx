@@ -56,7 +56,7 @@ const t = {
             { name: 'محمد ر.', text: 'خدمة ممتازة والأسعار معقولة جداً.' }
         ]
     },
-    location: { title: 'الموقع وأوقات العمل', address: 'مدينة زايد للتسوق، أبوظبي', floor: 'الطابق الثاني - فود كورت', hours: 'يومياً من 10 صباحاً - 11 مساءً', mapsBtn: 'افتح في خرائط قوقل' },
+    location: { title: 'الموقع وأوقات العمل', address: 'جمعية بني ياس التعاونية، أبوظبي', floor: '7JQR+27 Abu Dhabi', hours: 'يومياً من 10 صباحاً - 11 مساءً', mapsBtn: 'افتح في خرائط قوقل' },
     footer: { phone: '02 622 7669', disclaimer: 'هذا نموذج تجريبي للعرض فقط', copyright: '© 2025 مطعم كلاس فود' },
     lang: { switch: 'English' }
 };
@@ -343,9 +343,9 @@ function MenuHub() {
                         placeholder={t.menu.search}
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        className="cf-input pr-12"
+                        className="w-full bg-white border-2 border-gray-200 rounded-2xl py-4 px-6 pr-14 text-gray-900 placeholder:text-gray-400 focus:border-orange-400 focus:ring-4 focus:ring-orange-100 outline-none transition-all shadow-sm"
                     />
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">🔍</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-500 text-xl">🔍</span>
                 </div>
             </div>
 
@@ -638,10 +638,10 @@ function Location() {
                 <h2 className="cf-heading-lg text-gray-900 mb-8">{t.location.title}</h2>
                 <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-10 shadow-lg">
                     <p className="text-2xl font-bold text-gray-900 mb-3">📍 {t.location.address}</p>
-                    <p className="text-gray-600 mb-2">{t.location.floor}</p>
+                    <p className="text-gray-600 mb-2 font-mono text-lg">{t.location.floor}</p>
                     <p className="text-gray-600 mb-8">🕐 {t.location.hours}</p>
                     <a
-                        href="https://maps.google.com/?q=Madinat+Zayed+Shopping+Center+Abu+Dhabi"
+                        href="https://maps.google.com/?q=7JQR%2B27+Abu+Dhabi"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cf-btn-primary inline-block"
@@ -655,20 +655,49 @@ function Location() {
 }
 
 // ============================================================================
-// FOOTER
+// FOOTER - PREMIUM REDESIGN
 // ============================================================================
 function Footer() {
     return (
-        <footer className="bg-gray-900 text-white py-12 px-6">
-            <div className="max-w-6xl mx-auto text-center">
-                <h3 className="text-3xl font-black mb-4">{t.meta.title}</h3>
-                <p className="text-xl mb-6">📞 {t.footer.phone}</p>
-                <div className="flex justify-center gap-4 mb-8">
-                    <Link href="/demos/classfood/ar" className="bg-orange-500 px-6 py-2 rounded-full font-semibold">العربية</Link>
-                    <Link href="/demos/classfood/en" className="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-full font-semibold transition-colors">English</Link>
+        <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white py-16 px-6">
+            <div className="max-w-6xl mx-auto">
+                {/* Top Section */}
+                <div className="grid md:grid-cols-3 gap-10 mb-12">
+                    {/* Brand */}
+                    <div className="text-center md:text-right">
+                        <h3 className="text-3xl font-black mb-3 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">{t.meta.title}</h3>
+                        <p className="text-gray-400 text-sm">{t.meta.description}</p>
+                    </div>
+
+                    {/* Contact */}
+                    <div className="text-center">
+                        <p className="text-gray-400 text-sm mb-2">اتصل بنا</p>
+                        <a href="tel:026227669" className="text-2xl font-bold text-white hover:text-orange-400 transition-colors block mb-4">📞 {t.footer.phone}</a>
+                        <a
+                            href="https://maps.google.com/?q=7JQR%2B27+Abu+Dhabi"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-full transition-all shadow-lg hover:shadow-xl"
+                        >
+                            📍 الموقع على الخريطة
+                        </a>
+                    </div>
+
+                    {/* Language */}
+                    <div className="text-center md:text-left">
+                        <p className="text-gray-400 text-sm mb-3">اللغة</p>
+                        <div className="flex justify-center md:justify-start gap-3">
+                            <Link href="/demos/classfood/ar" className="bg-orange-500 px-5 py-2.5 rounded-full font-semibold text-sm">العربية</Link>
+                            <Link href="/demos/classfood/en" className="bg-gray-800 hover:bg-gray-700 px-5 py-2.5 rounded-full font-semibold text-sm transition-colors">English</Link>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-gray-500 text-sm mb-2">{t.footer.disclaimer}</p>
-                <p className="text-gray-600 text-sm">{t.footer.copyright}</p>
+
+                {/* Divider */}
+                <div className="border-t border-gray-800 pt-8 text-center">
+                    <p className="text-gray-500 text-sm mb-2">{t.footer.disclaimer}</p>
+                    <p className="text-gray-600 text-xs">{t.footer.copyright}</p>
+                </div>
             </div>
         </footer>
     );
