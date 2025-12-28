@@ -421,6 +421,8 @@ function MenuHub() {
 const imageMap: Record<string, string> = {
     // Top Picks - Unique cinematic images
     'm1': '/images/classfood/lemon_mojito.png',        // Lemon Mojito
+    'm2': '/images/classfood/blue_rush_mojito.png',    // Blue Rush
+    'm3': '/images/classfood/lemon_mojito.png',        // Passion Fruit (temp - uses lemon)
     'c1': '/images/classfood/papdi_chaat.png',         // Papdi Chaat
     'c5': '/images/classfood/pani_puri.png',           // Pani Puri (unique)
     'b1': '/images/classfood/nashville_burger.png',    // Nashville Hot Chicken
