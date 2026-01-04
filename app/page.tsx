@@ -4,8 +4,6 @@ import { useState, useRef, useEffect, useCallback, memo } from "react";
 import {
   motion,
   useInView,
-  useMotionValue,
-  useSpring,
   useReducedMotion,
 } from "framer-motion";
 import Link from "next/link";
@@ -18,8 +16,6 @@ import CommunityReviews from "./components/CommunityReviews";
 // =============================================================================
 // CONSTANTS & THEME
 // =============================================================================
-
-const SPRING_CONFIG = { stiffness: 150, damping: 15, mass: 0.1 };
 
 const THEME = {
   primary: "#f59e0b",
@@ -190,126 +186,6 @@ function useCountUp(target: number, duration: number = 2000) {
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
-
-// ✅ Optimized: Spotlight Card with touch support
-const SpotlightCard = memo(function SpotlightCard({
-  children,
-  className = "",
-}: {
-  readonly children: React.ReactNode;
-  readonly className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const { isTouchDevice } = useDeviceDetection();
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (isTouchDevice || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    setPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }, [isTouchDevice]);
-
-  return (
-    <div
-      ref={ref}
-      className={`relative overflow-hidden ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => !isTouchDevice && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Spotlight - Desktop only */}
-      {!isTouchDevice && (
-        <motion.div
-          className="pointer-events-none absolute -inset-px z-0"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${THEME.glow}, transparent 40%)`,
-          }}
-        />
-      )}
-      <div className="relative z-20">{children}</div>
-    </div>
-  );
-});
-
-// ✅ Optimized: Magnetic Button with touch support
-const MagneticButton = memo(function MagneticButton({
-  children,
-  className = "",
-  href,
-  variant = "primary",
-}: {
-  readonly children: React.ReactNode;
-  readonly className?: string;
-  readonly href?: string;
-  readonly variant?: "primary" | "secondary";
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { isTouchDevice } = useDeviceDetection();
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, SPRING_CONFIG);
-  const springY = useSpring(y, SPRING_CONFIG);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (isTouchDevice || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.2);
-    y.set((e.clientY - centerY) * 0.2);
-  }, [isTouchDevice, x, y]);
-
-  const handleMouseLeave = useCallback(() => {
-    x.set(0);
-    y.set(0);
-  }, [x, y]);
-
-  const isPrimary = variant === "primary";
-
-  const content = (
-    <motion.div
-      ref={ref}
-      className={`relative ${className}`}
-      style={isTouchDevice ? {} : { x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
-      <button
-        className={`group relative cursor-pointer overflow-hidden rounded-full px-8 py-4 text-[0.8rem] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${isPrimary
-          ? "bg-gradient-to-r from-[#f59e0b] via-[#fbbf24] to-[#f59e0b] text-[#030303] shadow-[0_0_40px_rgba(245,158,11,0.3)] hover:shadow-[0_0_60px_rgba(245,158,11,0.5)]"
-          : "border border-[#f59e0b]/30 bg-transparent text-[#f8fafc] hover:border-[#f59e0b]/60 hover:bg-[#f59e0b]/10"
-          }`}
-      >
-        <span className="relative z-10 flex items-center gap-2">{children}</span>
-
-        {/* Shine effect - Desktop only */}
-        {isPrimary && !isTouchDevice && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-            initial={{ x: "-100%" }}
-            whileHover={{ x: "100%" }}
-            transition={{ duration: 0.6 }}
-          />
-        )}
-      </button>
-    </motion.div>
-  );
-
-  if (href) {
-    return <Link href={href}>{content}</Link>;
-  }
-
-  return content;
-});
 
 // ✅ NEW: Film Grain - Desktop only
 const FilmGrain = memo(function FilmGrain() {
