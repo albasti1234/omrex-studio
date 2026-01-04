@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { SuppressHydrationWarning } from "./components/SuppressHydrationWarning";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <body suppressHydrationWarning className="bg-[#050507] text-[#f8fafc] antialiased">
+        <SuppressHydrationWarning />
         {/* Film grain overlay */}
         <div className="grain-overlay" aria-hidden="true" />
 
