@@ -1,0 +1,620 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VELVET ESTATES — ULTRA HIGH-END REAL ESTATE DESIGN SYSTEM
+   "Cinematic Film Title Sequence meets High-Fashion Editorial"
+   
+   Design Philosophy:
+   - Cinematic depth with glass + noise textures
+   - Editorial spacing and asymmetric compositions
+   - Premium micro-interactions with reduced-motion support
+   - High-contrast display serif + refined sans typography
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME TOKENS — CSS CUSTOM PROPERTIES
+   Two distinct palettes: Day Mode & Night Mode
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ─────────────────────────────────────────────────────────────────────────
+       DAY MODE — Pearl & Platinum
+       Luxurious warmth with subtle sophistication
+       ───────────────────────────────────────────────────────────────────────── */
+
+    /* Core Backgrounds */
+    --ve-bg: oklch(0.98 0.002 80);
+    --ve-surface: oklch(0.995 0.001 80);
+    --ve-surface-elevated: oklch(1.0 0 0);
+
+    /* Text Colors */
+    --ve-text: oklch(0.12 0.02 270);
+    --ve-muted: oklch(0.42 0.015 270);
+    --ve-subtle: oklch(0.60 0.01 270);
+
+    /* Accent Colors - Platinum & Champagne */
+    --ve-accent: oklch(0.55 0.03 270);
+    --ve-accent2: oklch(0.70 0.08 80);
+    --ve-accent-muted: oklch(0.55 0.03 270 / 0.12);
+
+    /* Primary */
+    --ve-primary: oklch(0.15 0.025 270);
+    --ve-primary-light: oklch(0.22 0.025 270);
+
+    /* Borders */
+    --ve-border: oklch(0.92 0.003 80);
+    --ve-border-strong: oklch(0.85 0.005 80);
+
+    /* Effects */
+    --ve-shadow: oklch(0.15 0.025 270 / 0.06);
+    --ve-glow: oklch(0.70 0.08 80 / 0.20);
+    --ve-noise: 0.02;
+
+    /* Gradients */
+    --ve-gradient-primary: linear-gradient(135deg, oklch(0.15 0.025 270) 0%, oklch(0.20 0.03 270) 100%);
+    --ve-gradient-accent: linear-gradient(135deg, oklch(0.55 0.03 270) 0%, oklch(0.65 0.05 80) 100%);
+    --ve-gradient-surface: linear-gradient(180deg, oklch(0.98 0.002 80) 0%, oklch(0.96 0.004 75) 100%);
+    --ve-gradient-hero: linear-gradient(180deg, oklch(0.98 0.002 80 / 0) 0%, oklch(0.98 0.002 80) 100%);
+
+    /* Shadows */
+    --ve-shadow-sm: 0 2px 8px -2px oklch(0.15 0.025 270 / 0.05), 0 0 0 1px oklch(0.15 0.025 270 / 0.02);
+    --ve-shadow-md: 0 8px 24px -6px oklch(0.15 0.025 270 / 0.08), 0 4px 8px -2px oklch(0.15 0.025 270 / 0.03);
+    --ve-shadow-lg: 0 20px 50px -12px oklch(0.15 0.025 270 / 0.12), 0 0 0 1px oklch(0.92 0.003 80);
+    --ve-shadow-xl: 0 32px 80px -20px oklch(0.15 0.025 270 / 0.16);
+    --ve-shadow-glow: 0 0 60px -12px oklch(0.70 0.08 80 / 0.25);
+
+    /* Animation */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* Typography */
+    --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+    --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+    /* Spacing */
+    --section-spacing: clamp(6rem, 12vw, 10rem);
+    --container-px: clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   NIGHT MODE — Obsidian & Gold
+   Cinematic depth with warm metallic accents
+   ───────────────────────────────────────────────────────────────────────── */
+
+.dark {
+    /* Core Backgrounds */
+    --ve-bg: oklch(0.08 0.015 270);
+    --ve-surface: oklch(0.12 0.015 270);
+    --ve-surface-elevated: oklch(0.16 0.018 270);
+
+    /* Text Colors */
+    --ve-text: oklch(0.96 0.003 80);
+    --ve-muted: oklch(0.72 0.008 80);
+    --ve-subtle: oklch(0.50 0.01 270);
+
+    /* Accent Colors - Warm Gold & Moonlight */
+    --ve-accent: oklch(0.75 0.12 75);
+    --ve-accent2: oklch(0.65 0.08 220);
+    --ve-accent-muted: oklch(0.75 0.12 75 / 0.10);
+
+    /* Primary */
+    --ve-primary: oklch(0.22 0.02 270);
+    --ve-primary-light: oklch(0.28 0.025 270);
+
+    /* Borders */
+    --ve-border: oklch(0.20 0.015 270);
+    --ve-border-strong: oklch(0.28 0.02 270);
+
+    /* Effects */
+    --ve-shadow: oklch(0 0 0 / 0.35);
+    --ve-glow: oklch(0.75 0.12 75 / 0.15);
+    --ve-noise: 0.04;
+
+    /* Gradients */
+    --ve-gradient-primary: linear-gradient(135deg, oklch(0.22 0.02 270) 0%, oklch(0.28 0.025 270) 100%);
+    --ve-gradient-accent: linear-gradient(135deg, oklch(0.75 0.12 75) 0%, oklch(0.80 0.10 75) 100%);
+    --ve-gradient-surface: linear-gradient(180deg, oklch(0.08 0.015 270) 0%, oklch(0.06 0.012 270) 100%);
+    --ve-gradient-hero: linear-gradient(180deg, oklch(0.08 0.015 270 / 0) 0%, oklch(0.08 0.015 270) 100%);
+
+    /* Shadows */
+    --ve-shadow-sm: 0 2px 8px -2px oklch(0 0 0 / 0.25), 0 0 0 1px oklch(1 0 0 / 0.03);
+    --ve-shadow-md: 0 8px 24px -6px oklch(0 0 0 / 0.35), 0 0 0 1px oklch(1 0 0 / 0.04);
+    --ve-shadow-lg: 0 20px 50px -12px oklch(0 0 0 / 0.45), 0 0 0 1px oklch(1 0 0 / 0.05);
+    --ve-shadow-xl: 0 32px 80px -20px oklch(0 0 0 / 0.55);
+    --ve-shadow-glow: 0 0 60px -12px oklch(0.75 0.12 75 / 0.20);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TAILWIND THEME EXTENSION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+    --color-ve-bg: var(--ve-bg);
+    --color-ve-surface: var(--ve-surface);
+    --color-ve-surface-elevated: var(--ve-surface-elevated);
+    --color-ve-text: var(--ve-text);
+    --color-ve-muted: var(--ve-muted);
+    --color-ve-subtle: var(--ve-subtle);
+    --color-ve-accent: var(--ve-accent);
+    --color-ve-accent2: var(--ve-accent2);
+    --color-ve-accent-muted: var(--ve-accent-muted);
+    --color-ve-primary: var(--ve-primary);
+    --color-ve-primary-light: var(--ve-primary-light);
+    --color-ve-border: var(--ve-border);
+    --color-ve-border-strong: var(--ve-border-strong);
+
+    --shadow-ve-sm: var(--ve-shadow-sm);
+    --shadow-ve-md: var(--ve-shadow-md);
+    --shadow-ve-lg: var(--ve-shadow-lg);
+    --shadow-ve-xl: var(--ve-shadow-xl);
+    --shadow-ve-glow: var(--ve-shadow-glow);
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-elegant: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+    --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .velvet-estates {
+        background: var(--ve-bg);
+        color: var(--ve-text);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+        background: var(--ve-accent-muted);
+        color: var(--ve-primary);
+    }
+
+    .dark ::selection {
+        background: oklch(0.75 0.12 75 / 0.25);
+        color: oklch(0.96 0.003 80);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--ve-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--ve-border-strong);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--ve-accent);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--ve-accent);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+
+    /* Container */
+    .ve-container {
+        @apply mx-auto w-full;
+        max-width: 1440px;
+        padding-inline: var(--container-px);
+    }
+
+    .ve-container-narrow {
+        @apply mx-auto w-full;
+        max-width: 960px;
+        padding-inline: var(--container-px);
+    }
+
+    .ve-container-wide {
+        @apply mx-auto w-full;
+        max-width: 1680px;
+        padding-inline: var(--container-px);
+    }
+
+    /* Typography */
+    .ve-display {
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 0.92;
+        letter-spacing: -0.03em;
+        font-size: clamp(3.5rem, 10vw, 7rem);
+    }
+
+    .ve-heading-1 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        line-height: 1.0;
+        letter-spacing: -0.02em;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .ve-heading-2 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+        font-size: clamp(2rem, 4vw, 3.25rem);
+    }
+
+    .ve-heading-3 {
+        font-family: var(--font-display);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .ve-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ve-accent);
+        margin-bottom: 1.5rem;
+    }
+
+    .ve-kicker::before {
+        content: '';
+        display: block;
+        width: 2rem;
+        height: 1px;
+        background: var(--ve-accent);
+    }
+
+    .ve-lead {
+        font-size: clamp(1.125rem, 2vw, 1.375rem);
+        line-height: 1.7;
+        color: var(--ve-muted);
+    }
+
+    .ve-body {
+        font-size: 1rem;
+        line-height: 1.75;
+        color: var(--ve-muted);
+    }
+
+    /* Buttons */
+    .ve-btn {
+        @apply inline-flex items-center justify-center gap-2;
+        position: relative;
+        padding: 0.875rem 2rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        border-radius: 9999px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.5s var(--ease-out-expo);
+    }
+
+    .ve-btn:active {
+        transform: scale(0.98);
+    }
+
+    .ve-btn:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .ve-btn-primary {
+        color: white;
+        background: var(--ve-gradient-primary);
+        box-shadow: var(--ve-shadow-md);
+    }
+
+    .ve-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--ve-shadow-lg);
+    }
+
+    .ve-btn-accent {
+        color: var(--ve-primary);
+        background: var(--ve-gradient-accent);
+        box-shadow: var(--ve-shadow-glow);
+    }
+
+    .ve-btn-accent:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 80px -12px var(--ve-accent);
+    }
+
+    .ve-btn-outline {
+        color: var(--ve-text);
+        background: transparent;
+        border: 1px solid var(--ve-border-strong);
+    }
+
+    .ve-btn-outline:hover {
+        border-color: var(--ve-accent);
+        color: var(--ve-accent);
+    }
+
+    .ve-btn-ghost {
+        color: var(--ve-muted);
+        background: transparent;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .ve-btn-ghost:hover {
+        color: var(--ve-accent);
+    }
+
+    /* Cards */
+    .ve-card {
+        position: relative;
+        background: var(--ve-surface-elevated);
+        border: 1px solid var(--ve-border);
+        border-radius: 1rem;
+        box-shadow: var(--ve-shadow-sm);
+        overflow: hidden;
+        transition: all 0.5s var(--ease-out-expo);
+    }
+
+    .ve-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--ve-shadow-lg);
+        border-color: var(--ve-accent);
+    }
+
+    .ve-card-glass {
+        background: oklch(1 0 0 / 0.80);
+        backdrop-filter: blur(24px) saturate(1.5);
+        -webkit-backdrop-filter: blur(24px) saturate(1.5);
+        border: 1px solid oklch(1 0 0 / 0.15);
+    }
+
+    .dark .ve-card-glass {
+        background: oklch(0.12 0.015 270 / 0.85);
+        border: 1px solid oklch(1 0 0 / 0.08);
+    }
+
+    /* Inputs */
+    .ve-input {
+        @apply w-full;
+        padding: 1rem 1.25rem;
+        background: var(--ve-surface-elevated);
+        border: 1px solid var(--ve-border);
+        border-radius: 0.75rem;
+        color: var(--ve-text);
+        font-size: 0.9375rem;
+        transition: all 0.3s ease;
+    }
+
+    .ve-input::placeholder {
+        color: var(--ve-subtle);
+    }
+
+    .ve-input:focus {
+        outline: none;
+        border-color: var(--ve-accent);
+        box-shadow: 0 0 0 4px var(--ve-accent-muted);
+    }
+
+    .ve-select {
+        @apply w-full;
+        padding: 1rem 3rem 1rem 1.25rem;
+        background: var(--ve-surface-elevated);
+        border: 1px solid var(--ve-border);
+        border-radius: 0.75rem;
+        color: var(--ve-text);
+        font-size: 0.9375rem;
+        appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+    }
+
+    .ve-select:focus {
+        outline: none;
+        border-color: var(--ve-accent);
+        box-shadow: 0 0 0 4px var(--ve-accent-muted);
+    }
+
+    .ve-textarea {
+        @apply w-full;
+        padding: 1rem 1.25rem;
+        background: var(--ve-surface-elevated);
+        border: 1px solid var(--ve-border);
+        border-radius: 0.75rem;
+        color: var(--ve-text);
+        font-size: 0.9375rem;
+        resize: vertical;
+        min-height: 120px;
+        transition: all 0.3s ease;
+    }
+
+    .ve-textarea:focus {
+        outline: none;
+        border-color: var(--ve-accent);
+        box-shadow: 0 0 0 4px var(--ve-accent-muted);
+    }
+
+    /* Sections */
+    .ve-section {
+        padding-block: var(--section-spacing);
+    }
+
+    .ve-section-dark {
+        background: var(--ve-primary);
+        color: white;
+        padding-block: var(--section-spacing);
+    }
+
+    /* Badge */
+    .ve-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.375rem 0.875rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border-radius: 9999px;
+        background: var(--ve-accent-muted);
+        color: var(--ve-accent);
+    }
+
+    .ve-badge-accent {
+        background: var(--ve-accent);
+        color: white;
+    }
+
+    .dark .ve-badge-accent {
+        color: var(--ve-primary);
+    }
+
+    /* Glass effect */
+    .ve-glass {
+        background: oklch(1 0 0 / 0.85);
+        backdrop-filter: blur(20px) saturate(1.5);
+        -webkit-backdrop-filter: blur(20px) saturate(1.5);
+        border: 1px solid oklch(1 0 0 / 0.2);
+    }
+
+    .dark .ve-glass {
+        background: oklch(0.10 0.015 270 / 0.90);
+        border: 1px solid oklch(1 0 0 / 0.06);
+    }
+
+    /* Decorative patterns */
+    .ve-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: var(--ve-noise);
+        mix-blend-mode: overlay;
+        pointer-events: none;
+    }
+
+    .ve-grid-pattern {
+        background-size: 80px 80px;
+        background-image:
+            linear-gradient(to right, var(--ve-border) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--ve-border) 1px, transparent 1px);
+    }
+
+    /* Skeleton loading */
+    .ve-skeleton {
+        background: linear-gradient(90deg,
+                var(--ve-border) 25%,
+                var(--ve-surface) 50%,
+                var(--ve-border) 75%);
+        background-size: 200% 100%;
+        animation: ve-skeleton-shimmer 1.5s infinite;
+        border-radius: 0.5rem;
+    }
+
+    @keyframes ve-skeleton-shimmer {
+        0% {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    /* Animations */
+    @keyframes ve-fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes ve-fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes ve-scale-in {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .ve-animate-fade-up {
+        animation: ve-fade-up 0.8s var(--ease-out-expo) forwards;
+    }
+
+    .ve-animate-fade-in {
+        animation: ve-fade-in 0.6s ease forwards;
+    }
+
+    .ve-animate-scale-in {
+        animation: ve-scale-in 0.5s var(--ease-out-expo) forwards;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .gradient-mask-b {
+        mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    }
+
+    .gradient-mask-t {
+        mask-image: linear-gradient(to top, black 60%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to top, black 60%, transparent 100%);
+    }
+}
