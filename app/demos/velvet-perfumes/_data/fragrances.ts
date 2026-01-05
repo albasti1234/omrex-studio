@@ -28,8 +28,10 @@ export interface Fragrance {
     seasons: Season[];
     occasions: Occasion[];
     temperature: "cold" | "warm" | "versatile";
-    longevity: number; // 1-10 scale (hours approximation)
+    longevity: number; // 1-10 scale
     sillage: number; // 1-10 scale
+    intensity: "intimate" | "moderate" | "strong" | "eternal";
+    mood: string[];
     ingredients: Ingredient[];
     isNew: boolean;
     isBestseller: boolean;
@@ -63,6 +65,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 8,
         sillage: 8,
+        intensity: "strong",
+        mood: ["confident", "fresh", "ambitious"],
         ingredients: [
             { name: "Bergamot", percentage: 85, category: "top" },
             { name: "Pepper", percentage: 60, category: "top" },
@@ -97,6 +101,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 10,
         sillage: 9,
+        intensity: "eternal",
+        mood: ["powerful", "spicy", "dark"],
         ingredients: [
             { name: "Grapefruit", percentage: 70, category: "top" },
             { name: "Cinnamon", percentage: 65, category: "top" },
@@ -133,6 +139,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 7,
         sillage: 6,
+        intensity: "strong",
+        mood: ["sensual", "sophisticated", "romantic"],
         ingredients: [
             { name: "Lavender", percentage: 65, category: "top" },
             { name: "Iris", percentage: 95, category: "heart" },
@@ -167,6 +175,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 6,
         sillage: 5,
+        intensity: "moderate",
+        mood: ["romantic", "floral", "joyful"],
         ingredients: [
             { name: "Lily of the Valley", percentage: 80, category: "top" },
             { name: "Peony", percentage: 75, category: "heart" },
@@ -201,6 +211,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 7,
         sillage: 6,
+        intensity: "moderate",
+        mood: ["elegant", "radiant", "feminine"],
         ingredients: [
             { name: "Ylang-Ylang", percentage: 85, category: "top" },
             { name: "Mandarin", percentage: 55, category: "top" },
@@ -235,6 +247,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["bold", "fiery", "classic"],
         ingredients: [
             { name: "Violet Leaf", percentage: 85, category: "top" },
             { name: "Hawthorn", percentage: 50, category: "top" },
@@ -270,6 +284,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 7,
         sillage: 6,
+        intensity: "strong",
+        mood: ["seductive", "playful", "sweet"],
         ingredients: [
             { name: "Bitter Orange", percentage: 70, category: "top" },
             { name: "Lemon", percentage: 45, category: "top" },
@@ -304,6 +320,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 9,
         sillage: 8,
+        intensity: "eternal",
+        mood: ["mysterious", "oriental", "opulent"],
         ingredients: [
             { name: "Labdanum", percentage: 60, category: "top" },
             { name: "Damask Rose", percentage: 95, category: "heart" },
@@ -338,6 +356,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 6,
         sillage: 5,
+        intensity: "moderate",
+        mood: ["happy", "luminous", "vibrant"],
         ingredients: [
             { name: "Bergamot", percentage: 70, category: "top" },
             { name: "Mandarin", percentage: 55, category: "top" },
@@ -371,6 +391,8 @@ const DIOR_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 4,
         sillage: 4,
+        intensity: "intimate",
+        mood: ["clean", "fresh", "casual"],
         ingredients: [
             { name: "Bergamot", percentage: 90, category: "top" },
             { name: "Grapefruit", percentage: 75, category: "top" },
@@ -412,6 +434,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["freedom", "modern", "assertive"],
         ingredients: [
             { name: "Grapefruit", percentage: 75, category: "top" },
             { name: "Lemon", percentage: 60, category: "top" },
@@ -449,6 +473,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 10,
         sillage: 8,
+        intensity: "strong",
+        mood: ["refined", "warm", "sophisticated"],
         ingredients: [
             { name: "Citrus", percentage: 60, category: "top" },
             { name: "Mint", percentage: 45, category: "top" },
@@ -484,6 +510,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["legendary", "timeless", "elegant"],
         ingredients: [
             { name: "Aldehydes", percentage: 85, category: "top" },
             { name: "Bergamot", percentage: 60, category: "top" },
@@ -520,6 +548,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 7,
         sillage: 6,
+        intensity: "strong",
+        mood: ["spirited", "chic", "feminine"],
         ingredients: [
             { name: "Orange", percentage: 80, category: "top" },
             { name: "Bergamot", percentage: 65, category: "top" },
@@ -556,6 +586,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 6,
         sillage: 5,
+        intensity: "moderate",
+        mood: ["energy", "active", "dynamic"],
         ingredients: [
             { name: "Blood Orange", percentage: 85, category: "top" },
             { name: "Aldehydes", percentage: 60, category: "top" },
@@ -591,6 +623,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 5,
         sillage: 5,
+        intensity: "moderate",
+        mood: ["tender", "romantic", "soft"],
         ingredients: [
             { name: "Grapefruit", percentage: 80, category: "top" },
             { name: "Quince", percentage: 70, category: "top" },
@@ -626,6 +660,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 7,
         sillage: 6,
+        intensity: "moderate",
+        mood: ["radiant", "luminous", "floral"],
         ingredients: [
             { name: "Mandarin", percentage: 55, category: "top" },
             { name: "Grapefruit", percentage: 50, category: "top" },
@@ -661,6 +697,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 6,
         sillage: 5,
+        intensity: "strong",
+        mood: ["brilliant", "extroverted", "social"],
         ingredients: [
             { name: "Lavender", percentage: 85, category: "top" },
             { name: "Rosemary", percentage: 70, category: "top" },
@@ -695,6 +733,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["mythical", "powerful", "masculine"],
         ingredients: [
             { name: "Clary Sage", percentage: 75, category: "top" },
             { name: "Coriander", percentage: 60, category: "top" },
@@ -729,6 +769,8 @@ const CHANEL_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 9,
         sillage: 7,
+        intensity: "moderate",
+        mood: ["serene", "woody", "natural"],
         ingredients: [
             { name: "Pink Pepper", percentage: 55, category: "top" },
             { name: "Juniper", percentage: 50, category: "top" },
@@ -771,6 +813,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 8,
         sillage: 7,
+        intensity: "moderate",
+        mood: ["rare", "exotic", "distinctive"],
         ingredients: [
             { name: "Rosewood", percentage: 65, category: "top" },
             { name: "Cardamom", percentage: 55, category: "top" },
@@ -806,6 +850,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 10,
         sillage: 9,
+        intensity: "eternal",
+        mood: ["opulent", "warm", "iconic"],
         ingredients: [
             { name: "Tobacco Leaf", percentage: 90, category: "top" },
             { name: "Spices", percentage: 60, category: "top" },
@@ -841,6 +887,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 9,
         sillage: 8,
+        intensity: "eternal",
+        mood: ["dramatic", "sensual", "glamorous"],
         ingredients: [
             { name: "Black Truffle", percentage: 75, category: "top" },
             { name: "Bergamot", percentage: 55, category: "top" },
@@ -876,6 +924,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 8,
         sillage: 8,
+        intensity: "strong",
+        mood: ["tempting", "insatiable", "luscious"],
         ingredients: [
             { name: "Black Cherry", percentage: 95, category: "top" },
             { name: "Bitter Almond", percentage: 75, category: "top" },
@@ -912,6 +962,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 9,
         sillage: 8,
+        intensity: "strong",
+        mood: ["daring", "debonair", "charismatic"],
         ingredients: [
             { name: "Cardamom", percentage: 80, category: "top" },
             { name: "Nutmeg", percentage: 65, category: "top" },
@@ -947,6 +999,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "cold",
         longevity: 10,
         sillage: 9,
+        intensity: "eternal",
+        mood: ["supple", "primal", "extravagant"],
         ingredients: [
             { name: "Saffron", percentage: 70, category: "top" },
             { name: "Raspberry", percentage: 65, category: "top" },
@@ -983,6 +1037,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["intoxicating", "sweet", "dangerous"],
         ingredients: [
             { name: "Peach", percentage: 95, category: "top" },
             { name: "Blood Orange", percentage: 70, category: "top" },
@@ -1019,6 +1075,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "warm",
         longevity: 5,
         sillage: 5,
+        intensity: "moderate",
+        mood: ["sparkling", "transportive", "crisp"],
         ingredients: [
             { name: "Bergamot", percentage: 85, category: "top" },
             { name: "Mandarin", percentage: 70, category: "top" },
@@ -1053,6 +1111,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["wild", "tactile", "desert"],
         ingredients: [
             { name: "Cardamom", percentage: 70, category: "top" },
             { name: "Leather", percentage: 90, category: "heart" },
@@ -1086,6 +1146,8 @@ const TOM_FORD_FRAGRANCES: Fragrance[] = [
         temperature: "versatile",
         longevity: 8,
         sillage: 7,
+        intensity: "strong",
+        mood: ["explicit", "exclusive", "fabulous"],
         ingredients: [
             { name: "Lavender", percentage: 80, category: "top" },
             { name: "Bitter Almond", percentage: 65, category: "heart" },
