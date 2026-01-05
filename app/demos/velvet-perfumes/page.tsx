@@ -811,7 +811,7 @@ function HeroSection() {
           alt="Velvet Perfumes" 
           fill 
           sizes="100vw" 
-          className="object-cover object-[center_70%] sm:object-[center_60%] lg:object-center" 
+          className="object-cover object-[center_50%] sm:object-[center_60%] lg:object-center" 
           priority 
           quality={95} 
         />
