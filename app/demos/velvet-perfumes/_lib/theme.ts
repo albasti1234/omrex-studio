@@ -15,6 +15,7 @@ export type Theme = {
             fontStyle?: string;
         };
         particles: "gold" | "rose" | "mist" | "sparkle";
+        backgroundImage?: string;
     };
 };
 
@@ -35,7 +36,8 @@ export const THEME: Theme = {
     hero: {
         overlay: "radial-gradient(circle at center, transparent 0%, #070709 100%)",
         titleStyle: { fontFamily: "'Playfair Display', serif", fontWeight: "200" },
-        particles: "gold"
+        particles: "gold",
+        backgroundImage: "/images/velvet/collections/oud.jpg"
     }
 } as const;
 
@@ -56,7 +58,8 @@ export const FOR_HER_THEME: Theme = {
     hero: {
         overlay: "linear-gradient(to bottom, rgba(236,72,153,0.1), #0f0505)",
         titleStyle: { fontFamily: "'Cinzel', serif", fontWeight: "400", letterSpacing: "0.2em" },
-        particles: "rose"
+        particles: "rose",
+        backgroundImage: "/images/velvet/for-her.jpg"
     }
 } as const;
 
@@ -77,7 +80,8 @@ export const FOR_HIM_THEME: Theme = {
     hero: {
         overlay: "linear-gradient(to bottom, rgba(56,189,248,0.05), #020617)",
         titleStyle: { fontFamily: "'Oswald', sans-serif", fontWeight: "500", letterSpacing: "0.1em", textTransform: "uppercase" },
-        particles: "mist"
+        particles: "mist",
+        backgroundImage: "/images/velvet/for-him.jpg"
     }
 } as const;
 
@@ -98,7 +102,8 @@ export const UNISEX_THEME: Theme = {
     hero: {
         overlay: "radial-gradient(circle at top right, rgba(168,85,247,0.2), transparent 60%), linear-gradient(to bottom, transparent, #070709)",
         titleStyle: { fontFamily: "'Playfair Display', serif", fontWeight: "300", fontStyle: "italic" },
-        particles: "sparkle"
+        particles: "sparkle",
+        backgroundImage: "/images/velvet/unisex.jpg"
     }
 } as const;
 

@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { FRAGRANCES } from "../_data/fragrances";
 import { getAllBrands } from "../_data/brands";
 import { THEME as DEFAULT_THEME, type Theme } from "../_lib/theme";
@@ -103,6 +104,27 @@ export function FragranceCatalog({
                         background: theme.colors.bg.secondary 
                     }}
                 >
+                    {/* Hero Image */}
+                    {theme.hero.backgroundImage && (
+                        <div className="absolute inset-0 z-0">
+                            <motion.div 
+                                className="relative h-full w-full"
+                                initial={{ scale: 1.1 }}
+                                animate={{ scale: 1 }}
+                                transition={{ duration: 10, ease: "easeOut" }}
+                            >
+                                <Image 
+                                    src={theme.hero.backgroundImage} 
+                                    alt="Collection Hero" 
+                                    fill 
+                                    className="object-cover opacity-60"
+                                    sizes="100vw"
+                                    priority
+                                />
+                            </motion.div>
+                        </div>
+                    )}
+
                     {/* Dynamic Overlay from Theme */}
                     <div 
                         className="absolute inset-0 z-10"
