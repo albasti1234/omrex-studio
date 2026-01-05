@@ -810,11 +810,11 @@ function HeroSection() {
           alt="Velvet Perfumes" 
           fill 
           sizes="100vw" 
-          className="object-cover object-center" 
+          className="object-cover object-bottom" 
           priority 
-          quality={95} 
+          quality={100} 
         />
-        {/* Gradient overlay - slightly darker for better text contrast */}
+        {/* Gradient overlay */}
         <div
           className="absolute inset-0"
           style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}30 0%, ${THEME.colors.bg.primary}50 50%, ${THEME.colors.bg.primary} 100%)` }}
