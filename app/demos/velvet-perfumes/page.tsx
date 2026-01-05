@@ -731,6 +731,33 @@ function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
+              {/* Close Button - Top Right */}
+              <motion.button
+                onClick={() => setMobileOpen(false)}
+                className="absolute top-6 right-6 z-[70] flex h-12 w-12 items-center justify-center rounded-full"
+                style={{ 
+                  background: `rgba(${THEME.colors.accent.goldRgb}, 0.1)`,
+                  border: `1px solid rgba(${THEME.colors.accent.goldRgb}, 0.3)`,
+                }}
+                aria-label="Close menu"
+                whileHover={{ scale: 1.1, background: `rgba(${THEME.colors.accent.goldRgb}, 0.2)` }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ delay: 0.2 }}
+              >
+                <svg 
+                  className="h-6 w-6" 
+                  fill="none" 
+                  stroke={THEME.colors.accent.gold} 
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </motion.button>
+
               <nav className="flex flex-col items-center gap-8">
                 {navLinks.map((item, i) => (
                   <motion.div
