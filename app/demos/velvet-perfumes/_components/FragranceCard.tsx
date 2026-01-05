@@ -170,7 +170,7 @@ export function FragranceCard({
                     <span className="text-[0.6rem] uppercase tracking-wider" style={{ color: theme.colors.accent.gold }}>{brand?.name}</span>
 
                     {/* Name */}
-                    <Link href={`/demos/velvet-perfumes/fragrances/${fragrance.slug}`}>
+                    <Link href={`/demos/velvet-perfumes/fragrances/${fragrance.slug}`} suppressHydrationWarning>
                         <h3 className="mt-1 text-sm font-medium truncate hover:text-white transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
                             {fragrance.name}
                         </h3>
