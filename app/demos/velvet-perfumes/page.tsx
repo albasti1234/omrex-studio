@@ -1032,7 +1032,7 @@ function FeaturedScentSection() {
 
           {/* Product Image with Animated Frame - Always on LEFT */}
           <motion.div
-            className="relative w-[40%] sm:w-[45%] lg:w-[48%] max-w-[420px] shrink-0"
+            className="relative w-[52%] sm:w-[48%] lg:w-[48%] max-w-[420px] shrink-0"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
