@@ -800,7 +800,7 @@ function HeroSection() {
     <section ref={ref} className="relative h-[100svh] w-full overflow-hidden" style={{ background: THEME.colors.bg.primary }}>
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0" style={{ scale }}>
-        <Image src="/images/velvet/hero-bg.jpg" alt="Velvet Perfumes" fill sizes="100vw" className="object-cover" priority quality={95} />
+        <Image src="/images/velvet/hero-bg.png" alt="Velvet Perfumes" fill sizes="100vw" className="object-cover object-center" priority quality={95} />
         <div
           className="absolute inset-0"
           style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}25 0%, ${THEME.colors.bg.primary}40 70%, ${THEME.colors.bg.primary} 100%)` }}
