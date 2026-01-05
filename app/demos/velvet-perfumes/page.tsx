@@ -1190,11 +1190,11 @@ function FeaturedScentSection() {
             </div>
           </motion.div>
 
-          {/* 2-Column Grid */}
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* 2-Column Grid - Image gets more space */}
+          <div className="grid md:grid-cols-[1.15fr_0.85fr] lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 xl:gap-20 items-center">
             {/* Left: Image with Decorative Frame */}
             <motion.div
-              className="relative max-w-[480px] mx-auto"
+              className="relative w-full"
               initial={{ opacity: 0, x: -40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8 }}
@@ -1249,9 +1249,9 @@ function FeaturedScentSection() {
                   </div>
                 ))}
 
-                {/* Main Image Container */}
+                {/* Main Image Container - Hero-sized on desktop */}
                 <div
-                  className="relative aspect-[3/4] rounded-lg overflow-hidden"
+                  className="relative aspect-[3/4] min-h-[500px] lg:min-h-[580px] xl:min-h-[640px] rounded-lg overflow-hidden"
                   style={{
                     background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
                     boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
@@ -1275,8 +1275,8 @@ function FeaturedScentSection() {
                           src={currentFragrance.image}
                           alt={currentFragrance.name}
                           fill
-                          sizes="50vw"
-                          className="object-contain p-10"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw, 50vw"
+                          className="object-contain p-6 lg:p-8"
                           priority
                         />
                       </motion.div>
