@@ -963,7 +963,6 @@ function FeaturedScentSection() {
   const isInView = useInView(ref, { once: true, margin: "-10%" });
   const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
-  const isMobile = useMediaQuery("(max-width: 768px)");
 
   // Current fragrance from the carousel
   const currentFragrance = SIGNATURE_FRAGRANCES[activeIndex];
@@ -985,8 +984,9 @@ function FeaturedScentSection() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden py-20 sm:py-28 lg:py-36"
+      className="relative overflow-hidden"
       style={{ background: THEME.colors.bg.primary }}
+      aria-label="Featured Signature Fragrance"
     >
       {/* Background gradient */}
       <div
@@ -996,250 +996,430 @@ function FeaturedScentSection() {
         }}
       />
 
-      {/* Golden particles */}
-      <GoldenParticles count={isMobile ? 10 : 20} />
+      {/* ========== MOBILE LAYOUT (default) ========== */}
+      <div className="md:hidden">
+        {/* Hero Image with Overlay */}
+        <div className="relative h-[62dvh] w-full overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentFragrance.id}
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <Image
+                src={currentFragrance.image}
+                alt={currentFragrance.name}
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
+                priority
+                quality={90}
+              />
+            </motion.div>
+          </AnimatePresence>
 
-      {/* Main Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Gradient Overlay for Text Readability */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `linear-gradient(to top, ${THEME.colors.bg.primary} 0%, rgba(0,0,0,0.6) 30%, transparent 60%)`,
+            }}
+          />
 
-        {/* Section Label */}
+          {/* Overlay Content - Bottom */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 p-5 pb-6 z-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            {/* NEW ARRIVAL Badge */}
+            {currentFragrance.isNew && (
+              <span
+                className="inline-block mb-3 px-3 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.12em]"
+                style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
+              >
+                ★ New Arrival
+              </span>
+            )}
+
+            {/* Title */}
+            <h2 className="mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span
+                className="block text-[2.2rem] font-extralight leading-[1.05]"
+                style={{ color: THEME.colors.text.primary }}
+              >
+                {currentFragrance.name.split(' ')[0]}
+              </span>
+              <span
+                className="block text-[1.8rem] font-extralight italic"
+                style={{ color: THEME.colors.accent.gold }}
+              >
+                {currentFragrance.name.split(' ').slice(1).join(' ')}
+              </span>
+            </h2>
+
+            {/* Price */}
+            <span
+              className="text-[2rem] font-extralight"
+              style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}
+            >
+              ${currentFragrance.price}
+            </span>
+          </motion.div>
+
+          {/* Navigation Dots - Top Right */}
+          <div className="absolute top-5 right-5 flex gap-2 z-10">
+            {SIGNATURE_FRAGRANCES.map((frag, i) => (
+              <button
+                key={frag.id}
+                onClick={() => setActiveIndex(i)}
+                aria-label={`View ${frag.name}`}
+                className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  background: i === activeIndex ? THEME.colors.accent.gold : 'rgba(255,255,255,0.3)',
+                  boxShadow: i === activeIndex ? `0 0 10px rgba(${THEME.colors.accent.goldRgb}, 0.6)` : 'none',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Button - Full Width */}
         <motion.div
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
+          className="px-5 py-4"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <div className="inline-flex items-center gap-3">
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold})` }}
-            />
-            <span
-              className="text-[0.65rem] sm:text-[0.7rem] font-medium uppercase tracking-[0.35em]"
-              style={{ color: THEME.colors.accent.gold }}
-            >
-              ✦ The Signature ✦
-            </span>
-            <span
-              className="h-px w-8 sm:w-12"
-              style={{ background: `linear-gradient(90deg, ${THEME.colors.accent.gold}, transparent)` }}
-            />
-          </div>
+          <Link
+            href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`}
+            className="flex items-center justify-center w-full py-4 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-600"
+            style={{
+              background: `linear-gradient(135deg, ${THEME.colors.accent.gold}, ${THEME.colors.accent.goldLight})`,
+              color: THEME.colors.bg.primary,
+            }}
+          >
+            Discover →
+          </Link>
         </motion.div>
 
-        {/* Flex Layout - Image Left, Text Right on ALL screen sizes */}
-        <div className="flex flex-row gap-4 sm:gap-6 lg:gap-20 items-center">
-
-          {/* Product Image with Animated Frame - Always on LEFT */}
-          <motion.div
-            className="relative w-[58%] sm:w-[50%] lg:w-[48%] max-w-[480px] shrink-0"
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
+        {/* Details Section */}
+        <motion.div
+          className="px-5 pb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          {/* Description */}
+          <p
+            className="mb-5 text-[0.9rem] leading-relaxed"
+            style={{ color: THEME.colors.text.secondary }}
           >
-            {/* Outer Glow */}
-            <div
-              className="absolute -inset-2 sm:-inset-4 lg:-inset-6 rounded-2xl opacity-40"
-              style={{
-                background: `radial-gradient(ellipse at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.15), transparent 70%)`,
-              }}
-            />
+            {currentFragrance.description}
+          </p>
 
-            {/* Animated Border Container */}
-            <div className="relative">
-              {/* Animated Moving Border - Top */}
-              <motion.div
-                className="absolute -top-[2px] left-0 h-[2px] rounded-full"
-                style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
-                animate={{
-                  left: ['0%', '100%', '100%', '0%', '0%'],
-                  width: ['30%', '30%', '0%', '0%', '30%'],
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              />
-              {/* Animated Moving Border - Right */}
-              <motion.div
-                className="absolute -right-[2px] top-0 w-[2px] rounded-full"
-                style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
-                animate={{
-                  top: ['0%', '0%', '0%', '100%', '100%'],
-                  height: ['0%', '30%', '30%', '30%', '0%'],
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 1 }}
-              />
-              {/* Animated Moving Border - Bottom */}
-              <motion.div
-                className="absolute -bottom-[2px] right-0 h-[2px] rounded-full"
-                style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
-                animate={{
-                  right: ['0%', '0%', '100%', '100%', '0%'],
-                  width: ['0%', '0%', '30%', '30%', '0%'],
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2 }}
-              />
-              {/* Animated Moving Border - Left */}
-              <motion.div
-                className="absolute -left-[2px] bottom-0 w-[2px] rounded-full"
-                style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
-                animate={{
-                  bottom: ['0%', '100%', '100%', '0%', '0%'],
-                  height: ['30%', '30%', '0%', '0%', '30%'],
-                }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 3 }}
-              />
-
-              {/* Static Corner Accents */}
-              <div className="absolute -top-1 -left-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
-                <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
-                <div className="absolute top-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
-                <div className="absolute top-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
-                <div className="absolute top-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
-              </div>
-              <div className="absolute -bottom-1 -left-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
-                <div className="absolute bottom-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
-                <div className="absolute bottom-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
-                <div className="absolute bottom-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
-                <div className="absolute bottom-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
-              </div>
-
-              {/* Main Image Container */}
-              <div
-                className="relative aspect-[1/1.25] sm:aspect-[1/1.3] lg:aspect-[3/4] rounded-lg overflow-hidden"
-                style={{
-                  background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
-                  boxShadow: `0 20px 60px -15px rgba(0,0,0,0.5), 0 0 40px -10px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
-                }}
-              >
-                {/* Rotating Fragrance Image */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentFragrance.id}
-                    className="absolute inset-0 z-10"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.05 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
+          {/* Notes Pyramid */}
+          <div className="mb-4 space-y-2.5">
+            {noteCategories.map((category) => (
+              <div key={category.label} className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 min-w-[60px]">
+                  <span className="w-2 h-2 rounded-full" style={{ background: category.color }} />
+                  <span
+                    className="text-[0.55rem] uppercase tracking-[0.08em]"
+                    style={{ color: THEME.colors.text.dim }}
                   >
-                    <motion.div
-                      className="h-full w-full"
-                      animate={{ y: shouldReduceMotion ? 0 : [0, -10, 0] }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    {category.label}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {category.notes.map((note, idx) => (
+                    <span
+                      key={note}
+                      className="text-[0.8rem]"
+                      style={{ color: THEME.colors.text.primary }}
                     >
-                      <Image
-                        src={currentFragrance.image}
-                        alt={currentFragrance.name}
-                        fill
-                        sizes="(max-width: 640px) 40vw, (max-width: 1024px) 45vw, 420px"
-                        className="object-contain p-3 sm:p-6 lg:p-10"
-                        priority
-                      />
-                    </motion.div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Subtle glow at bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/3 z-5 pointer-events-none" style={{ background: `linear-gradient(to top, rgba(${THEME.colors.accent.goldRgb}, 0.1), transparent)` }} />
-              </div>
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="flex justify-center gap-1.5 sm:gap-2 lg:gap-3 mt-3 sm:mt-4 lg:mt-6">
-              {SIGNATURE_FRAGRANCES.map((frag, i) => (
-                <button
-                  key={frag.id}
-                  onClick={() => setActiveIndex(i)}
-                  className="relative w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full transition-all duration-300"
-                  style={{
-                    background: i === activeIndex ? THEME.colors.accent.gold : THEME.colors.border.subtle,
-                    boxShadow: i === activeIndex ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
-                  }}
-                />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Product Info - Always on RIGHT */}
-          <motion.div
-            className="flex-1 min-w-0"
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentFragrance.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6 }}
-              >
-                {/* New Badge */}
-                {currentFragrance.isNew && (
-                  <span className="inline-block mb-2 sm:mb-3 lg:mb-4 px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 text-[0.45rem] sm:text-[0.55rem] lg:text-[0.6rem] font-bold uppercase tracking-[0.15em]" style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}>
-                    ★ New Arrival
-                  </span>
-                )}
-
-                {/* Collection */}
-                <p className="mb-1 sm:mb-1.5 lg:mb-2 text-[0.5rem] sm:text-[0.6rem] lg:text-[0.7rem] uppercase tracking-[0.2em] lg:tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
-                  {currentFragrance.collection}
-                </p>
-
-                {/* Product Name */}
-                <h2 className="mb-3 sm:mb-4 lg:mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  <span className="block text-[1.3rem] sm:text-[2rem] lg:text-[3.5rem] font-extralight leading-[1.1]" style={{ color: THEME.colors.text.primary }}>
-                    {currentFragrance.name.split(' ')[0]}
-                  </span>
-                  <span className="block text-[1.1rem] sm:text-[1.6rem] lg:text-[2.8rem] font-extralight italic mt-0.5 sm:mt-1" style={{ color: THEME.colors.accent.gold }}>
-                    {currentFragrance.name.split(' ').slice(1).join(' ')}
-                  </span>
-                </h2>
-
-                {/* Description */}
-                <p className="mb-4 sm:mb-6 lg:mb-8 text-[0.7rem] sm:text-[0.85rem] lg:text-[1.05rem] leading-relaxed" style={{ color: THEME.colors.text.secondary }}>
-                  {currentFragrance.description}
-                </p>
-
-                {/* Notes Pyramid */}
-                <div className="mb-4 sm:mb-6 lg:mb-8 space-y-1.5 sm:space-y-2 lg:space-y-3">
-                  {noteCategories.map((category) => (
-                    <div key={category.label} className="flex items-center gap-2 sm:gap-3 lg:gap-5">
-                      <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 min-w-[50px] sm:min-w-[65px] lg:min-w-[80px]">
-                        <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: category.color }} />
-                        <span className="text-[0.45rem] sm:text-[0.5rem] lg:text-[0.6rem] uppercase tracking-[0.08em] lg:tracking-[0.1em]" style={{ color: THEME.colors.text.dim }}>{category.label}</span>
-                      </div>
-                      <div className="flex flex-wrap gap-0.5 sm:gap-1 lg:gap-1.5">
-                        {category.notes.map((note, idx) => (
-                          <span key={note} className="text-[0.65rem] sm:text-[0.75rem] lg:text-[0.9rem]" style={{ color: THEME.colors.text.primary }}>
-                            {note}{idx < category.notes.length - 1 && " · "}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                      {note}{idx < category.notes.length - 1 && " · "}
+                    </span>
                   ))}
                 </div>
+              </div>
+            ))}
+          </div>
 
-                {/* Price & CTA */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 lg:gap-8">
-                  <div>
-                    <span className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[3rem] font-extralight leading-none" style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}>
-                      ${currentFragrance.price}
-                    </span>
-                    <span className="text-[0.5rem] sm:text-[0.55rem] lg:text-[0.65rem] uppercase tracking-[0.08em] lg:tracking-[0.1em]" style={{ color: THEME.colors.text.muted }}>
-                      {currentFragrance.size} / Eau de Parfum
-                    </span>
-                  </div>
-                  <MagneticButton href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`} variant="primary" className="text-xs sm:text-sm lg:text-base px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4">
-                    Discover →
-                  </MagneticButton>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+          {/* Size Info */}
+          <p
+            className="text-[0.65rem] uppercase tracking-[0.1em]"
+            style={{ color: THEME.colors.text.muted }}
+          >
+            {currentFragrance.size} / Eau de Parfum
+          </p>
+        </motion.div>
+      </div>
+
+      {/* ========== DESKTOP LAYOUT (md+) ========== */}
+      <div className="hidden md:block py-28 lg:py-36">
+        <GoldenParticles count={20} />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+          {/* Section Label */}
+          <motion.div
+            className="text-center mb-16 lg:mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-3">
+              <span
+                className="h-px w-12"
+                style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold})` }}
+              />
+              <span
+                className="text-[0.7rem] font-medium uppercase tracking-[0.35em]"
+                style={{ color: THEME.colors.accent.gold }}
+              >
+                ✦ The Signature ✦
+              </span>
+              <span
+                className="h-px w-12"
+                style={{ background: `linear-gradient(90deg, ${THEME.colors.accent.gold}, transparent)` }}
+              />
+            </div>
           </motion.div>
+
+          {/* 2-Column Grid */}
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left: Image with Decorative Frame */}
+            <motion.div
+              className="relative max-w-[480px] mx-auto"
+              initial={{ opacity: 0, x: -40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8 }}
+            >
+              {/* Outer Glow */}
+              <div
+                className="absolute -inset-6 rounded-2xl opacity-40"
+                style={{
+                  background: `radial-gradient(ellipse at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.15), transparent 70%)`,
+                }}
+              />
+
+              {/* Animated Border Container */}
+              <div className="relative">
+                {/* Animated Moving Borders */}
+                <motion.div
+                  className="absolute -top-[2px] left-0 h-[2px] rounded-full"
+                  style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                  animate={{ left: ['0%', '100%', '100%', '0%', '0%'], width: ['30%', '30%', '0%', '0%', '30%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                  className="absolute -right-[2px] top-0 w-[2px] rounded-full"
+                  style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                  animate={{ top: ['0%', '0%', '0%', '100%', '100%'], height: ['0%', '30%', '30%', '30%', '0%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 1 }}
+                />
+                <motion.div
+                  className="absolute -bottom-[2px] right-0 h-[2px] rounded-full"
+                  style={{ background: `linear-gradient(90deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                  animate={{ right: ['0%', '0%', '100%', '100%', '0%'], width: ['0%', '0%', '30%', '30%', '0%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2 }}
+                />
+                <motion.div
+                  className="absolute -left-[2px] bottom-0 w-[2px] rounded-full"
+                  style={{ background: `linear-gradient(180deg, transparent, ${THEME.colors.accent.gold}, transparent)` }}
+                  animate={{ bottom: ['0%', '100%', '100%', '0%', '0%'], height: ['30%', '30%', '0%', '0%', '30%'] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 3 }}
+                />
+
+                {/* Static Corner Accents */}
+                {[
+                  { pos: '-top-1 -left-1', corners: ['top-0 left-0 w-full h-[1px]', 'top-0 left-0 h-full w-[1px]'] },
+                  { pos: '-top-1 -right-1', corners: ['top-0 right-0 w-full h-[1px]', 'top-0 right-0 h-full w-[1px]'] },
+                  { pos: '-bottom-1 -left-1', corners: ['bottom-0 left-0 w-full h-[1px]', 'bottom-0 left-0 h-full w-[1px]'] },
+                  { pos: '-bottom-1 -right-1', corners: ['bottom-0 right-0 w-full h-[1px]', 'bottom-0 right-0 h-full w-[1px]'] },
+                ].map((corner, i) => (
+                  <div key={i} className={`absolute ${corner.pos} w-8 h-8`}>
+                    {corner.corners.map((c, j) => (
+                      <div key={j} className={`absolute ${c}`} style={{ background: THEME.colors.accent.gold }} />
+                    ))}
+                  </div>
+                ))}
+
+                {/* Main Image Container */}
+                <div
+                  className="relative aspect-[3/4] rounded-lg overflow-hidden"
+                  style={{
+                    background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
+                    boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
+                  }}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentFragrance.id}
+                      className="absolute inset-0 z-10"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.05 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
+                      <motion.div
+                        className="h-full w-full"
+                        animate={{ y: shouldReduceMotion ? 0 : [0, -10, 0] }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <Image
+                          src={currentFragrance.image}
+                          alt={currentFragrance.name}
+                          fill
+                          sizes="50vw"
+                          className="object-contain p-10"
+                          priority
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Bottom Glow */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-1/3 z-5 pointer-events-none"
+                    style={{ background: `linear-gradient(to top, rgba(${THEME.colors.accent.goldRgb}, 0.1), transparent)` }}
+                  />
+                </div>
+              </div>
+
+              {/* Navigation Dots */}
+              <div className="flex justify-center gap-3 mt-6">
+                {SIGNATURE_FRAGRANCES.map((frag, i) => (
+                  <button
+                    key={frag.id}
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`View ${frag.name}`}
+                    className="w-3 h-3 rounded-full transition-all duration-300"
+                    style={{
+                      background: i === activeIndex ? THEME.colors.accent.gold : THEME.colors.border.subtle,
+                      boxShadow: i === activeIndex ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right: Product Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentFragrance.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {/* New Badge */}
+                  {currentFragrance.isNew && (
+                    <span
+                      className="inline-block mb-4 px-4 py-1.5 text-[0.6rem] font-bold uppercase tracking-[0.15em]"
+                      style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}
+                    >
+                      ★ New Arrival
+                    </span>
+                  )}
+
+                  {/* Collection */}
+                  <p
+                    className="mb-2 text-[0.7rem] uppercase tracking-[0.25em]"
+                    style={{ color: THEME.colors.text.muted }}
+                  >
+                    {currentFragrance.collection}
+                  </p>
+
+                  {/* Product Name */}
+                  <h2 className="mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    <span
+                      className="block text-[3.5rem] font-extralight leading-[1.1]"
+                      style={{ color: THEME.colors.text.primary }}
+                    >
+                      {currentFragrance.name.split(' ')[0]}
+                    </span>
+                    <span
+                      className="block text-[2.8rem] font-extralight italic mt-1"
+                      style={{ color: THEME.colors.accent.gold }}
+                    >
+                      {currentFragrance.name.split(' ').slice(1).join(' ')}
+                    </span>
+                  </h2>
+
+                  {/* Description */}
+                  <p
+                    className="mb-8 text-[1.05rem] leading-relaxed max-w-lg"
+                    style={{ color: THEME.colors.text.secondary }}
+                  >
+                    {currentFragrance.description}
+                  </p>
+
+                  {/* Notes Pyramid */}
+                  <div className="mb-8 space-y-3">
+                    {noteCategories.map((category) => (
+                      <div key={category.label} className="flex items-center gap-5">
+                        <div className="flex items-center gap-2 min-w-[80px]">
+                          <span className="w-2 h-2 rounded-full" style={{ background: category.color }} />
+                          <span
+                            className="text-[0.6rem] uppercase tracking-[0.1em]"
+                            style={{ color: THEME.colors.text.dim }}
+                          >
+                            {category.label}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {category.notes.map((note, idx) => (
+                            <span
+                              key={note}
+                              className="text-[0.9rem]"
+                              style={{ color: THEME.colors.text.primary }}
+                            >
+                              {note}{idx < category.notes.length - 1 && " · "}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Price & CTA */}
+                  <div className="flex items-center gap-8">
+                    <div>
+                      <span
+                        className="block text-[3rem] font-extralight leading-none"
+                        style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}
+                      >
+                        ${currentFragrance.price}
+                      </span>
+                      <span
+                        className="text-[0.65rem] uppercase tracking-[0.1em]"
+                        style={{ color: THEME.colors.text.muted }}
+                      >
+                        {currentFragrance.size} / Eau de Parfum
+                      </span>
+                    </div>
+                    <MagneticButton
+                      href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`}
+                      variant="primary"
+                      className="text-base px-8 py-4"
+                    >
+                      Discover →
+                    </MagneticButton>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
