@@ -5,13 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { FRAGRANCES } from "../_data/fragrances";
 import { getAllBrands } from "../_data/brands";
-import { THEME as DEFAULT_THEME } from "../_lib/theme";
+import { THEME as DEFAULT_THEME, type Theme } from "../_lib/theme";
 import { FragranceCard } from "./FragranceCard";
 import { QuickViewModal } from "./QuickViewModal";
 import { ComparePanel } from "./ComparePanel";
-import type { Season, Gender, Fragrance } from "../_data/fragrances";
+import type { Season, Gender, Fragrance, Occasion } from "../_data/fragrances";
 
-type Theme = typeof DEFAULT_THEME;
+
 
 interface FragranceCatalogProps {
     activeGender?: Gender | "all";
@@ -30,7 +30,7 @@ export function FragranceCatalog({
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedBrand, setSelectedBrand] = useState<string | "all">("all");
     const [selectedSeason, setSelectedSeason] = useState<Season | "all">("all");
-    const [selectedOccasion, setSelectedOccasion] = useState<string | "all">("all");
+    const [selectedOccasion, setSelectedOccasion] = useState<Occasion | "all">("all");
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
     
     // Additional filters from new data model
@@ -294,7 +294,7 @@ export function FragranceCatalog({
                                 <h4 className="mb-2 text-xs uppercase tracking-wider" style={{ color: theme.colors.accent.gold }}>Occasion</h4>
                                 <select
                                     value={selectedOccasion}
-                                    onChange={(e) => setSelectedOccasion(e.target.value)}
+                                    onChange={(e) => setSelectedOccasion(e.target.value as Occasion | "all")}
                                     className="w-full rounded border bg-transparent p-2 text-sm"
                                     style={{ borderColor: theme.colors.border.default }}
                                 >

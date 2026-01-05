@@ -1,4 +1,20 @@
-export const THEME = {
+export type Theme = {
+    colors: {
+        bg: { primary: string; secondary: string; tertiary: string };
+        accent: {
+            gold: string;
+            goldLight: string;
+            goldRgb: string;
+            purple: string;
+            pink: string;
+            red: string;
+        };
+        text: { primary: string; secondary: string; muted: string };
+        border: { subtle: string; default: string; hover: string };
+    };
+};
+
+export const THEME: Theme = {
     colors: {
         bg: { primary: "#070709", secondary: "#0c0c10", tertiary: "#111118" },
         accent: {
@@ -12,9 +28,9 @@ export const THEME = {
         text: { primary: "#fafaf9", secondary: "#a8a29e", muted: "#78716c" },
         border: { subtle: "rgba(212,168,83,0.08)", default: "rgba(212,168,83,0.15)", hover: "rgba(212,168,83,0.35)" },
     },
-} as const;
+};
 
-export const FOR_HER_THEME = {
+export const FOR_HER_THEME: Theme = {
     colors: {
         bg: { primary: "#0f0505", secondary: "#1a0a0a", tertiary: "#261010" },
         accent: {
@@ -28,9 +44,9 @@ export const FOR_HER_THEME = {
         text: { primary: "#fff1f2", secondary: "#fecdd3", muted: "#fda4af" },
         border: { subtle: "rgba(236, 72, 153, 0.08)", default: "rgba(236, 72, 153, 0.15)", hover: "rgba(236, 72, 153, 0.35)" },
     },
-} as const;
+};
 
-export const FOR_HIM_THEME = {
+export const FOR_HIM_THEME: Theme = {
     colors: {
         bg: { primary: "#020617", secondary: "#0f172a", tertiary: "#1e293b" },
         accent: {
@@ -44,9 +60,9 @@ export const FOR_HIM_THEME = {
         text: { primary: "#f8fafc", secondary: "#cbd5e1", muted: "#94a3b8" },
         border: { subtle: "rgba(56, 189, 248, 0.08)", default: "rgba(56, 189, 248, 0.15)", hover: "rgba(56, 189, 248, 0.35)" },
     },
-} as const;
+};
 
-export const UNISEX_THEME = {
+export const UNISEX_THEME: Theme = {
     colors: {
         bg: { primary: "#070709", secondary: "#0c0c10", tertiary: "#111118" },
         accent: {
@@ -60,7 +76,7 @@ export const UNISEX_THEME = {
         text: { primary: "#fafaf9", secondary: "#a8a29e", muted: "#78716c" },
         border: { subtle: "rgba(168, 85, 247, 0.08)", default: "rgba(168, 85, 247, 0.15)", hover: "rgba(168, 85, 247, 0.35)" },
     },
-} as const;
+};
 
 export const CATEGORY_COLORS = {
     top: { main: "#a855f7", light: "rgba(168, 85, 247, 0.2)" },      // Purple
