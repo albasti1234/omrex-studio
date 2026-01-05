@@ -1032,7 +1032,7 @@ function FeaturedScentSection() {
 
           {/* Product Image with Animated Frame - Always on LEFT */}
           <motion.div
-            className="relative w-[52%] sm:w-[48%] lg:w-[48%] max-w-[420px] shrink-0"
+            className="relative w-[58%] sm:w-[50%] lg:w-[48%] max-w-[480px] shrink-0"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
@@ -1108,7 +1108,7 @@ function FeaturedScentSection() {
 
               {/* Main Image Container */}
               <div
-                className="relative aspect-[3/4] rounded-lg overflow-hidden"
+                className="relative aspect-[1/1.25] sm:aspect-[1/1.3] lg:aspect-[3/4] rounded-lg overflow-hidden"
                 style={{
                   background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
                   boxShadow: `0 20px 60px -15px rgba(0,0,0,0.5), 0 0 40px -10px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
