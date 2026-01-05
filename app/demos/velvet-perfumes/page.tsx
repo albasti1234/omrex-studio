@@ -805,20 +805,19 @@ function HeroSection() {
     <section ref={ref} className="relative h-[100svh] w-full overflow-hidden" style={{ background: THEME.colors.bg.primary }}>
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0" style={{ scale }}>
-        {/* Desktop: object-cover, Mobile: object-contain to show full bottle */}
         <Image 
           src="/images/velvet/hero-bg.png" 
           alt="Velvet Perfumes" 
           fill 
           sizes="100vw" 
-          className="object-cover object-[center_20%] sm:object-[center_60%] lg:object-center" 
+          className="object-cover object-center" 
           priority 
-          quality={95}
+          quality={95} 
         />
-        {/* Gradient overlay */}
+        {/* Gradient overlay - slightly darker for better text contrast */}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}40 0%, ${THEME.colors.bg.primary}60 50%, ${THEME.colors.bg.primary} 100%)` }}
+          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}30 0%, ${THEME.colors.bg.primary}50 50%, ${THEME.colors.bg.primary} 100%)` }}
         />
       </motion.div>
 
