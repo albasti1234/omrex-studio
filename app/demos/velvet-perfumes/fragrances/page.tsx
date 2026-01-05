@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { FRAGRANCES } from "../_data/fragrances";
 import { getAllBrands } from "../_data/brands";
@@ -525,6 +526,17 @@ export default function FragrancesPage() {
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
     const [sortBy, setSortBy] = useState<"featured" | "price-low" | "price-high" | "rating">("featured");
     const [quickViewFragrance, setQuickViewFragrance] = useState<Fragrance | null>(null);
+
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const gender = searchParams.get("gender");
+        if (gender && (gender === "men" || gender === "women" || gender === "unisex")) {
+            if (selectedGender !== gender) {
+                setSelectedGender(gender as Gender);
+            }
+        }
+    }, [searchParams, selectedGender]);
 
     // Filtering
     let filtered = FRAGRANCES.filter(f => {
