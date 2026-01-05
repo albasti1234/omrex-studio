@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useSyncExternalStore, useCallback } from "react";
 import {
   motion,
   useInView,
@@ -234,17 +234,24 @@ const TESTIMONIALS = [
 
 
 function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(false);
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      const media = window.matchMedia(query);
+      media.addEventListener("change", callback);
+      return () => media.removeEventListener("change", callback);
+    },
+    [query]
+  );
 
-  useEffect(() => {
-    const media = window.matchMedia(query);
-    setMatches(media.matches);
-    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
+  const getSnapshot = useCallback(() => {
+    return window.matchMedia(query).matches;
   }, [query]);
 
-  return matches;
+  const getServerSnapshot = useCallback(() => {
+    return false; // Default for SSR
+  }, []);
+
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 // =============================================================================
@@ -341,20 +348,18 @@ function GoldenParticles({
   count?: number;
   area?: "full" | "bottom";
 }) {
-  const [particles, setParticles] = useState<Particle[]>([]);
-
-  useEffect(() => {
-    const list: Particle[] = Array.from({ length: count }, () => ({
+  // Use useState with lazy initializer - this runs only once on mount
+  // and is the React-approved way to initialize with impure functions
+  const [particles] = useState<Particle[]>(() =>
+    Array.from({ length: count }, () => ({
       x: Math.random() * 100,
       y: area === "bottom" ? 60 + Math.random() * 40 : Math.random() * 100,
       size: Math.random() * 3 + 1,
       duration: Math.random() * 25 + 20,
       delay: Math.random() * 15,
       drift: Math.random() * 40 - 20,
-    }));
-
-    setParticles(list);
-  }, [count, area]);
+    }))
+  );
 
   if (particles.length === 0) return null;
 
@@ -800,10 +805,20 @@ function HeroSection() {
     <section ref={ref} className="relative h-[100svh] w-full overflow-hidden" style={{ background: THEME.colors.bg.primary }}>
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0" style={{ scale }}>
-        <Image src="/images/velvet/hero-bg.png" alt="Velvet Perfumes" fill sizes="100vw" className="object-cover object-center" priority quality={95} />
+        {/* Desktop: object-cover, Mobile: object-contain to show full bottle */}
+        <Image 
+          src="/images/velvet/hero-bg.png" 
+          alt="Velvet Perfumes" 
+          fill 
+          sizes="100vw" 
+          className="object-cover object-[center_70%] sm:object-[center_60%] lg:object-center" 
+          priority 
+          quality={95} 
+        />
+        {/* Gradient overlay */}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}25 0%, ${THEME.colors.bg.primary}40 70%, ${THEME.colors.bg.primary} 100%)` }}
+          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}40 0%, ${THEME.colors.bg.primary}60 50%, ${THEME.colors.bg.primary} 100%)` }}
         />
       </motion.div>
 
@@ -1561,10 +1576,9 @@ function TestimonialsSection() {
   const [active, setActive] = useState(0);
   const shouldReduceMotion = useReducedMotion();
 
-
   useEffect(() => {
+    // Don't start the carousel if reduced motion is preferred or not in view
     if (shouldReduceMotion || !isInView) {
-      setActive(0);
       return;
     }
 
@@ -1624,7 +1638,7 @@ function TestimonialsSection() {
                       className="mb-8 max-w-lg text-[1.15rem] font-light leading-relaxed sm:text-[1.3rem]"
                       style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
                     >
-                      "{t.quote}"
+                      &ldquo;{t.quote}&rdquo;
                     </blockquote>
 
                     {/* Author */}
