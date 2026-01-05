@@ -95,40 +95,107 @@ export function FragranceCatalog({
         <div key={activeGender} className="min-h-screen pb-20" style={{ background: theme.colors.bg.primary, color: theme.colors.text.primary }}>
             
             {/* Hero Section */}
-            <section className="relative py-20 text-center overflow-hidden" style={{ background: theme.colors.bg.secondary }}>
-                {/* Animated Background */}
-                <div className="absolute inset-0 pointer-events-none">
-                    <motion.div
-                        className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-20"
-                        style={{ background: `radial-gradient(circle, rgba(${theme.colors.accent.goldRgb}, 0.3), transparent 70%)`, filter: "blur(80px)" }}
-                        animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            <section className="relative min-h-[60vh] flex items-center justify-center text-center overflow-hidden">
+                {/* Background Layer */}
+                <div 
+                    className="absolute inset-0 z-0"
+                    style={{ 
+                        background: theme.colors.bg.secondary 
+                    }}
+                >
+                    {/* Dynamic Overlay from Theme */}
+                    <div 
+                        className="absolute inset-0 z-10"
+                        style={{ background: theme.hero.overlay }}
                     />
-                    <motion.div
-                        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full opacity-15"
-                        style={{ background: `radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent 70%)`, filter: "blur(60px)" }}
-                        animate={{ x: [0, -40, 0], y: [0, -20, 0] }}
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    />
+                    
+                    {/* Animated Particles / Ambient Effects based on Theme */}
+                    <div className="absolute inset-0 z-0 opacity-40">
+                         {theme.hero.particles === "gold" && (
+                            <motion.div
+                                className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-20"
+                                style={{ background: `radial-gradient(circle, ${theme.colors.accent.gold}, transparent 70%)`, filter: "blur(80px)" }}
+                                animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
+                                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                         )}
+                         {theme.hero.particles === "rose" && (
+                            <>
+                                <motion.div
+                                    className="absolute top-10 right-1/4 w-[30rem] h-[30rem] rounded-full opacity-20"
+                                    style={{ background: `radial-gradient(circle, ${theme.colors.accent.pink}, transparent 60%)`, filter: "blur(100px)" }}
+                                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                                <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+                            </>
+                         )}
+                         {theme.hero.particles === "mist" && (
+                            <>
+                                <motion.div
+                                    className="absolute bottom-0 left-0 w-full h-[50vh] opacity-30"
+                                    style={{ background: `linear-gradient(to top, ${theme.colors.accent.gold}, transparent)` }}
+                                    animate={{ y: [0, -20, 0] }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 mix-blend-overlay" />
+                            </>
+                         )}
+                         {theme.hero.particles === "sparkle" && (
+                            <motion.div
+                                className="absolute inset-0 opacity-20"
+                                animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                style={{ 
+                                    backgroundImage: `radial-gradient(circle, ${theme.colors.accent.purple} 1px, transparent 1px)`, 
+                                    backgroundSize: '50px 50px' 
+                                }}
+                            />
+                         )}
+                    </div>
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="relative z-10"
+                    initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative z-20 px-6 max-w-4xl"
                 >
-                    <span className="mb-6 inline-flex items-center gap-4 text-[0.65rem] uppercase tracking-[0.4em]" style={{ color: theme.colors.accent.gold }}>
-                        <span className="h-px w-12" style={{ background: theme.colors.accent.gold }} />
+                    <span 
+                        className="mb-8 inline-flex items-center gap-6 text-[0.7rem] uppercase tracking-[0.4em]" 
+                        style={{ color: theme.colors.accent.gold }}
+                    >
+                        <motion.span 
+                            initial={{ width: 0 }} animate={{ width: 60 }} transition={{ duration: 1, delay: 0.5 }}
+                            className="h-px" style={{ background: theme.colors.accent.gold }} 
+                        />
                         The Collection
-                        <span className="h-px w-12" style={{ background: theme.colors.accent.gold }} />
+                        <motion.span 
+                            initial={{ width: 0 }} animate={{ width: 60 }} transition={{ duration: 1, delay: 0.5 }}
+                            className="h-px" style={{ background: theme.colors.accent.gold }} 
+                        />
                     </span>
-                    <h1 className="mb-4 text-4xl font-extralight tracking-wide lg:text-6xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    
+                    <h1 
+                        className="mb-6 text-5xl md:text-7xl lg:text-8xl tracking-tight leading-none" 
+                        style={{ 
+                            ...theme.hero.titleStyle,
+                            color: theme.colors.text.primary,
+                            textShadow: `0 0 30px rgba(${theme.colors.accent.goldRgb}, 0.1)`
+                        }}
+                    >
                         {title}
                     </h1>
-                    <p className="mx-auto max-w-xl text-sm leading-relaxed" style={{ color: theme.colors.text.secondary }}>
+                    
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 1 }}
+                        className="mx-auto max-w-xl text-sm md:text-base leading-relaxed font-light tracking-wide" 
+                        style={{ color: theme.colors.text.secondary }}
+                    >
                         {description}
-                    </p>
+                    </motion.p>
                 </motion.div>
             </section>
 

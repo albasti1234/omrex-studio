@@ -8,8 +8,8 @@ export default function ForHimPage() {
         <FragranceCatalog 
             activeGender="men" 
             theme={FOR_HIM_THEME} 
-            title="For Him"
-            description="Bold, charismatic, and powerful scents defined by strength and character."
+            title="Nocturnal Edge"
+            description="Power, depth, and sophistication. Fragrances that command attention and leave a lasting mark."
         />
     );
 }

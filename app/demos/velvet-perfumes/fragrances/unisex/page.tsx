@@ -8,8 +8,8 @@ export default function UnisexPage() {
         <FragranceCatalog 
             activeGender="unisex" 
             theme={UNISEX_THEME} 
-            title="Unisex Collection"
-            description="Boundless scents that transcend gender, focusing purely on olfactory excellence."
+            title="Fluid Modernity"
+            description="Transcending boundaries with avant-garde compositions. Pure art, undefined by gender."
         />
     );
 }

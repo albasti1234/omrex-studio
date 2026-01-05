@@ -8,8 +8,8 @@ export default function ForHerPage() {
         <FragranceCatalog 
             activeGender="women" 
             theme={FOR_HER_THEME} 
-            title="For Her"
-            description="Elegant, sophisticated, and timeless fragrances designed to captivate."
+            title="The Feminine Mystique"
+            description="A curated garden of scents ranging from the ethereal and delicate to the bold and provocative."
         />
     );
 }
