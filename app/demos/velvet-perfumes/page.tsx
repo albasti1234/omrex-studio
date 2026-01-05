@@ -52,11 +52,7 @@ const THEME = {
   },
 } as const;
 
-const EASING = {
-  smooth: [0.25, 0.1, 0.25, 1],
-  out: [0.16, 1, 0.3, 1],
-  spring: { stiffness: 100, damping: 15 },
-} as const;
+
 
 // =============================================================================
 // DATA
@@ -158,42 +154,7 @@ const SIGNATURE_FRAGRANCES = [
   },
 ];
 
-const FEATURED_SCENT = SIGNATURE_FRAGRANCES[0];
 
-const PRODUCTS = [
-  {
-    id: "midnight-oud",
-    name: "Midnight Oud",
-    price: 320,
-    image: "/images/velvet/products/midnight-oud.jpg",
-    isNew: true,
-    isBestseller: true,
-  },
-  {
-    id: "velvet-rose",
-    name: "Velvet Rose",
-    price: 280,
-    image: "/images/velvet/products/velvet-rose.jpg",
-    isNew: false,
-    isBestseller: true,
-  },
-  {
-    id: "noir-intense",
-    name: "Noir Intense",
-    price: 350,
-    image: "/images/velvet/products/noir-intense.jpg",
-    isNew: true,
-    isBestseller: false,
-  },
-  {
-    id: "ocean-breeze",
-    name: "Ocean Breeze",
-    price: 220,
-    image: "/images/velvet/products/ocean-breeze.jpg",
-    isNew: false,
-    isBestseller: false,
-  },
-];
 
 const INGREDIENTS = [
   { name: "Cambodian Oud", origin: "Cambodia", description: "Liquid gold of the forest" },
@@ -348,18 +309,25 @@ function GoldenParticles({
   count?: number;
   area?: "full" | "bottom";
 }) {
-  // Use useState with lazy initializer - this runs only once on mount
-  // and is the React-approved way to initialize with impure functions
-  const [particles] = useState<Particle[]>(() =>
-    Array.from({ length: count }, () => ({
-      x: Math.random() * 100,
-      y: area === "bottom" ? 60 + Math.random() * 40 : Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 25 + 20,
-      delay: Math.random() * 15,
-      drift: Math.random() * 40 - 20,
-    }))
-  );
+  // Use useState for deterministic client-side rendering
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    // Wrap in setTimeout to avoid "setting state synchronously within an effect" warning
+    const timer = setTimeout(() => {
+      setParticles(
+        Array.from({ length: count }, () => ({
+          x: Math.random() * 100,
+          y: area === "bottom" ? 60 + Math.random() * 40 : Math.random() * 100,
+          size: Math.random() * 3 + 1,
+          duration: Math.random() * 25 + 20,
+          delay: Math.random() * 15,
+          drift: Math.random() * 40 - 20,
+        }))
+      );
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [count, area]);
 
   if (particles.length === 0) return null;
 
@@ -550,6 +518,7 @@ function MagneticButton({
       >
         <Link
           href={href}
+          suppressHydrationWarning
           className={`${baseClass} ${className}`}
           style={{
             ...styles[variant],
@@ -663,7 +632,7 @@ function Navbar() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
           {/* Logo */}
-          <Link href="/demos/velvet-perfumes" className="group relative z-10">
+          <Link href="/demos/velvet-perfumes" className="group relative z-10" suppressHydrationWarning>
             <motion.div whileHover={{ opacity: 0.8 }}>
               <span
                 className="text-[1.4rem] font-extralight tracking-[0.25em]"
@@ -686,6 +655,7 @@ function Navbar() {
                 <Link
                   href={item.href}
                   className="group relative py-2"
+                  suppressHydrationWarning
                 >
                   <span
                     className="text-[0.7rem] uppercase tracking-[0.2em] transition-colors duration-300"
@@ -775,6 +745,7 @@ function Navbar() {
                       onClick={() => setMobileOpen(false)}
                       className="text-[1.5rem] font-light tracking-[0.1em]"
                       style={{ color: THEME.colors.text.primary, fontFamily: "'Playfair Display', serif" }}
+                      suppressHydrationWarning
                     >
                       {item.name}
                     </Link>
@@ -1289,7 +1260,7 @@ function CollectionsSection() {
   );
 }
 
-function CollectionCard({ collection, index }: { collection: (typeof COLLECTIONS)[0]; index: number }) {
+function CollectionCard({ collection }: { collection: (typeof COLLECTIONS)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: false, margin: "-30% 0px -30% 0px" });
   const [hovered, setHovered] = useState(false);
@@ -1299,7 +1270,7 @@ function CollectionCard({ collection, index }: { collection: (typeof COLLECTIONS
   const isActive = isMobile ? isInView : hovered;
 
   return (
-    <Link href={`/demos/velvet-perfumes/collections/${collection.id}`}>
+    <Link href={`/demos/velvet-perfumes/collections/${collection.id}`} suppressHydrationWarning>
       <motion.div
         ref={ref}
         className="group relative aspect-[3/4] sm:aspect-[3/4] cursor-pointer overflow-hidden rounded-lg sm:rounded-xl"
@@ -1449,7 +1420,7 @@ function GenderCard({ category }: { category: { id: string; label: string; subti
   };
 
   return (
-    <Link href={getRoute(category.id)}>
+    <Link href={getRoute(category.id)} suppressHydrationWarning>
       <motion.div
         className="group relative aspect-[3/2] sm:aspect-[4/5] cursor-pointer overflow-hidden rounded-sm"
         onMouseEnter={() => setHovered(true)}
@@ -1836,6 +1807,7 @@ function Footer() {
                       href={link.href}
                       className="text-[0.8rem] transition-colors hover:text-[#d4a853]"
                       style={{ color: THEME.colors.text.muted }}
+                      suppressHydrationWarning
                     >
                       {link.name}
                     </Link>

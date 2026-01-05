@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getFragranceBySlug, FRAGRANCES, Fragrance, Ingredient } from "../../_data/fragrances";
+import { getFragranceBySlug, FRAGRANCES, Ingredient } from "../../_data/fragrances";
 import { getBrandBySlug } from "../../_data/brands";
 import { useCart } from "../../_lib/cart-context";
-import { THEME as DEFAULT_THEME, FOR_HER_THEME, FOR_HIM_THEME, UNISEX_THEME, Theme } from "../../_lib/theme";
+import { FOR_HER_THEME, FOR_HIM_THEME, UNISEX_THEME, Theme } from "../../_lib/theme";
 
 const SEASON_ICONS: Record<string, string> = {
     spring: "🌸",
@@ -125,7 +125,7 @@ export default function FragranceDetailPage({ params }: { params: Promise<{ slug
                   UNISEX_THEME;
 
     const brand = getBrandBySlug(fragrance.brandId);
-    const { addItem, totalItems, toggleCart } = useCart();
+    const { addItem, totalItems } = useCart();
     const [selectedSize, setSelectedSize] = useState(fragrance.sizes[1]?.size || fragrance.sizes[0].size);
     const [quantity, setQuantity] = useState(1);
     const [showAddedNotification, setShowAddedNotification] = useState(false);
