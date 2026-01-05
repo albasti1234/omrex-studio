@@ -92,7 +92,7 @@ export function FragranceCatalog({
     const visibleFragrances = filteredFragrances.slice(0, visibleCount);
 
     return (
-        <div className="min-h-screen pb-20" style={{ background: theme.colors.bg.primary, color: theme.colors.text.primary }}>
+        <div key={activeGender} className="min-h-screen pb-20" style={{ background: theme.colors.bg.primary, color: theme.colors.text.primary }}>
             
             {/* Hero Section */}
             <section className="relative py-20 text-center overflow-hidden" style={{ background: theme.colors.bg.secondary }}>
