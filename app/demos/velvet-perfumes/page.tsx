@@ -1000,19 +1000,19 @@ function FeaturedScentSection() {
           </div>
         </motion.div>
 
-        {/* Grid Layout - Mobile: row-reverse (info right, image left), Desktop: normal */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        {/* Flex Layout - Image Left, Text Right on ALL screen sizes */}
+        <div className="flex flex-row gap-4 sm:gap-6 lg:gap-20 items-center">
 
-          {/* Product Image with Animated Frame */}
+          {/* Product Image with Animated Frame - Always on LEFT */}
           <motion.div
-            className="relative mx-auto w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[420px] order-2 lg:order-1"
+            className="relative w-[40%] sm:w-[45%] lg:w-[48%] max-w-[420px] shrink-0"
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
             {/* Outer Glow */}
             <div
-              className="absolute -inset-4 sm:-inset-6 rounded-2xl opacity-40"
+              className="absolute -inset-2 sm:-inset-4 lg:-inset-6 rounded-2xl opacity-40"
               style={{
                 background: `radial-gradient(ellipse at 50% 50%, rgba(${THEME.colors.accent.goldRgb}, 0.15), transparent 70%)`,
               }}
@@ -1062,19 +1062,19 @@ function FeaturedScentSection() {
               />
 
               {/* Static Corner Accents */}
-              <div className="absolute -top-1 -left-1 w-6 h-6 sm:w-8 sm:h-8">
+              <div className="absolute -top-1 -left-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
                 <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
                 <div className="absolute top-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
               </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 sm:w-8 sm:h-8">
+              <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
                 <div className="absolute top-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
                 <div className="absolute top-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
               </div>
-              <div className="absolute -bottom-1 -left-1 w-6 h-6 sm:w-8 sm:h-8">
+              <div className="absolute -bottom-1 -left-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
                 <div className="absolute bottom-0 left-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
                 <div className="absolute bottom-0 left-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8">
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8">
                 <div className="absolute bottom-0 right-0 w-full h-[1px]" style={{ background: THEME.colors.accent.gold }} />
                 <div className="absolute bottom-0 right-0 h-full w-[1px]" style={{ background: THEME.colors.accent.gold }} />
               </div>
@@ -1084,7 +1084,7 @@ function FeaturedScentSection() {
                 className="relative aspect-[3/4] rounded-lg overflow-hidden"
                 style={{
                   background: `linear-gradient(145deg, rgba(${THEME.colors.accent.goldRgb}, 0.03) 0%, rgba(0,0,0,0.2) 100%)`,
-                  boxShadow: `0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -15px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
+                  boxShadow: `0 20px 60px -15px rgba(0,0,0,0.5), 0 0 40px -10px rgba(${THEME.colors.accent.goldRgb}, 0.2)`,
                 }}
               >
                 {/* Rotating Fragrance Image */}
@@ -1106,8 +1106,8 @@ function FeaturedScentSection() {
                         src={currentFragrance.image}
                         alt={currentFragrance.name}
                         fill
-                        sizes="(max-width: 768px) 300px, 420px"
-                        className="object-contain p-6 sm:p-10"
+                        sizes="(max-width: 640px) 40vw, (max-width: 1024px) 45vw, 420px"
+                        className="object-contain p-3 sm:p-6 lg:p-10"
                         priority
                       />
                     </motion.div>
@@ -1120,12 +1120,12 @@ function FeaturedScentSection() {
             </div>
 
             {/* Navigation Dots */}
-            <div className="flex justify-center gap-3 mt-6">
+            <div className="flex justify-center gap-1.5 sm:gap-2 lg:gap-3 mt-3 sm:mt-4 lg:mt-6">
               {SIGNATURE_FRAGRANCES.map((frag, i) => (
                 <button
                   key={frag.id}
                   onClick={() => setActiveIndex(i)}
-                  className="relative w-3 h-3 rounded-full transition-all duration-300"
+                  className="relative w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full transition-all duration-300"
                   style={{
                     background: i === activeIndex ? THEME.colors.accent.gold : THEME.colors.border.subtle,
                     boxShadow: i === activeIndex ? `0 0 12px rgba(${THEME.colors.accent.goldRgb}, 0.5)` : 'none',
@@ -1135,9 +1135,9 @@ function FeaturedScentSection() {
             </div>
           </motion.div>
 
-          {/* Product Info - Changes with fragrance */}
+          {/* Product Info - Always on RIGHT */}
           <motion.div
-            className="text-center lg:text-left order-1 lg:order-2"
+            className="flex-1 min-w-0"
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -1152,42 +1152,42 @@ function FeaturedScentSection() {
               >
                 {/* New Badge */}
                 {currentFragrance.isNew && (
-                  <span className="inline-block mb-4 px-4 py-1.5 text-[0.55rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em]" style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}>
+                  <span className="inline-block mb-2 sm:mb-3 lg:mb-4 px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 text-[0.45rem] sm:text-[0.55rem] lg:text-[0.6rem] font-bold uppercase tracking-[0.15em]" style={{ background: THEME.colors.accent.gold, color: THEME.colors.bg.primary }}>
                     ★ New Arrival
                   </span>
                 )}
 
                 {/* Collection */}
-                <p className="mb-2 text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
+                <p className="mb-1 sm:mb-1.5 lg:mb-2 text-[0.5rem] sm:text-[0.6rem] lg:text-[0.7rem] uppercase tracking-[0.2em] lg:tracking-[0.25em]" style={{ color: THEME.colors.text.muted }}>
                   {currentFragrance.collection}
                 </p>
 
                 {/* Product Name */}
-                <h2 className="mb-5 sm:mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  <span className="block text-[2.2rem] sm:text-[2.8rem] lg:text-[3.5rem] font-extralight leading-[1.1]" style={{ color: THEME.colors.text.primary }}>
+                <h2 className="mb-3 sm:mb-4 lg:mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <span className="block text-[1.3rem] sm:text-[2rem] lg:text-[3.5rem] font-extralight leading-[1.1]" style={{ color: THEME.colors.text.primary }}>
                     {currentFragrance.name.split(' ')[0]}
                   </span>
-                  <span className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[2.8rem] font-extralight italic mt-1" style={{ color: THEME.colors.accent.gold }}>
+                  <span className="block text-[1.1rem] sm:text-[1.6rem] lg:text-[2.8rem] font-extralight italic mt-0.5 sm:mt-1" style={{ color: THEME.colors.accent.gold }}>
                     {currentFragrance.name.split(' ').slice(1).join(' ')}
                   </span>
                 </h2>
 
                 {/* Description */}
-                <p className="mb-8 text-[0.9rem] sm:text-[1rem] lg:text-[1.05rem] leading-relaxed max-w-lg mx-auto lg:mx-0" style={{ color: THEME.colors.text.secondary }}>
+                <p className="mb-4 sm:mb-6 lg:mb-8 text-[0.7rem] sm:text-[0.85rem] lg:text-[1.05rem] leading-relaxed" style={{ color: THEME.colors.text.secondary }}>
                   {currentFragrance.description}
                 </p>
 
                 {/* Notes Pyramid */}
-                <div className="mb-8 space-y-3">
+                <div className="mb-4 sm:mb-6 lg:mb-8 space-y-1.5 sm:space-y-2 lg:space-y-3">
                   {noteCategories.map((category) => (
-                    <div key={category.label} className="flex items-center gap-4 sm:gap-5 justify-center lg:justify-start">
-                      <div className="flex items-center gap-2 min-w-[70px] sm:min-w-[80px]">
-                        <span className="w-2 h-2 rounded-full" style={{ background: category.color }} />
-                        <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-[0.1em]" style={{ color: THEME.colors.text.dim }}>{category.label}</span>
+                    <div key={category.label} className="flex items-center gap-2 sm:gap-3 lg:gap-5">
+                      <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 min-w-[50px] sm:min-w-[65px] lg:min-w-[80px]">
+                        <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: category.color }} />
+                        <span className="text-[0.45rem] sm:text-[0.5rem] lg:text-[0.6rem] uppercase tracking-[0.08em] lg:tracking-[0.1em]" style={{ color: THEME.colors.text.dim }}>{category.label}</span>
                       </div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-0.5 sm:gap-1 lg:gap-1.5">
                         {category.notes.map((note, idx) => (
-                          <span key={note} className="text-[0.85rem] sm:text-[0.9rem]" style={{ color: THEME.colors.text.primary }}>
+                          <span key={note} className="text-[0.65rem] sm:text-[0.75rem] lg:text-[0.9rem]" style={{ color: THEME.colors.text.primary }}>
                             {note}{idx < category.notes.length - 1 && " · "}
                           </span>
                         ))}
@@ -1197,16 +1197,16 @@ function FeaturedScentSection() {
                 </div>
 
                 {/* Price & CTA */}
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 sm:gap-8">
-                  <div className="text-center sm:text-left">
-                    <span className="block text-[2.5rem] sm:text-[2.8rem] lg:text-[3rem] font-extralight leading-none" style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 lg:gap-8">
+                  <div>
+                    <span className="block text-[1.8rem] sm:text-[2.2rem] lg:text-[3rem] font-extralight leading-none" style={{ color: THEME.colors.accent.gold, fontFamily: "'Playfair Display', serif" }}>
                       ${currentFragrance.price}
                     </span>
-                    <span className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.1em]" style={{ color: THEME.colors.text.muted }}>
+                    <span className="text-[0.5rem] sm:text-[0.55rem] lg:text-[0.65rem] uppercase tracking-[0.08em] lg:tracking-[0.1em]" style={{ color: THEME.colors.text.muted }}>
                       {currentFragrance.size} / Eau de Parfum
                     </span>
                   </div>
-                  <MagneticButton href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`} variant="primary" className="text-base sm:text-lg px-8 py-4">
+                  <MagneticButton href={`/demos/velvet-perfumes/fragrances/${currentFragrance.id}`} variant="primary" className="text-xs sm:text-sm lg:text-base px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4">
                     Discover →
                   </MagneticButton>
                 </div>
