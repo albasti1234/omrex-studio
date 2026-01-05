@@ -1440,8 +1440,16 @@ function ShopByGenderSection() {
 function GenderCard({ category }: { category: { id: string; label: string; subtitle: string; image: string } }) {
   const [hovered, setHovered] = useState(false);
 
+  const getRoute = (id: string) => {
+    switch(id) {
+        case "women": return "/demos/velvet-perfumes/fragrances/for-her";
+        case "men": return "/demos/velvet-perfumes/fragrances/for-him";
+        default: return "/demos/velvet-perfumes/fragrances/unisex";
+    }
+  };
+
   return (
-    <Link href={`/demos/velvet-perfumes/fragrances?gender=${category.id}`}>
+    <Link href={getRoute(category.id)}>
       <motion.div
         className="group relative aspect-[3/2] sm:aspect-[4/5] cursor-pointer overflow-hidden rounded-sm"
         onMouseEnter={() => setHovered(true)}
