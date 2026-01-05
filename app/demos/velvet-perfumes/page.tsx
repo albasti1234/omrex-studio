@@ -806,18 +806,18 @@ function HeroSection() {
       {/* Background Image with Parallax */}
       <motion.div className="absolute inset-0" style={{ scale }}>
         <Image 
-          src="/images/velvet/hero-bg.png" 
+          src="/images/velvet/hero-bg.jpg" 
           alt="Velvet Perfumes" 
           fill 
           sizes="100vw" 
-          className="object-cover object-bottom" 
+          className="object-cover" 
           priority 
-          quality={100} 
+          quality={95} 
         />
         {/* Gradient overlay */}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}30 0%, ${THEME.colors.bg.primary}50 50%, ${THEME.colors.bg.primary} 100%)` }}
+          style={{ background: `linear-gradient(to bottom, ${THEME.colors.bg.primary}25 0%, ${THEME.colors.bg.primary}40 70%, ${THEME.colors.bg.primary} 100%)` }}
         />
       </motion.div>
 
