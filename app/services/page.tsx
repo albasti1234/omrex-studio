@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
     motion,
     useInView,
@@ -42,7 +42,6 @@ const THEME = {
     },
 } as const;
 
-const EASING = [0.16, 1, 0.3, 1] as const;
 
 // =============================================================================
 // DATA
